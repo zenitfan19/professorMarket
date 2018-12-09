@@ -1,0 +1,168 @@
+﻿@model professorMarketWebUI.Models.TutorModel
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    function changePassFormCreate() {
+        $.get("/User/ChangePassword").done(function (res) {
+            $("#ChangePassword").html(res);
+        });
+    }
+
+    function changePassSubmit() {
+        var res = $('#changePassForm').serialize();
+        $.ajax({
+            type: 'POST',
+            url: '/User/ChangePassword',
+            data: res,
+            success: function (data) {
+                if (data.error) {
+                    $('#changePassErr').append(data.errorMsg);
+                    $('#changePassErr').removeClass('hidden');
+                    setTimeout(function () { $('#changePassErr').addClass('hidden') }, 5000);
+                } else
+                {
+                    $('#changePassForm').remove();
+                    $('#changePassSuc').removeClass('hidden');
+                    setTimeout(function () { $('#changePassSuc').addClass('hidden') }, 5000);
+                }
+            },
+            error: function (xhr, str) {
+                $('#changePassErr').removeClass('hidden');
+                setTimeout(function () { $('#changePassErr').addClass('hidden') }, 5000);
+            }
+        });
+
+    }
+
+    function setAvatar(evt) {
+        var files = evt.target.files;
+        for (var i = 0, f; f = files[i]; i++) {
+            if (!f.type.match('image.*')) {
+                continue;
+            }
+
+            var reader = new FileReader();
+
+            reader.onload = (function () {
+                return function (e) {
+                    $("#avatarImgDisplay").attr("src", e.target.result);
+                };
+            })(f);
+            reader.readAsDataURL(f);
+        }
+    }
+
+    window.onload = function () {
+        document.getElementById('AvatarImage').addEventListener('change', setAvatar, false);
+    }
+
+
+</script>
+
+<div class="alert alert-success hidden" id="changePassSuc" role="alert">
+    Пароль изменен!
+</div>
+<div class="alert alert-danger hidden" id="changePassErr" role="alert">
+    Произошла ошибка!
+</div>
+<div id="ChangePassword">
+
+</div>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "updateProfileForm", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Изменить фотографию профиля</h4>
+    <hr />
+    <div class="form-group">
+        @Html.Label("AvatarImage", "Фотография", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="file" name="AvatarImage" id="AvatarImage" class="form-control" accept=".jpg,.png,.gif" />
+        </div>
+    </div>
+    <h4>Изменить Профиль</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.id)
+    @Html.HiddenFor(model => model.regDate)
+    @Html.HiddenFor(model => model.avatarId)
+
+    <div class="form-group">
+        <img class="control-label" onerror="this.src='@Url.Content("~/Content/Images/avatarPlaceholder.png")'" src="@Url.Action("Avatar", "User", new {Id=Model.avatarId })" title="avatarImage" id="avatarImgDisplay" />
+    </div>
+    <hr />
+
+    <div class="form-group">
+        
+        <div class="col-md-6">
+            <a href="javascript:void(0);" onclick="changePassFormCreate();" class="btn btn-default col-md-2 form-control">Изменить пароль</a>
+            <a href="@Url.Action("SetSubjects", "Tutor")" class="btn btn-default col-md-2 form-control">Изменить предметы</a>
+            <a href="@Url.Action("SetLessonLevels", "Tutor")" class="btn btn-default col-md-2 form-control">Изменить уровни образования</a>
+            <a href="@Url.Action("SetLessonTypes", "Tutor")" class="btn btn-default col-md-2 form-control">Изменить варианты проведения занятий</a>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Skype, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Skype, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Skype, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.adress, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.adress, new { htmlAttributes = new { @class = "form-control", @id = "adress", @spellcheck = "false" } })
+            @Html.ValidationMessageFor(model => model.adress, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.info, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.info, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.info, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.birthDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.birthDate, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.birthDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Обновить" class="btn btn-default" />
+
+        </div>
+    </div>
+</div>
+
+}
+
+<div>
+    @Html.ActionLink("Назад", "Index")
+</div>

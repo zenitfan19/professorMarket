@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="16021f5ec4ac4ce78d649f07e36b8737" Name="Diagram1">
+        <EntityTypeShape EntityType="tutorDBModel.Images" Width="1.5" PointX="3" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="tutorDBModel.LessonLevels" Width="1.5" PointX="0.75" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="tutorDBModel.LessonTypes" Width="1.5" PointX="3.75" PointY="20" IsExpanded="true" />
+        <EntityTypeShape EntityType="tutorDBModel.RequestForAdminType" Width="1.5" PointX="3" PointY="23" IsExpanded="true" />
+        <EntityTypeShape EntityType="tutorDBModel.Requests" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="tutorDBModel.RequestsForAdmins" Width="1.5" PointX="5.25" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="tutorDBModel.Subjects" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="tutorDBModel.SubjectTypes" Width="1.5" PointX="1.5" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="tutorDBModel.Testimonials" Width="1.5" PointX="5.25" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="tutorDBModel.TutorLessonLevel" Width="1.5" PointX="3" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="tutorDBModel.TutorLessonType" Width="1.5" PointX="6" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="tutorDBModel.TutorSubjects" Width="1.5" PointX="8" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="tutorDBModel.Users" Width="1.5" PointX="0.75" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="tutorDBModel.Students" Width="1.5" PointX="8.25" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="tutorDBModel.Tutors" Width="1.5" PointX="5.25" PointY="8.25" IsExpanded="true" />
+        <AssociationConnector Association="tutorDBModel.FK_Images_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_RequestsForAdmins_Images" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_Students_Images" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_Tutors_Images" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_TutorLessonLevel_LessonLevels" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_TutorLessonType_LessonTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_RequestsForAdmins_RequestForAdminType" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_Requests_Subjects" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_Requests_TutorLessonType" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_Requests_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_Requests_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_Testimonials_Requests" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_RequestsForAdmins_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_RequestsForAdmins_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_Subjects_SubjectTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_TutorSubjects_Subjects" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_TutorLessonLevel_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_TutorLessonType_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_TutorSubjects_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_Students_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_Tutors_Users" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

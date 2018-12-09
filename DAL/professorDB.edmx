@@ -1,0 +1,1242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="tutorDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Images">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="photoContent" Type="varbinary(max)" Nullable="false" />
+          <Property Name="photoMime" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="isDocument" Type="bit" Nullable="false" />
+          <Property Name="userId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LessonLevels">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LessonTypes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RequestForAdminType">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Requests">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tutorId" Type="bigint" Nullable="false" />
+          <Property Name="studentId" Type="bigint" Nullable="false" />
+          <Property Name="subjectId" Type="bigint" Nullable="false" />
+          <Property Name="lessonsTypeId" Type="bigint" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="additionalInfo" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RequestsForAdmins">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="photoId" Type="bigint" />
+          <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="adminId" Type="bigint" Nullable="false" />
+          <Property Name="userId" Type="bigint" Nullable="false" />
+          <Property Name="typeId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Students">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="bigint" Nullable="false" />
+          <Property Name="avatarId" Type="bigint" />
+          <Property Name="Skype" Type="nvarchar" MaxLength="50" />
+          <Property Name="info" Type="nvarchar(max)" />
+          <Property Name="adress" Type="nvarchar" MaxLength="250" />
+          <Property Name="lessonsLevelId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Subjects">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="subjectTypeId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SubjectTypes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Testimonials">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="requestId" Type="bigint" Nullable="false" />
+          <Property Name="text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TutorLessonLevel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tutorId" Type="bigint" Nullable="false" />
+          <Property Name="lessonLevelId" Type="bigint" Nullable="false" />
+          <Property Name="addCost" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TutorLessonType">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tutorId" Type="bigint" Nullable="false" />
+          <Property Name="lessonTypeId" Type="bigint" Nullable="false" />
+          <Property Name="cost" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tutors">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="bigint" Nullable="false" />
+          <Property Name="avatarId" Type="bigint" />
+          <Property Name="Skype" Type="nvarchar" MaxLength="50" />
+          <Property Name="info" Type="nvarchar(max)" />
+          <Property Name="adress" Type="nvarchar" MaxLength="250" />
+          <Property Name="education" Type="nvarchar" MaxLength="100" />
+          <Property Name="qualification" Type="nvarchar" MaxLength="100" />
+          <Property Name="isApproved" Type="bit" />
+          <Property Name="rating" Type="float" />
+        </EntityType>
+        <EntityType Name="TutorSubjects">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tutorId" Type="bigint" Nullable="false" />
+          <Property Name="subjectId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="passwordHash" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="passwordSalt" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="emailVerified" Type="bit" Nullable="false" />
+          <Property Name="regDate" Type="date" Nullable="false" />
+          <Property Name="birthDate" Type="date" />
+          <Property Name="role" Type="nvarchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Images_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Images" Type="Self.Images" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Images">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_Subjects">
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="subjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_TutorLessonType">
+          <End Role="TutorLessonType" Type="Self.TutorLessonType" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TutorLessonType">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="lessonsTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="tutorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_Users1">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="studentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequestsForAdmins_Images">
+          <End Role="Images" Type="Self.Images" Multiplicity="0..1" />
+          <End Role="RequestsForAdmins" Type="Self.RequestsForAdmins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RequestsForAdmins">
+              <PropertyRef Name="photoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequestsForAdmins_RequestForAdminType">
+          <End Role="RequestForAdminType" Type="Self.RequestForAdminType" Multiplicity="1" />
+          <End Role="RequestsForAdmins" Type="Self.RequestsForAdmins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestForAdminType">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RequestsForAdmins">
+              <PropertyRef Name="typeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequestsForAdmins_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="RequestsForAdmins" Type="Self.RequestsForAdmins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RequestsForAdmins">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequestsForAdmins_Users1">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="RequestsForAdmins" Type="Self.RequestsForAdmins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RequestsForAdmins">
+              <PropertyRef Name="adminId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Students_Images">
+          <End Role="Images" Type="Self.Images" Multiplicity="0..1" />
+          <End Role="Students" Type="Self.Students" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Students">
+              <PropertyRef Name="avatarId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Students_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Students">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Subjects_SubjectTypes">
+          <End Role="SubjectTypes" Type="Self.SubjectTypes" Multiplicity="1" />
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubjectTypes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Subjects">
+              <PropertyRef Name="subjectTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Testimonials_Requests">
+          <End Role="Requests" Type="Self.Requests" Multiplicity="1" />
+          <End Role="Testimonials" Type="Self.Testimonials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Requests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Testimonials">
+              <PropertyRef Name="requestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TutorLessonLevel_LessonLevels">
+          <End Role="LessonLevels" Type="Self.LessonLevels" Multiplicity="1" />
+          <End Role="TutorLessonLevel" Type="Self.TutorLessonLevel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LessonLevels">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TutorLessonLevel">
+              <PropertyRef Name="lessonLevelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TutorLessonLevel_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TutorLessonLevel" Type="Self.TutorLessonLevel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TutorLessonLevel">
+              <PropertyRef Name="tutorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TutorLessonType_LessonTypes">
+          <End Role="LessonTypes" Type="Self.LessonTypes" Multiplicity="1" />
+          <End Role="TutorLessonType" Type="Self.TutorLessonType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LessonTypes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TutorLessonType">
+              <PropertyRef Name="lessonTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TutorLessonType_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TutorLessonType" Type="Self.TutorLessonType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TutorLessonType">
+              <PropertyRef Name="tutorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tutors_Images">
+          <End Role="Images" Type="Self.Images" Multiplicity="0..1" />
+          <End Role="Tutors" Type="Self.Tutors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Tutors">
+              <PropertyRef Name="avatarId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tutors_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Tutors" Type="Self.Tutors" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Tutors">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TutorSubjects_Subjects">
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
+          <End Role="TutorSubjects" Type="Self.TutorSubjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TutorSubjects">
+              <PropertyRef Name="subjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TutorSubjects_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TutorSubjects" Type="Self.TutorSubjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TutorSubjects">
+              <PropertyRef Name="tutorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="tutorDBModelStoreContainer">
+          <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LessonLevels" EntityType="Self.LessonLevels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LessonTypes" EntityType="Self.LessonTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RequestForAdminType" EntityType="Self.RequestForAdminType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Requests" EntityType="Self.Requests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RequestsForAdmins" EntityType="Self.RequestsForAdmins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subjects" EntityType="Self.Subjects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SubjectTypes" EntityType="Self.SubjectTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Testimonials" EntityType="Self.Testimonials" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TutorLessonLevel" EntityType="Self.TutorLessonLevel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TutorLessonType" EntityType="Self.TutorLessonType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tutors" EntityType="Self.Tutors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TutorSubjects" EntityType="Self.TutorSubjects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Images_Users" Association="Self.FK_Images_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Images" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_Subjects" Association="Self.FK_Requests_Subjects">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_TutorLessonType" Association="Self.FK_Requests_TutorLessonType">
+            <End Role="TutorLessonType" EntitySet="TutorLessonType" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_Users" Association="Self.FK_Requests_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_Users1" Association="Self.FK_Requests_Users1">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestsForAdmins_Images" Association="Self.FK_RequestsForAdmins_Images">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="RequestsForAdmins" EntitySet="RequestsForAdmins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestsForAdmins_RequestForAdminType" Association="Self.FK_RequestsForAdmins_RequestForAdminType">
+            <End Role="RequestForAdminType" EntitySet="RequestForAdminType" />
+            <End Role="RequestsForAdmins" EntitySet="RequestsForAdmins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestsForAdmins_Users" Association="Self.FK_RequestsForAdmins_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="RequestsForAdmins" EntitySet="RequestsForAdmins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestsForAdmins_Users1" Association="Self.FK_RequestsForAdmins_Users1">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="RequestsForAdmins" EntitySet="RequestsForAdmins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Students_Images" Association="Self.FK_Students_Images">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Students" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Students_Users" Association="Self.FK_Students_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Students" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subjects_SubjectTypes" Association="Self.FK_Subjects_SubjectTypes">
+            <End Role="SubjectTypes" EntitySet="SubjectTypes" />
+            <End Role="Subjects" EntitySet="Subjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Testimonials_Requests" Association="Self.FK_Testimonials_Requests">
+            <End Role="Requests" EntitySet="Requests" />
+            <End Role="Testimonials" EntitySet="Testimonials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TutorLessonLevel_LessonLevels" Association="Self.FK_TutorLessonLevel_LessonLevels">
+            <End Role="LessonLevels" EntitySet="LessonLevels" />
+            <End Role="TutorLessonLevel" EntitySet="TutorLessonLevel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TutorLessonLevel_Users" Association="Self.FK_TutorLessonLevel_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TutorLessonLevel" EntitySet="TutorLessonLevel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TutorLessonType_LessonTypes" Association="Self.FK_TutorLessonType_LessonTypes">
+            <End Role="LessonTypes" EntitySet="LessonTypes" />
+            <End Role="TutorLessonType" EntitySet="TutorLessonType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TutorLessonType_Users" Association="Self.FK_TutorLessonType_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TutorLessonType" EntitySet="TutorLessonType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tutors_Images" Association="Self.FK_Tutors_Images">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Tutors" EntitySet="Tutors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tutors_Users" Association="Self.FK_Tutors_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Tutors" EntitySet="Tutors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TutorSubjects_Subjects" Association="Self.FK_TutorSubjects_Subjects">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="TutorSubjects" EntitySet="TutorSubjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TutorSubjects_Users" Association="Self.FK_TutorSubjects_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TutorSubjects" EntitySet="TutorSubjects" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="tutorDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Images">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="photoContent" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="photoMime" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="isDocument" Type="Boolean" Nullable="false" />
+          <Property Name="userId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Images_Users" FromRole="Images" ToRole="Users" />
+          <NavigationProperty Name="RequestsForAdmins" Relationship="Self.FK_RequestsForAdmins_Images" FromRole="Images" ToRole="RequestsForAdmins" />
+          <NavigationProperty Name="Students" Relationship="Self.FK_Students_Images" FromRole="Images" ToRole="Students" />
+          <NavigationProperty Name="Tutors" Relationship="Self.FK_Tutors_Images" FromRole="Images" ToRole="Tutors" />
+        </EntityType>
+        <EntityType Name="LessonLevels">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TutorLessonLevel" Relationship="Self.FK_TutorLessonLevel_LessonLevels" FromRole="LessonLevels" ToRole="TutorLessonLevel" />
+        </EntityType>
+        <EntityType Name="LessonTypes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TutorLessonType" Relationship="Self.FK_TutorLessonType_LessonTypes" FromRole="LessonTypes" ToRole="TutorLessonType" />
+        </EntityType>
+        <EntityType Name="RequestForAdminType">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="RequestsForAdmins" Relationship="Self.FK_RequestsForAdmins_RequestForAdminType" FromRole="RequestForAdminType" ToRole="RequestsForAdmins" />
+        </EntityType>
+        <EntityType Name="Requests">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tutorId" Type="Int64" Nullable="false" />
+          <Property Name="studentId" Type="Int64" Nullable="false" />
+          <Property Name="subjectId" Type="Int64" Nullable="false" />
+          <Property Name="lessonsTypeId" Type="Int64" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="additionalInfo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Subjects" Relationship="Self.FK_Requests_Subjects" FromRole="Requests" ToRole="Subjects" />
+          <NavigationProperty Name="TutorLessonType" Relationship="Self.FK_Requests_TutorLessonType" FromRole="Requests" ToRole="TutorLessonType" />
+          <NavigationProperty Name="Tutors" Relationship="Self.FK_Requests_Users" FromRole="Requests" ToRole="Users" />
+          <NavigationProperty Name="Students" Relationship="Self.FK_Requests_Users1" FromRole="Requests" ToRole="Users" />
+          <NavigationProperty Name="Testimonials" Relationship="Self.FK_Testimonials_Requests" FromRole="Requests" ToRole="Testimonials" />
+        </EntityType>
+        <EntityType Name="RequestsForAdmins">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="photoId" Type="Int64" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="adminId" Type="Int64" Nullable="false" />
+          <Property Name="userId" Type="Int64" Nullable="false" />
+          <Property Name="typeId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Images" Relationship="Self.FK_RequestsForAdmins_Images" FromRole="RequestsForAdmins" ToRole="Images" />
+          <NavigationProperty Name="RequestForAdminType" Relationship="Self.FK_RequestsForAdmins_RequestForAdminType" FromRole="RequestsForAdmins" ToRole="RequestForAdminType" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_RequestsForAdmins_Users" FromRole="RequestsForAdmins" ToRole="Users" />
+          <NavigationProperty Name="Admins" Relationship="Self.FK_RequestsForAdmins_Users1" FromRole="RequestsForAdmins" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Subjects">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="subjectTypeId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Requests" Relationship="Self.FK_Requests_Subjects" FromRole="Subjects" ToRole="Requests" />
+          <NavigationProperty Name="SubjectTypes" Relationship="Self.FK_Subjects_SubjectTypes" FromRole="Subjects" ToRole="SubjectTypes" />
+          <NavigationProperty Name="TutorSubjects" Relationship="Self.FK_TutorSubjects_Subjects" FromRole="Subjects" ToRole="TutorSubjects" />
+        </EntityType>
+        <EntityType Name="SubjectTypes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Subjects" Relationship="Self.FK_Subjects_SubjectTypes" FromRole="SubjectTypes" ToRole="Subjects" />
+        </EntityType>
+        <EntityType Name="Testimonials">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="requestId" Type="Int64" Nullable="false" />
+          <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Requests" Relationship="Self.FK_Testimonials_Requests" FromRole="Testimonials" ToRole="Requests" />
+        </EntityType>
+        <EntityType Name="TutorLessonLevel">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tutorId" Type="Int64" Nullable="false" />
+          <Property Name="lessonLevelId" Type="Int64" Nullable="false" />
+          <Property Name="addCost" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="LessonLevels" Relationship="Self.FK_TutorLessonLevel_LessonLevels" FromRole="TutorLessonLevel" ToRole="LessonLevels" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_TutorLessonLevel_Users" FromRole="TutorLessonLevel" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="TutorLessonType">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tutorId" Type="Int64" Nullable="false" />
+          <Property Name="lessonTypeId" Type="Int64" Nullable="false" />
+          <Property Name="cost" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="LessonTypes" Relationship="Self.FK_TutorLessonType_LessonTypes" FromRole="TutorLessonType" ToRole="LessonTypes" />
+          <NavigationProperty Name="Requests" Relationship="Self.FK_Requests_TutorLessonType" FromRole="TutorLessonType" ToRole="Requests" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_TutorLessonType_Users" FromRole="TutorLessonType" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="TutorSubjects">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tutorId" Type="Int64" Nullable="false" />
+          <Property Name="subjectId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Subjects" Relationship="Self.FK_TutorSubjects_Subjects" FromRole="TutorSubjects" ToRole="Subjects" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_TutorSubjects_Users" FromRole="TutorSubjects" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="passwordHash" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="passwordSalt" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="emailVerified" Type="Boolean" Nullable="false" />
+          <Property Name="regDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="birthDate" Type="DateTime" Precision="0" Nullable="true" />
+          <Property Name="role" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Images" Relationship="Self.FK_Images_Users" FromRole="Users" ToRole="Images" />
+          <NavigationProperty Name="RequestToTutor" Relationship="Self.FK_Requests_Users" FromRole="Users" ToRole="Requests" />
+          <NavigationProperty Name="RequestFromStudent" Relationship="Self.FK_Requests_Users1" FromRole="Users" ToRole="Requests" />
+          <NavigationProperty Name="RequestsFromUser" Relationship="Self.FK_RequestsForAdmins_Users" FromRole="Users" ToRole="RequestsForAdmins" />
+          <NavigationProperty Name="RequestsToAdmin" Relationship="Self.FK_RequestsForAdmins_Users1" FromRole="Users" ToRole="RequestsForAdmins" />
+          <NavigationProperty Name="TutorLessonLevel" Relationship="Self.FK_TutorLessonLevel_Users" FromRole="Users" ToRole="TutorLessonLevel" />
+          <NavigationProperty Name="TutorLessonType" Relationship="Self.FK_TutorLessonType_Users" FromRole="Users" ToRole="TutorLessonType" />
+          <NavigationProperty Name="TutorSubjects" Relationship="Self.FK_TutorSubjects_Users" FromRole="Users" ToRole="TutorSubjects" />
+          <NavigationProperty Name="Students" Relationship="Self.FK_Students_Users" FromRole="Users" ToRole="Students" />
+          <NavigationProperty Name="Tutors" Relationship="Self.FK_Tutors_Users" FromRole="Users" ToRole="Tutors" />
+        </EntityType>
+        <EntityType Name="Students">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="Int64" Nullable="false" />
+          <Property Name="avatarId" Type="Int64" />
+          <Property Name="Skype" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="info" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="adress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="lessonsLevelId" Type="Int64" />
+          <NavigationProperty Name="Images" Relationship="Self.FK_Students_Images" FromRole="Students" ToRole="Images" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Students_Users" FromRole="Students" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Tutors">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="Int64" Nullable="false" />
+          <Property Name="avatarId" Type="Int64" />
+          <Property Name="Skype" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="info" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="adress" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="education" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="qualification" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="isApproved" Type="Boolean" />
+          <Property Name="rating" Type="Double" />
+          <NavigationProperty Name="Images" Relationship="Self.FK_Tutors_Images" FromRole="Tutors" ToRole="Images" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Tutors_Users" FromRole="Tutors" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_Images_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Images" Type="Self.Images" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Images">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequestsForAdmins_Images">
+          <End Role="Images" Type="Self.Images" Multiplicity="0..1" />
+          <End Role="RequestsForAdmins" Type="Self.RequestsForAdmins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RequestsForAdmins">
+              <PropertyRef Name="photoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Students_Images">
+          <End Role="Images" Type="Self.Images" Multiplicity="0..1" />
+          <End Role="Students" Type="Self.Students" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Students">
+              <PropertyRef Name="avatarId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tutors_Images">
+          <End Role="Images" Type="Self.Images" Multiplicity="0..1" />
+          <End Role="Tutors" Type="Self.Tutors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Images">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Tutors">
+              <PropertyRef Name="avatarId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TutorLessonLevel_LessonLevels">
+          <End Role="LessonLevels" Type="Self.LessonLevels" Multiplicity="1" />
+          <End Role="TutorLessonLevel" Type="Self.TutorLessonLevel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LessonLevels">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TutorLessonLevel">
+              <PropertyRef Name="lessonLevelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TutorLessonType_LessonTypes">
+          <End Role="LessonTypes" Type="Self.LessonTypes" Multiplicity="1" />
+          <End Role="TutorLessonType" Type="Self.TutorLessonType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LessonTypes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TutorLessonType">
+              <PropertyRef Name="lessonTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequestsForAdmins_RequestForAdminType">
+          <End Role="RequestForAdminType" Type="Self.RequestForAdminType" Multiplicity="1" />
+          <End Role="RequestsForAdmins" Type="Self.RequestsForAdmins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestForAdminType">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RequestsForAdmins">
+              <PropertyRef Name="typeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_Subjects">
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="subjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_TutorLessonType">
+          <End Role="TutorLessonType" Type="Self.TutorLessonType" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TutorLessonType">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="lessonsTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="tutorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Requests_Users1">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="studentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Testimonials_Requests">
+          <End Role="Requests" Type="Self.Requests" Multiplicity="1" />
+          <End Role="Testimonials" Type="Self.Testimonials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Requests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Testimonials">
+              <PropertyRef Name="requestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequestsForAdmins_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="RequestsForAdmins" Type="Self.RequestsForAdmins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RequestsForAdmins">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequestsForAdmins_Users1">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="RequestsForAdmins" Type="Self.RequestsForAdmins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="RequestsForAdmins">
+              <PropertyRef Name="adminId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Subjects_SubjectTypes">
+          <End Role="SubjectTypes" Type="Self.SubjectTypes" Multiplicity="1" />
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubjectTypes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Subjects">
+              <PropertyRef Name="subjectTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TutorSubjects_Subjects">
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
+          <End Role="TutorSubjects" Type="Self.TutorSubjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TutorSubjects">
+              <PropertyRef Name="subjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TutorLessonLevel_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TutorLessonLevel" Type="Self.TutorLessonLevel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TutorLessonLevel">
+              <PropertyRef Name="tutorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TutorLessonType_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TutorLessonType" Type="Self.TutorLessonType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TutorLessonType">
+              <PropertyRef Name="tutorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TutorSubjects_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="TutorSubjects" Type="Self.TutorSubjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TutorSubjects">
+              <PropertyRef Name="tutorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Students_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Students">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tutors_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Tutors" Type="Self.Tutors" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Tutors">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="tutorDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Images" EntityType="Self.Images" />
+          <EntitySet Name="LessonLevels" EntityType="Self.LessonLevels" />
+          <EntitySet Name="LessonTypes" EntityType="Self.LessonTypes" />
+          <EntitySet Name="RequestForAdminType" EntityType="Self.RequestForAdminType" />
+          <EntitySet Name="Requests" EntityType="Self.Requests" />
+          <EntitySet Name="RequestsForAdmins" EntityType="Self.RequestsForAdmins" />
+          <EntitySet Name="Subjects" EntityType="Self.Subjects" />
+          <EntitySet Name="SubjectTypes" EntityType="Self.SubjectTypes" />
+          <EntitySet Name="Testimonials" EntityType="Self.Testimonials" />
+          <EntitySet Name="TutorLessonLevel" EntityType="Self.TutorLessonLevel" />
+          <EntitySet Name="TutorLessonType" EntityType="Self.TutorLessonType" />
+          <EntitySet Name="TutorSubjects" EntityType="Self.TutorSubjects" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="Students" EntityType="Self.Students" />
+          <EntitySet Name="Tutors" EntityType="Self.Tutors" />
+          <AssociationSet Name="FK_Images_Users" Association="Self.FK_Images_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Images" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestsForAdmins_Images" Association="Self.FK_RequestsForAdmins_Images">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="RequestsForAdmins" EntitySet="RequestsForAdmins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Students_Images" Association="Self.FK_Students_Images">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Students" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tutors_Images" Association="Self.FK_Tutors_Images">
+            <End Role="Images" EntitySet="Images" />
+            <End Role="Tutors" EntitySet="Tutors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TutorLessonLevel_LessonLevels" Association="Self.FK_TutorLessonLevel_LessonLevels">
+            <End Role="LessonLevels" EntitySet="LessonLevels" />
+            <End Role="TutorLessonLevel" EntitySet="TutorLessonLevel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TutorLessonType_LessonTypes" Association="Self.FK_TutorLessonType_LessonTypes">
+            <End Role="LessonTypes" EntitySet="LessonTypes" />
+            <End Role="TutorLessonType" EntitySet="TutorLessonType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestsForAdmins_RequestForAdminType" Association="Self.FK_RequestsForAdmins_RequestForAdminType">
+            <End Role="RequestForAdminType" EntitySet="RequestForAdminType" />
+            <End Role="RequestsForAdmins" EntitySet="RequestsForAdmins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_Subjects" Association="Self.FK_Requests_Subjects">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_TutorLessonType" Association="Self.FK_Requests_TutorLessonType">
+            <End Role="TutorLessonType" EntitySet="TutorLessonType" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_Users" Association="Self.FK_Requests_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Requests_Users1" Association="Self.FK_Requests_Users1">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Testimonials_Requests" Association="Self.FK_Testimonials_Requests">
+            <End Role="Requests" EntitySet="Requests" />
+            <End Role="Testimonials" EntitySet="Testimonials" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestsForAdmins_Users" Association="Self.FK_RequestsForAdmins_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="RequestsForAdmins" EntitySet="RequestsForAdmins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestsForAdmins_Users1" Association="Self.FK_RequestsForAdmins_Users1">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="RequestsForAdmins" EntitySet="RequestsForAdmins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Subjects_SubjectTypes" Association="Self.FK_Subjects_SubjectTypes">
+            <End Role="SubjectTypes" EntitySet="SubjectTypes" />
+            <End Role="Subjects" EntitySet="Subjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TutorSubjects_Subjects" Association="Self.FK_TutorSubjects_Subjects">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="TutorSubjects" EntitySet="TutorSubjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TutorLessonLevel_Users" Association="Self.FK_TutorLessonLevel_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TutorLessonLevel" EntitySet="TutorLessonLevel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TutorLessonType_Users" Association="Self.FK_TutorLessonType_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TutorLessonType" EntitySet="TutorLessonType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TutorSubjects_Users" Association="Self.FK_TutorSubjects_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TutorSubjects" EntitySet="TutorSubjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Students_Users" Association="Self.FK_Students_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Students" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tutors_Users" Association="Self.FK_Tutors_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Tutors" EntitySet="Tutors" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="tutorDBModelStoreContainer" CdmEntityContainer="tutorDBEntities">
+          <EntitySetMapping Name="Images">
+            <EntityTypeMapping TypeName="tutorDBModel.Images">
+              <MappingFragment StoreEntitySet="Images">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="photoContent" ColumnName="photoContent" />
+                <ScalarProperty Name="photoMime" ColumnName="photoMime" />
+                <ScalarProperty Name="isDocument" ColumnName="isDocument" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LessonLevels">
+            <EntityTypeMapping TypeName="tutorDBModel.LessonLevels">
+              <MappingFragment StoreEntitySet="LessonLevels">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LessonTypes">
+            <EntityTypeMapping TypeName="tutorDBModel.LessonTypes">
+              <MappingFragment StoreEntitySet="LessonTypes">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequestForAdminType">
+            <EntityTypeMapping TypeName="tutorDBModel.RequestForAdminType">
+              <MappingFragment StoreEntitySet="RequestForAdminType">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Requests">
+            <EntityTypeMapping TypeName="tutorDBModel.Requests">
+              <MappingFragment StoreEntitySet="Requests">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tutorId" ColumnName="tutorId" />
+                <ScalarProperty Name="studentId" ColumnName="studentId" />
+                <ScalarProperty Name="subjectId" ColumnName="subjectId" />
+                <ScalarProperty Name="lessonsTypeId" ColumnName="lessonsTypeId" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="additionalInfo" ColumnName="additionalInfo" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequestsForAdmins">
+            <EntityTypeMapping TypeName="tutorDBModel.RequestsForAdmins">
+              <MappingFragment StoreEntitySet="RequestsForAdmins">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="photoId" ColumnName="photoId" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="adminId" ColumnName="adminId" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="typeId" ColumnName="typeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subjects">
+            <EntityTypeMapping TypeName="tutorDBModel.Subjects">
+              <MappingFragment StoreEntitySet="Subjects">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="subjectTypeId" ColumnName="subjectTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubjectTypes">
+            <EntityTypeMapping TypeName="tutorDBModel.SubjectTypes">
+              <MappingFragment StoreEntitySet="SubjectTypes">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Testimonials">
+            <EntityTypeMapping TypeName="tutorDBModel.Testimonials">
+              <MappingFragment StoreEntitySet="Testimonials">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="requestId" ColumnName="requestId" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TutorLessonLevel">
+            <EntityTypeMapping TypeName="tutorDBModel.TutorLessonLevel">
+              <MappingFragment StoreEntitySet="TutorLessonLevel">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tutorId" ColumnName="tutorId" />
+                <ScalarProperty Name="lessonLevelId" ColumnName="lessonLevelId" />
+                <ScalarProperty Name="addCost" ColumnName="addCost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TutorLessonType">
+            <EntityTypeMapping TypeName="tutorDBModel.TutorLessonType">
+              <MappingFragment StoreEntitySet="TutorLessonType">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tutorId" ColumnName="tutorId" />
+                <ScalarProperty Name="lessonTypeId" ColumnName="lessonTypeId" />
+                <ScalarProperty Name="cost" ColumnName="cost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TutorSubjects">
+            <EntityTypeMapping TypeName="tutorDBModel.TutorSubjects">
+              <MappingFragment StoreEntitySet="TutorSubjects">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tutorId" ColumnName="tutorId" />
+                <ScalarProperty Name="subjectId" ColumnName="subjectId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="tutorDBModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="passwordHash" ColumnName="passwordHash" />
+                <ScalarProperty Name="passwordSalt" ColumnName="passwordSalt" />
+                <ScalarProperty Name="emailVerified" ColumnName="emailVerified" />
+                <ScalarProperty Name="regDate" ColumnName="regDate" />
+                <ScalarProperty Name="birthDate" ColumnName="birthDate" />
+                <ScalarProperty Name="role" ColumnName="role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="tutorDBModel.Students">
+              <MappingFragment StoreEntitySet="Students">
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="avatarId" ColumnName="avatarId" />
+                <ScalarProperty Name="Skype" ColumnName="Skype" />
+                <ScalarProperty Name="info" ColumnName="info" />
+                <ScalarProperty Name="adress" ColumnName="adress" />
+                <ScalarProperty Name="lessonsLevelId" ColumnName="lessonsLevelId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tutors">
+            <EntityTypeMapping TypeName="tutorDBModel.Tutors">
+              <MappingFragment StoreEntitySet="Tutors">
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="avatarId" ColumnName="avatarId" />
+                <ScalarProperty Name="Skype" ColumnName="Skype" />
+                <ScalarProperty Name="info" ColumnName="info" />
+                <ScalarProperty Name="adress" ColumnName="adress" />
+                <ScalarProperty Name="education" ColumnName="education" />
+                <ScalarProperty Name="qualification" ColumnName="qualification" />
+                <ScalarProperty Name="isApproved" ColumnName="isApproved" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

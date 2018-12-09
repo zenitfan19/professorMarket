@@ -1,0 +1,97 @@
+﻿@model BLL.DTO.TutorDTO
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script>
+    $(document).ready(function () {
+        $('.collapse_btn').click(function () {
+            //var id = $(this).attr('id');
+            //$('.add_info').each(function () {
+            //    if ($(this).attr('id').slice(-1) == id)
+            //        $(this).collapse('hide');
+            //});
+            $('.add_info').collapse('hide');
+        });
+    });
+</script>
+<div class="PostDiv" data-tutor-id="@Model.id">
+
+    <div class="jumbotron">
+        <div class="ImgDiv">
+
+            <img class="control-label" onerror="this.src='@Url.Content("~/Content/Images/avatarPlaceholder.png")'" src="@Url.Action("Avatar", "User", new {Id=Model.avatarId })" title="avatarImage" id="avatarImgDisplay" />
+
+        </div>
+        <h2 class="display-3">@Model.name</h2>
+        <p class="lead">@Model.info</p>
+        <hr class="m-y-2">
+        <p style="font-weight: bold">Дата рождения: <p>@(Model.birthDate.HasValue ? Model.birthDate.Value.ToString("dd.MM.yyyy") : string.Empty)<br>
+        <p style="font-weight: bold">Email: <p>@Model.email<br>
+        <p style="font-weight: bold">Skype: <p>@Model.Skype<br>
+        <p style="font-weight: bold">Адрес: <p>@Model.adress<br>
+
+        <p>
+            <button class="btn btn-info collapse_btn" id="@Model.id" type="button" data-toggle="collapse" data-target="@("#lessonLevels"+@Model.id)" aria-expanded="false" aria-controls="@("#lessonLevels"+@Model.id)">
+                Берет на занятия
+            </button>
+            <button class="btn btn-info collapse_btn" id="@Model.id" type="button" data-toggle="collapse" data-target="@("#lessonTypes"+@Model.id)" aria-expanded="false" aria-controls="@("#lessonTypes"+@Model.id)">
+                Формы занятий
+            </button>
+            <button class="btn btn-info collapse_btn" id="@Model.id" type="button" data-toggle="collapse" data-target="@("#subjects"+@Model.id)" aria-expanded="false" aria-controls="@("#subjects"+@Model.id)">
+                Предметы
+            </button>
+        </p>
+        <div class="collapse add_info" id="@("lessonLevels"+@Model.id)">
+            <div class="card card-block">
+                @if (Enumerable.Any(Model.Levels))
+                {
+                    foreach (var ll in Model.Levels)
+                    {
+                        <p>@BLL.Data.AdditionalData.GetLessonLevel(ll.lessonlevelId).name</p>
+                    }
+                }
+                else
+                {
+                    <p>Пользователь ещё не указал эти данные</p>
+                }
+            </div>
+        </div>
+        <div class="collapse add_info" id="@("lessonTypes"+@Model.id)">
+            <div class="card card-block">
+                @if (Enumerable.Any(Model.Types))
+                {
+                    foreach (var lt in Model.Types)
+                    {
+                        <p>@BLL.Data.AdditionalData.GetLessonType(lt.lessontypeId).name</p>
+                            <p>@lt.cost</p>
+                        
+                    }
+                }
+                else
+                {
+                    <p>Пользователь ещё не указал эти данные</p>
+                }
+            </div>
+        </div>
+        <div class="collapse add_info" id="@("subjects"+@Model.id)">
+            <div class="card card-block">
+                @if (Enumerable.Any(Model.Subjects))
+                {
+                    foreach (var s in Model.Subjects)
+                    {
+                        <p>@s.subjectName</p>
+                    }
+                }
+                else
+                {
+                    <p>Пользователь ещё не указал эти данные</p>
+                }
+            </div>
+        </div>
+
+
+        <p class="lead">
+            <a class="btn btn-primary btn-lg" href="#" role="button">Отправить заявку</a>
+        </p>
+    </div>
+</div>
+

@@ -1,0 +1,94 @@
+﻿@model professorMarketWebUI.Models.SubjectModel
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script>
+    function sSubmit() {
+        var res = $('#sForm').serialize();
+        $.ajax({
+            type: 'POST',
+            url: '/Admin/AddSubject',
+            data: res,
+            success: function (data) {
+                if (data.error) {
+                    $('#sErr').append(data.errorMsg);
+                    $('#sErr').removeClass('hidden');
+                    setTimeout(function () { $('#sErr').addClass('hidden') }, 5000);
+                } else {
+                    $('#sForm .form-control').val('');
+                    $('#sSuc').removeClass('hidden');
+                    setTimeout(function () { $('#llSuc').addClass('hidden') }, 5000);
+                    $('#sTable th').each(function () {
+                        if ($(this).html() == data.stTypeName)
+                            $(this).parent().after('<tr><td scope="row">' + data.stName + '</td></tr>');
+                    });
+                    //$('#sTable tr:last').after('<tr><td scope="row">' + data.llName + '</td></tr>');
+                }
+            },
+            error: function (xhr, str) {
+                $('#llErr').removeClass('hidden');
+                setTimeout(function () { $('#llErr').addClass('hidden') }, 5000);
+            }
+        });
+
+    }
+</script>
+@{ Layout = null; }
+
+<table class="table table-inverse" id="sTable">
+    <thead>
+        <tr>
+            <th>Название</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var st in BLL.Data.AdditionalData.GetSubjectTypes())
+        {
+            <tr>
+                <th scope="row">@st.name</th>
+            </tr>
+            foreach (var s in BLL.Data.AdditionalData.GetTypedSubjects(st.id))
+            {
+                <tr>
+                    <td scope="row">@s.name</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "sForm" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Добавить</h4>
+    <hr />
+    <div class="alert alert-success hidden" id="sSuc" role="alert">
+        Успех!
+    </div>
+    <div class="alert alert-danger hidden" id="sErr" role="alert">
+        Произошла ошибка!
+    </div>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.subjectTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.subjectTypeId, (IEnumerable<SelectListItem>)ViewBag.Types, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.subjectTypeId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <a href="javascript:void(0);" id="sBtn" onclick="sSubmit();" class="btn btn-default">Сохранить</a>
+        </div>
+    </div>
+</div>
+}
+

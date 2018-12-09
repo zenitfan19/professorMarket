@@ -1,0 +1,81 @@
+﻿@model professorMarketWebUI.Models.TutorFinderModel
+<div class="col-md-4">
+
+
+
+
+
+    <h4>Условия поиска</h4>
+    <hr />
+
+
+
+    <div class="btn-group">
+        <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Форма занятий
+        </button>
+        <ul class="dropdown-menu">
+            @foreach (var type in Model.types)
+            {
+                <li><a href="#">@type.name</a></li>
+            }
+        </ul>
+    </div>
+    <br>
+
+    <div class="btn-group">
+        <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Опыт
+        </button>
+        <ul class="dropdown-menu">
+
+            <li><a class="dropdown-item">Начинающий специалист</a></li>
+            <li><a class="dropdown-item">Небольшой опыт</a></li>
+            <li><a class="dropdown-item">Опытный специалист</a></li>
+            <li><a class="dropdown-item">Профессионал</a></li>
+        </ul>
+    </div>
+    <br>
+
+    <div class="btn-group">
+        <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Группа предметов
+        </button>
+        <ul class="dropdown-menu">
+            @foreach (var type in Model.sTypes)
+            {
+                <li><a class="dropdown-item">@type.name</a></li>
+
+            }
+        </ul>
+    </div>
+    <br>
+
+    <div class="btn-group">
+        <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Предмет
+        </button>
+        <ul class="dropdown-menu">
+            @foreach (var s in BLL.Data.AdditionalData.GetTypedSubjects(Model.selectedSType))
+            {
+                <li><a class="dropdown-item">@s.name</a></li>
+
+            }
+        </ul>
+    </div>
+    <br>
+
+
+
+
+</div>
+
+<div class="col-md-8">
+  
+
+    @foreach (var tutor in Model.Tutors)
+    {
+        Html.RenderPartial("ShowTutor", tutor);
+    }
+</div>
+

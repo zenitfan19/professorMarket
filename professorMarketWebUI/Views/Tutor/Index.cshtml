@@ -1,0 +1,77 @@
+﻿@model professorMarketWebUI.Models.TutorProfileModel
+<h2>Профиль</h2>
+
+<div class="form-group">
+    <img class="control-label" onerror="this.src='@Url.Content("~/Content/Images/avatarPlaceholder.png")'" src="@Url.Action("Avatar", "User", new {Id=Model.Tutor.avatarId })" title="avatarImage" id="avatarImgDisplay" />
+</div>
+
+<p style="font-weight: bold">Email: <p>@Model.Tutor.email<br>
+
+
+<p style="font-weight: bold">ФИО: <p>@Model.Tutor.name<br>
+
+
+<p style="font-weight: bold">Дата рождения: <p>@(Model.Tutor.birthDate.HasValue ? Model.Tutor.birthDate.Value.ToString("dd.MM.yyyy") : string.Empty)<br>
+
+
+<p style="font-weight: bold">Дата регистрации: <p>@Model.Tutor.regDate.ToString("dd.MM.yyyy")<br>
+
+
+<p style="font-weight: bold">Skype: <p>@Model.Tutor.Skype<br>
+
+
+<p style="font-weight: bold">О себе: <p>@Model.Tutor.info<br>
+
+
+<p style="font-weight: bold">Адрес: <p>@Model.Tutor.adress<br>
+
+<p style="font-weight: bold">
+    Преподает уровням образования:
+    <br>
+    @if (Enumerable.Any(ViewBag.LessonLevels))
+    {
+        foreach (var ll in ViewBag.LessonLevels)
+        {
+        <p>@BLL.Data.AdditionalData.GetLessonLevel(ll.lessonlevelId).name</p>
+    }
+}
+else
+{
+    <p>Пользователь ещё не указал эти данные</p>
+}
+
+    <p style="font-weight: bold">
+        Возможные варианты проведения занятий:
+        <br>
+        @if (Enumerable.Any(ViewBag.LessonTypes))
+        {
+            foreach (var lt in ViewBag.LessonTypes)
+            {
+            <p>@BLL.Data.AdditionalData.GetLessonType(lt.lessontypeId).name</p>
+        }
+    }
+    else
+    {
+        <p>Пользователь ещё не указал эти данные</p>
+    }
+
+        <p style="font-weight: bold">
+            Преподает предметы:
+            <br>
+            @if (Enumerable.Any(ViewBag.Subjects))
+            {
+                foreach (var s in ViewBag.Subjects)
+                {
+                <p>@s.subjectName</p>
+            }
+            }
+            else
+            {
+                <p>Пользователь ещё не указал эти данные</p>
+            }
+
+
+
+
+            @Html.ActionLink("Изменить", "Update", null, new { @class = "btn btn-default" })
+

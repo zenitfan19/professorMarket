@@ -1,0 +1,34 @@
+﻿@model professorMarketWebUI.Models.StudentProfileModel
+
+<h2>Профиль</h2>
+
+<div class="form-group">
+    <img class="control-label" onerror="this.src='@Url.Content("~/Content/Images/avatarPlaceholder.png")'" src="@Url.Action("Avatar", "User", new {Id=Model.Student.avatarId })" title="avatarImage" id="avatarImgDisplay" />
+</div>
+
+    <p style="font-weight: bold">Email: <p>@Model.Student.email<br>
+
+
+    <p style="font-weight: bold">ФИО: <p>@Model.Student.name<br>
+
+
+    <p style="font-weight: bold">Дата рождения: <p>@(Model.Student.birthDate.HasValue ? Model.Student.birthDate.Value.ToString("dd.MM.yyyy") : string.Empty)<br>
+
+
+    <p style="font-weight: bold">Дата регистрации: <p>@Model.Student.regDate.ToString("dd.MM.yyyy")<br>
+
+
+    <p style="font-weight: bold">Skype: <p>@Model.Student.Skype<br>
+
+
+    <p style="font-weight: bold">О себе: <p>@Model.Student.info<br>
+
+
+    <p style="font-weight: bold">Адрес: <p>@Model.Student.adress<br>
+
+
+    <p style="font-weight: bold">Уровень обучения: <p>
+        @ViewBag.LevelName<br>
+
+        @Html.ActionLink("Изменить", "Update", null, new { @class = "btn btn-default" })
+

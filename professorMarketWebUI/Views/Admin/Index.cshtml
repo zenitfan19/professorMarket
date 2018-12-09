@@ -1,0 +1,26 @@
+﻿
+<h2>Административная панель</h2>
+<div class="tabbable">
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab1" data-toggle="tab">Уровни образования</a></li>
+        <li><a href="#tab2" data-toggle="tab">Варианты проведения занятий</a></li>
+        <li><a href="#tab3" data-toggle="tab">Группы предметов</a></li>
+        <li><a href="#tab4" data-toggle="tab">Предметы</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab1">
+            @Html.Partial("AddLessonLevel")
+        </div>
+        <div class="tab-pane" id="tab2">
+            @Html.Partial("AddLessonTypes")
+        </div>
+        <div class="tab-pane" id="tab3">
+            @Html.Partial("AddSubjectTypes")
+        </div>
+        <div class="tab-pane" id="tab4">
+            @Html.Partial("AddSubject")
+        </div>
+    </div>
+</div>
+

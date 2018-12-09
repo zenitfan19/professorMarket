@@ -1,0 +1,105 @@
+﻿@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script>
+    function lltableForm() {        
+        $.ajax({
+            type: 'POST',
+            url: '/Tutor/ShowLessonLevelsIds',            
+            success: function (data) {
+                if (data.error) {
+                    
+                } else {
+                    $('tbody tr').each(function (element) {   
+                        
+                        for (var i = 0; i <= data.ids.length; i++)
+                            if ($(this).attr('id') == data.ids[i]) {                                
+                                $(this).children().children('.btn-info').addClass('hidden');                                
+                                break;                                
+                            }
+                            else {
+                                if(i==data.ids.length)
+                                $(this).children().children('.btn-danger').addClass('hidden');
+                            }
+                    });
+                }
+            },
+            error: function (xhr, str) {
+                
+            }
+        });
+    }
+
+    function addLessonLvl(id) {
+        var res = {
+            id: id
+        };
+        var str = JSON.stringify(res);       
+        $.ajax({
+            type: 'POST',
+            url: '/Tutor/SetLessonLevels',
+            contentType: 'application/json; charset=utf-8',
+            data: str,
+            success: function (data) {
+                if (data.error) {
+
+                } else {
+                    $('#'+id).children().children('.btn-info').addClass('hidden');
+                    $('#'+id).children().children('.btn-danger').removeClass('hidden');           
+                }
+            },
+            error: function (xhr, str) {
+
+            }
+        });
+    }
+
+    function removeLessonLvl(id) {
+        var res = {
+            id: id
+        };
+        var str = JSON.stringify(res);
+        $.ajax({
+            type: 'POST',
+            url: '/Tutor/DelLessonLevels',
+            contentType: 'application/json; charset=utf-8',
+            data: str,
+            success: function (data) {
+                if (data.error) {
+
+                } else {
+                    $('#' + id).children().children('.btn-info').removeClass('hidden');
+                    $('#' + id).children().children('.btn-danger').addClass('hidden');
+                }
+            },
+            error: function (xhr, str) {
+
+            }
+        });
+    }
+
+    window.onload = function () {
+        lltableForm();
+    }
+</script>
+
+<table class="table table-inverse" id="llTable">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Добавить</th>
+            <th>Удалить</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ll in BLL.Data.AdditionalData.GetLessonLevels())
+        {
+        <tr id="@ll.id">
+            <td scope="row">@ll.name</td>     
+            
+            <td><a href="javascript:void(0);" onclick="addLessonLvl(@ll.id);" class="btn btn-info">Добавить</a></td>
+            <td><a href="javascript:void(0);" onclick="removeLessonLvl(@ll.id);" class="btn btn-danger">Удалить</a></td>                      
+                       
+        </tr>            
+        }
+    </tbody>
+</table>

@@ -1,0 +1,115 @@
+﻿@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<script>
+    function stableForm() {
+        $.ajax({
+            type: 'POST',
+            url: '/Tutor/ShowSubjectsIds',
+            success: function (data) {
+                if (data.error) {
+
+                } else {
+                    $('tbody tr').each(function (parElement) {
+                        field = $(this);
+
+                        $(data.ids).each(function (index, element) {
+
+                            if (field.attr('id') == element.subjectId) {
+                                field.children().children('.btn-info').addClass('hidden');                                
+                                return false;
+                            }
+                            else {
+                                if (index == (data.ids.length - 1)) {
+                                    field.children().children('.btn-danger').addClass('hidden');                                    
+                                }
+                            }
+                        });
+                    });
+                }
+            },
+            error: function (xhr, str) {
+
+            }
+        });
+    }
+
+    function addSbj(id) {
+        var res = {
+            id: id
+        };
+        var str = JSON.stringify(res);
+        $.ajax({
+            type: 'POST',
+            url: '/Tutor/SetSubjects',
+            contentType: 'application/json; charset=utf-8',
+            data: str,
+            success: function (data) {
+                if (data.error) {
+
+                } else {
+                    $('#' + id).children().children('.btn-info').addClass('hidden');
+                    $('#' + id).children().children('.btn-danger').removeClass('hidden');
+                }
+            },
+            error: function (xhr, str) {
+
+            }
+        });
+    }
+
+    function removeSbj(id) {
+        var res = {
+            id: id
+        };
+        var str = JSON.stringify(res);
+        $.ajax({
+            type: 'POST',
+            url: '/Tutor/DelSubjects',
+            contentType: 'application/json; charset=utf-8',
+            data: str,
+            success: function (data) {
+                if (data.error) {
+
+                } else {
+                    $('#' + id).children().children('.btn-info').removeClass('hidden');
+                    $('#' + id).children().children('.btn-danger').addClass('hidden');                    
+                }
+            },
+            error: function (xhr, str) {
+
+            }
+        });
+    }
+
+    window.onload = function () {
+        stableForm();
+    }
+</script>
+
+<table class="table table-inverse" id="llTable">
+    <thead>
+        <tr>
+            <th>Название</th>            
+            <th>Добавить</th>
+            <th>Удалить</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var st in BLL.Data.AdditionalData.GetSubjectTypes())
+        {
+            <tr id="group+@st.id">
+                <th colspan="3" class="bg-info" scope="row">@st.name</th>                
+            </tr>
+            foreach (var s in BLL.Data.AdditionalData.GetTypedSubjects(st.id))
+            {
+                <tr id="@s.id" class="subject">
+                    <td scope="row">@s.name</td>
+                    <td><a href="javascript:void(0);" onclick="addSbj(@s.id);" class="btn btn-info">Добавить</a></td>
+                    <td><a href="javascript:void(0);" onclick="removeSbj(@s.id);" class="btn btn-danger">Удалить</a></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
