@@ -11,7 +11,11 @@
     margin-top: 10px;
     padding: 5px;
     border-radius: 5%;
-}   
+}
+    .search_params  #submit_btn {
+        width: 100%;
+        margin-top: 10px;
+    }
 
 .search_params .btn-group button {
     width: 100%;

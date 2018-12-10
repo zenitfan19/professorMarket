@@ -118,19 +118,20 @@ namespace professorMarketWebUI.Controllers
         }
 
 
-        //[HttpGet]
-        //public ActionResult ShowTutors(int page = 0)
-        //{
-        //    var model = new Models.TutorFinderModel();
-        //    model.Tutors = BLL.Data.TutorData.GetTutors(page);
-        //    model.NextExist = false;
-        //    model.types = BLL.Data.AdditionalData.GetLessonTypes();
-        //    model.sTypes = BLL.Data.AdditionalData.GetSubjectTypes();            
-        //    model.subjects = BLL.Data.AdditionalData.GetAllSubjects();            
-        //    return View(model);
-        //}
-
         [HttpGet]
+        public ActionResult ShowTutors(int page = 0, long selectedSubject = 0)
+        {
+            var model = new Models.TutorFinderModel();
+            model.Tutors = BLL.Data.TutorData.GetTutors(page);
+            model.NextExist = false;
+            model.types = BLL.Data.AdditionalData.GetLessonTypes();
+            model.sTypes = BLL.Data.AdditionalData.GetSubjectTypes();
+            model.subjects = BLL.Data.AdditionalData.GetAllSubjects();
+            model.selectedSubject = selectedSubject;
+            return View(model);
+        }
+
+        [HttpPost]
         public ActionResult ShowTutors(int page=0, long selectedType=0, int selectedExperience=0, long selectedSType=0, long selectedSubject=0)
         {
             var model = new Models.TutorFinderModel();
@@ -144,8 +145,7 @@ namespace professorMarketWebUI.Controllers
             model.sTypes = BLL.Data.AdditionalData.GetSubjectTypes();
             if (model.selectedSType == 0)
                 model.subjects = BLL.Data.AdditionalData.GetAllSubjects();
-            else model.subjects = BLL.Data.AdditionalData.GetTypedSubjects(model.selectedSType);
-            ViewBag.Msg = selectedSType;
+            else model.subjects = BLL.Data.AdditionalData.GetTypedSubjects(model.selectedSType);            
             return View(model);
         }
 
