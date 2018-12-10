@@ -10,20 +10,18 @@ namespace professorMarketWebUI.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.TutorCount = BLL.Data.AdditionalData.GetTutorsCount();
+            ViewBag.SubjectCount = BLL.Data.AdditionalData.GetSubjectCount();
             return View();
         }
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }

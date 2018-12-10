@@ -9,6 +9,40 @@ namespace BLL.Data
 {
     public static class AdditionalData
     {
+        public static long GetSubjectCount()
+        {
+            long dbSubjectCount;
+            try
+            {
+                using (var ctx = new DAL.tutorDBEntities())
+                {
+                    dbSubjectCount = ctx.Subjects.AsQueryable().Count();                  
+                }
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+            return dbSubjectCount;
+        }
+
+        public static long GetTutorsCount()
+        {
+            long dbTutorCount;
+            try
+            {
+                using (var ctx = new DAL.tutorDBEntities())
+                {
+                    dbTutorCount = ctx.Tutors.AsQueryable().Count();
+                }
+            }
+            catch (Exception ex)
+            {
+                return 0;
+            }
+            return dbTutorCount;
+        }
+
         public static LessonLevelsDTO GetLessonLevel(long? id = null, string name = null)
         {
             if (!id.HasValue && string.IsNullOrEmpty(name))

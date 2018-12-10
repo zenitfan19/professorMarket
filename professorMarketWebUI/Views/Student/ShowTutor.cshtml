@@ -1,97 +1,121 @@
 ﻿@model BLL.DTO.TutorDTO
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/jqueryval")
+
 <script>
-    $(document).ready(function () {
-        $('.collapse_btn').click(function () {
-            //var id = $(this).attr('id');
-            //$('.add_info').each(function () {
-            //    if ($(this).attr('id').slice(-1) == id)
-            //        $(this).collapse('hide');
-            //});
-            $('.add_info').collapse('hide');
-        });
-    });
+    //$(document).ready(function () {
+    //    $('.collapse_btn').click(function () {            
+    //        $('.add_info').collapse('hide');
+    //    });
+    //});
 </script>
-<div class="PostDiv" data-tutor-id="@Model.id">
+<div class="tutorDiv" data-tutor-id="@Model.id">
 
-    <div class="jumbotron">
-        <div class="ImgDiv">
+    <div class="row jumbotron">
+        <div class="col-md-3 Avatar">
+            <img class="control-label avatarImgDisplay" onerror="this.src='@Url.Content("~/Content/Images/avatarPlaceholder.png")'" src="@Url.Action("Avatar", "User", new {Id=Model.avatarId })" title="avatarImage" />
 
-            <img class="control-label" onerror="this.src='@Url.Content("~/Content/Images/avatarPlaceholder.png")'" src="@Url.Action("Avatar", "User", new {Id=Model.avatarId })" title="avatarImage" id="avatarImgDisplay" />
-
-        </div>
-        <h2 class="display-3">@Model.name</h2>
-        <p class="lead">@Model.info</p>
-        <hr class="m-y-2">
-        <p style="font-weight: bold">Дата рождения: <p>@(Model.birthDate.HasValue ? Model.birthDate.Value.ToString("dd.MM.yyyy") : string.Empty)<br>
-        <p style="font-weight: bold">Email: <p>@Model.email<br>
-        <p style="font-weight: bold">Skype: <p>@Model.Skype<br>
-        <p style="font-weight: bold">Адрес: <p>@Model.adress<br>
-
-        <p>
             <button class="btn btn-info collapse_btn" id="@Model.id" type="button" data-toggle="collapse" data-target="@("#lessonLevels"+@Model.id)" aria-expanded="false" aria-controls="@("#lessonLevels"+@Model.id)">
                 Берет на занятия
             </button>
+            <div class="collapse add_info" id="@("lessonLevels"+@Model.id)">
+                <div class="card card-block">
+                    @if (Enumerable.Any(Model.Levels))
+                    {
+                        foreach (var ll in Model.Levels)
+                        {
+                            <h5>@BLL.Data.AdditionalData.GetLessonLevel(ll.lessonlevelId).name</h5>
+                        }
+                    }
+                    else
+                    {
+                        <h5>Пользователь ещё не указал эти данные</h5>
+                    }
+                </div>
+            </div>
             <button class="btn btn-info collapse_btn" id="@Model.id" type="button" data-toggle="collapse" data-target="@("#lessonTypes"+@Model.id)" aria-expanded="false" aria-controls="@("#lessonTypes"+@Model.id)">
                 Формы занятий
             </button>
+            <div class="collapse add_info" id="@("lessonTypes"+@Model.id)">
+                <div class="card card-block">
+                    @if (Enumerable.Any(Model.Types))
+                    {
+                        foreach (var lt in Model.Types)
+                        {
+                            <h5>@(BLL.Data.AdditionalData.GetLessonType(lt.lessontypeId).name+": "+lt.cost)</h5>                          
+
+                        }
+                    }
+                    else
+                    {
+                        <h5>Пользователь ещё не указал эти данные</h5>
+                    }
+                </div>
+            </div>
             <button class="btn btn-info collapse_btn" id="@Model.id" type="button" data-toggle="collapse" data-target="@("#subjects"+@Model.id)" aria-expanded="false" aria-controls="@("#subjects"+@Model.id)">
                 Предметы
             </button>
-        </p>
-        <div class="collapse add_info" id="@("lessonLevels"+@Model.id)">
-            <div class="card card-block">
-                @if (Enumerable.Any(Model.Levels))
-                {
-                    foreach (var ll in Model.Levels)
+            <div class="collapse add_info" id="@("subjects"+@Model.id)">
+                <div class="card card-block">
+                    @if (Enumerable.Any(Model.Subjects))
                     {
-                        <p>@BLL.Data.AdditionalData.GetLessonLevel(ll.lessonlevelId).name</p>
+                        foreach (var s in Model.Subjects)
+                        {
+                            <h5>@s.subjectName</h5>
+                        }
                     }
-                }
-                else
-                {
-                    <p>Пользователь ещё не указал эти данные</p>
-                }
+                    else
+                    {
+                        <h5>Пользователь ещё не указал эти данные</h5>
+                    }
+                </div>
             </div>
         </div>
-        <div class="collapse add_info" id="@("lessonTypes"+@Model.id)">
-            <div class="card card-block">
-                @if (Enumerable.Any(Model.Types))
-                {
-                    foreach (var lt in Model.Types)
-                    {
-                        <p>@BLL.Data.AdditionalData.GetLessonType(lt.lessontypeId).name</p>
-                            <p>@lt.cost</p>
-                        
-                    }
-                }
-                else
-                {
-                    <p>Пользователь ещё не указал эти данные</p>
-                }
+        <div class="col-md-9">
+            <h2 class="display-3">@Model.name</h2>
+            <p class="lead">@Model.info</p>
+            <hr class="m-y-2">
+            <div class="row">
+            <div class="col-md-12 alert alert-info">
+                <p style="font-weight: bold">Адрес: <p>@Model.adress
             </div>
-        </div>
-        <div class="collapse add_info" id="@("subjects"+@Model.id)">
-            <div class="card card-block">
-                @if (Enumerable.Any(Model.Subjects))
-                {
-                    foreach (var s in Model.Subjects)
-                    {
-                        <p>@s.subjectName</p>
-                    }
-                }
-                else
-                {
-                    <p>Пользователь ещё не указал эти данные</p>
-                }
+                </div>
+            <div class="row alert alert-info">
+                <div class="col-md-4">
+                    <p style="font-weight: bold">Лет: <p>@(Model.birthDate.HasValue ? BLL.Data.UserData.GetAge(Model.birthDate.Value) : BLL.Data.UserData.GetAge(DateTime.Today))
+                </div>
+                <div class="col-md-4">
+                    <p style="font-weight: bold">Опыт: <p>@(!String.IsNullOrEmpty(Model.qualification) ? Model.education : "нет данных")
+</div>
+                <div class="col-md-4">
+                    <p style="font-weight: bold">Образование: <p>@(!String.IsNullOrEmpty(Model.education) ? Model.education : "нет данных")
+</div>
             </div>
-        </div>
+            <div class="row alert alert-info">
+                <div class="col-md-6">
+                    <p style="font-weight: bold">Средняя оценка: <p>@(Model.rating.HasValue ? Model.rating.ToString() : "нет оценок")
+                </div>
+                <div class="col-md-6">
+                    <p style="font-weight: bold">Количество отзывов: <p>0
+                </div>                
+            </div>
 
 
-        <p class="lead">
-            <a class="btn btn-primary btn-lg" href="#" role="button">Отправить заявку</a>
-        </p>
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="lead">
+                        <a class="btn btn-primary btn-lg" href="#" role="button">Отправить заявку</a>
+                    </p>
+                </div>
+
+                <div class="col-md-6">
+                    <p class="lead">
+                        <a class="btn btn-info btn-lg" href="#" role="button">Читать отзывы</a>
+                    </p>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
 

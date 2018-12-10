@@ -152,5 +152,12 @@ namespace BLL.Data
             }
             return false;
         }
+
+        public static int GetAge(DateTime birthDate)
+        {
+            var now = DateTime.Today;
+            return now.Year - birthDate.Year - 1 +
+                ((now.Month > birthDate.Month || now.Month == birthDate.Month && now.Day >= birthDate.Day) ? 1 : 0);
+        }
     }
 }

@@ -1,77 +1,130 @@
 ﻿@model professorMarketWebUI.Models.TutorFinderModel
-<div class="col-md-4">
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    function setFilter(group, id) {        
+        
+            switch(group)
+            {
+                case 'type': var res = {
+                    selectedType: id
+                }; break;
+                case 'subjectType': var res = {
+                    selectedSType: id
+                }; break;
+                //case 'type': alert(group + ' wins'); break;
+                case 'subject': var res = {
+                    selectedSubject: id
+                }; break;
+                default: alert('nobody wins');
+        
+        }        
+        var str = JSON.stringify(res);       
+
+        $.ajax({
+            type: 'GET',
+            url: '/Student/ShowTutors',
+            contentType: 'application/json; charset=utf-8',
+            data: str,
+            success: function (data) {
+                alert('success');
+                
+            },
+            error: function (xhr, str) {
+
+            }
+        });
+    }
+
+    $(document).ready(function () {        
+        $(document).on('click', '.dropdown-item', function () {
+            var filterOption = $(this);
+            setFilter(filterOption.data('groupName'), filterOption.data('itemId'));
+        });
+   
+});
+    
+</script>
 
 
 
-
-
+<div class="col-md-2 search_params">
     <h4>Условия поиска</h4>
+    @ViewBag.Msg
     <hr />
 
 
 
-    <div class="btn-group">
-        <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Форма занятий
+    <div class="btn-group select_type">
+        <div class="label label-info">@(Model.selectedType==0 ? "Не важно" : Model.selectedType.ToString())</div>
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Форма занятий <span class="glyphicon glyphicon-chevron-down"></span>
         </button>
         <ul class="dropdown-menu">
+            <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="type" data-item-id="0">Не важно</a></li>
             @foreach (var type in Model.types)
             {
-                <li><a href="#">@type.name</a></li>
+                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="type" data-item-id="@type.id">@type.name</a></li>
             }
         </ul>
     </div>
-    <br>
 
-    <div class="btn-group">
-        <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Опыт
+
+    <div class="btn-group select_experience">
+        <div class="label label-info">@(Model.sectedExperience==0 ? "Не важно" : Model.sectedExperience.ToString())</div>
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Опыт <span class="glyphicon glyphicon-chevron-down"></span>
         </button>
         <ul class="dropdown-menu">
-
-            <li><a class="dropdown-item">Начинающий специалист</a></li>
-            <li><a class="dropdown-item">Небольшой опыт</a></li>
-            <li><a class="dropdown-item">Опытный специалист</a></li>
-            <li><a class="dropdown-item">Профессионал</a></li>
+            <li><a href="javascript:void(0);" class="dropdown-item">Не важно</a></li>
+            <li><a href="javascript:void(0);" class="dropdown-item">Начинающий специалист</a></li>
+            <li><a href="javascript:void(0);" class="dropdown-item">Небольшой опыт</a></li>
+            <li><a href="javascript:void(0);" class="dropdown-item">Опытный специалист</a></li>
+            <li><a href="javascript:void(0);" class="dropdown-item">Профессионал</a></li>
         </ul>
     </div>
-    <br>
 
-    <div class="btn-group">
-        <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Группа предметов
+
+    <div class="btn-group select_sType">
+        <div class="label label-info">@(Model.selectedSType==0 ? "Не важно" : Model.selectedSType.ToString())</div>
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Группа предметов <span class="glyphicon glyphicon-chevron-down"></span>
         </button>
         <ul class="dropdown-menu">
+            <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="subjectType" data-item-id="0">Не важно</a></li>
             @foreach (var type in Model.sTypes)
             {
-                <li><a class="dropdown-item">@type.name</a></li>
+                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="subjectType" data-item-id="@type.id">@type.name</a></li>
 
             }
         </ul>
     </div>
-    <br>
 
-    <div class="btn-group">
-        <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Предмет
+
+    <div class="btn-group select_subject">
+        <div class="label label-info">@(Model.selectedSubject==0 ? "Не важно" : Model.selectedSubject.ToString())</div>
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Предмет <span class="glyphicon glyphicon-chevron-down"></span>
         </button>
         <ul class="dropdown-menu">
-            @foreach (var s in BLL.Data.AdditionalData.GetTypedSubjects(Model.selectedSType))
+            <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="subject" data-item-id="0">Не важно</a></li>
+            @foreach (var s in Model.subjects)
             {
-                <li><a class="dropdown-item">@s.name</a></li>
+                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="subject" data-item-id="@s.id">@s.name</a></li>
 
             }
         </ul>
     </div>
-    <br>
+
 
 
 
 
 </div>
 
-<div class="col-md-8">
-  
+<div class="col-md-9 col-md-offset-1">
+
 
     @foreach (var tutor in Model.Tutors)
     {

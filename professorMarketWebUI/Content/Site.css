@@ -1,4 +1,37 @@
-﻿body {
+﻿.search_params .btn-group .label {
+    width: 100%;  
+    display: block;
+    font-size: 100%;
+    margin-top: 15px;
+}
+
+.search_params .btn-group {
+    width: 100%;
+    background-color: #fff3de;
+    margin-top: 10px;
+    padding: 5px;
+    border-radius: 5%;
+}   
+
+.search_params .btn-group button {
+    width: 100%;
+    margin-top: 10px;    
+}
+
+.collapse_btn {
+    width: 100%;
+    margin-top: 5px;
+}
+.avatarImgDisplay {
+    width: 100%;
+    height: auto;    
+}
+.subject_icon {
+    display: flex;
+    align-items: center;
+}
+
+body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
