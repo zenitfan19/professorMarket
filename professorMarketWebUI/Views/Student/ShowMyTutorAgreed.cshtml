@@ -1,0 +1,59 @@
+﻿@model BLL.DTO.RequestDTO    
+<div class="tutorDiv" data-request-id="@Model.id">
+
+    <div class="row jumbotron">
+        <div class="col-md-3 Avatar">
+            <img class="control-label avatarImgDisplay" onerror="this.src='@Url.Content("~/Content/Images/avatarPlaceholder.png")'" src="@Url.Action("Avatar", "User", new { Id = Model.tutor.avatarId })" title="avatarImage" />
+        </div>
+        <div class="col-md-9">
+            <h2 class="display-3">@Model.tutor.name</h2>            
+            <hr class="m-y-2">
+            <div class="row">
+                <div class="col-md-12 alert alert-info">
+                    <p style="font-weight: bold">Адрес: <p>@Model.tutor.adress
+                </div>
+            </div>
+            <div class="row alert alert-info">
+                <div class="col-md-4">
+                    <p style="font-weight: bold">Лет: <p>@(Model.tutor.birthDate.HasValue ? BLL.Data.UserData.GetAge(Model.tutor.birthDate.Value) : BLL.Data.UserData.GetAge(DateTime.Today))
+                </div>
+                <div class="col-md-4">
+                    <p style="font-weight: bold">Опыт: <p>@(!String.IsNullOrEmpty(Model.tutor.qualification) ? Model.tutor.qualification : "нет данных")
+                </div>
+                <div class="col-md-4">
+                    <p style="font-weight: bold">Образование: <p>@(!String.IsNullOrEmpty(Model.tutor.education) ? Model.tutor.education : "нет данных")
+                </div>
+            </div>
+            <div class="row alert alert-info">
+                <div class="col-md-6">
+                    <p style="font-weight: bold">email: <p>@(Model.tutor.email)
+                </div>
+                <div class="col-md-6">
+                    <p style="font-weight: bold">Skype: <p>@(!String.IsNullOrEmpty(Model.tutor.Skype) ? Model.tutor.Skype : "нет данных")
+                </div>
+            </div>
+
+
+
+
+            @*<div class="row">
+                <div class="alert alert-success hidden" id="@("requestRes"+t.id)" role="alert">
+                    Ваш отзыв успешно отправлен!
+                </div>
+                <div class="col-md-12 testimonialTbx hidden">
+                    <label for="@("requestTxt"+t.id)">Отзыв:</label>
+                    <textarea class="form-control" id="@("requestTxt"+t.id)"></textarea>
+                </div>
+                
+                <div class="col-md-6">
+                    <p class="lead">
+                        <a class="btn btn-primary btn-lg testimonialBtn hidden" onclick="@Html.Raw(String.Format("SendRequest({0})", t.id))" href="javascript:void(0);" id="@("requestBtn"+t.id)" data-tutor-id="@t.id">Оставить отзыв</a>
+                    </p>
+                </div>
+
+
+
+            </div>*@
+        </div>
+    </div>
+</div>

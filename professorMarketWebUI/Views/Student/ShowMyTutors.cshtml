@@ -1,0 +1,43 @@
+﻿@model List<BLL.DTO.RequestDTO>
+<h2>Мои преподаватели</h2>
+<div class="tabbable">
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab1" data-toggle="tab">Мои преподаватели</a></li>
+        <li><a href="#tab2" data-toggle="tab">Отправленные заявки</a></li>        
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab1">
+            @if (Model.Any(r => r.status == "одобрен"))
+            {
+                foreach (var t in Model)
+                {
+                    if (t.status == "одобрен")
+                    {
+                        Html.RenderPartial("ShowMyTutorAgreed", t);
+                    }
+                }
+            }
+            else
+            {
+                <h1>В данный момент у Вас нет преподавателей</h1>
+            }
+        </div>
+        <div class="tab-pane" id="tab2">
+            @if (Model.Any(r => r.status == ""))
+            {
+                foreach (var t in Model)
+                {
+                    if (t.status == "")
+                    {
+                        Html.RenderPartial("ShowMyTutor", t);
+                    }
+                }
+            }
+            else
+            {
+                <h1>У вас нет заявок со статусом "В ожидании"</h1>
+            }
+        </div>        
+    </div>
+</div>

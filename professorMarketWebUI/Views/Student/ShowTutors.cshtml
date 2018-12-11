@@ -26,7 +26,6 @@
                 case 'subject': 
                     $('#selectedSubjectTbx').val(id);
                     $('.select_subject .label').html(name);                  
-                    
                     break;
                 case 'exp': 
                     $('#selectedExperienceTbx').val(id);
@@ -40,16 +39,29 @@
         
     }
 
+    function setRequestOptions() {
+        if ($('#selectedTypeTbx').val() != '0' && $('#selectedSubjectTbx').val() != '0') {
+            $('.requestTbx').removeClass('hidden');
+            $('.requestBtn').removeClass('hidden');
+        } else {
+            $('.requestTbx').addClass('hidden');
+            $('.requestBtn').addClass('hidden');
+        }
+    }
+
+
+
+   
+
     $(document).ready(function () {        
         $(document).on('click', '.dropdown-item', function () {
             var filterOption = $(this);
-            setFilter(filterOption.data('groupName'), filterOption.data('itemId'), filterOption.data('itemName'));
+            setFilter(filterOption.data('groupName'), filterOption.data('itemId'), filterOption.data('itemName'));            
         });
    
     });
 
-    function SendFilter() {
-
+    function SendFilter() {        
         var res = {
             selectedType: $('#selectedTypeTbx').val(),
             selectedSType: $('#selectedSTypeTbx').val(),
@@ -65,6 +77,32 @@
             data: str,
             success: function (data) {                
                 $('#tutorFindResult').html(data);
+                setRequestOptions();
+            },
+            error: function (xhr, str) {
+
+            }
+        });
+    }
+
+    function SendRequest(id) {
+        var res = {
+            lessonTypeId: $('#selectedTypeTbx').val(),
+            subjectId: $('#selectedSubjectTbx').val(),
+            tutorId: id,
+            info: $('#requestTxt' + id).val()
+        };
+        var str = JSON.stringify(res);
+        $.ajax({
+            type: 'POST',
+            url: '/Student/SendRequestToTutor',
+            contentType: 'application/json; charset=utf-8',
+            data: str,
+            success: function (data) {
+                $('#requestTxt' + id).val('');
+                $('#requestTxt' + id).parent().addClass('hidden');
+                $('#requestBtn' + id).addClass('hidden');
+                $('#requestRes' + id).removeClass('hidden');
             },
             error: function (xhr, str) {
 
@@ -148,10 +186,10 @@
 
                 }
             </ul>
-        </div>        
+        </div>
 
 
-        <a class="btn btn-success" onclick="SendFilter();" id="submit_btn">Применить</a>
+        <a class="btn btn-success" onclick="SendFilter();" id="submit_btn">Применить</a>        
 
     }
 
@@ -164,7 +202,9 @@
 </div>
 
 <div class="col-md-9 col-md-offset-1" id="tutorFindResult">
-    
+    <div class="alert alert-info" role="alert">
+        Чтобы отправить заявку преподавателю, Вам необходимо выбрать предмет и форму проведения занятия!
+    </div>
   @{ Html.RenderPartial("ShowTutor", Model.Tutors);
   }
 

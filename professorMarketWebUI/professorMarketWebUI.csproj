@@ -252,6 +252,9 @@
     <Content Include="Views\Student\ShowTutors.cshtml" />
     <Content Include="Views\Student\ShowTutor.cshtml" />
     <Content Include="Views\User\SendRequestToAdmin.cshtml" />
+    <Content Include="Views\Student\ShowMyTutors.cshtml" />
+    <Content Include="Views\Student\ShowMyTutorAgreed.cshtml" />
+    <Content Include="Views\Student\ShowMyTutor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

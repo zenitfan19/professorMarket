@@ -1,0 +1,37 @@
+﻿@model BLL.DTO.RequestDTO
+<div class="tutorDiv" data-request-id="@Model.id">
+
+    <div class="row jumbotron">
+        <div class="col-md-3 Avatar">
+            <img class="control-label avatarImgDisplay" onerror="this.src='@Url.Content("~/Content/Images/avatarPlaceholder.png")'" src="@Url.Action("Avatar", "User", new { Id = Model.tutor.avatarId })" title="avatarImage" />
+        </div>
+        <div class="col-md-9">
+            <h2 class="display-3">@Model.tutor.name</h2>
+            <hr class="m-y-2">
+            <div class="row">
+                <div class="col-md-12 alert alert-info">
+                    <p style="font-weight: bold">Адрес: <p>@Model.tutor.adress
+                </div>
+            </div>
+            <div class="row alert alert-info">
+                <div class="col-md-4">
+                    <p style="font-weight: bold">Лет: <p>@(Model.tutor.birthDate.HasValue ? BLL.Data.UserData.GetAge(Model.tutor.birthDate.Value) : BLL.Data.UserData.GetAge(DateTime.Today))
+                </div>
+                <div class="col-md-4">
+                    <p style="font-weight: bold">Опыт: <p>@(!String.IsNullOrEmpty(Model.tutor.qualification) ? Model.tutor.qualification : "нет данных")
+                </div>
+                <div class="col-md-4">
+                    <p style="font-weight: bold">Образование: <p>@(!String.IsNullOrEmpty(Model.tutor.education) ? Model.tutor.education : "нет данных")
+                </div>
+            </div>
+            <div class="row alert alert-info">
+                <div class="col-md-6">
+                    <p style="font-weight: bold">Форма занятий: <p>@(BLL.Data.AdditionalData.GetLessonType(Model.lessonTypeId).name)
+                </div>
+                <div class="col-md-6">
+                    <p style="font-weight: bold">Предмет: <p>@(BLL.Data.AdditionalData.GetSubject(Model.subjectId).name)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

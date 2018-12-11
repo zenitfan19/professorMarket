@@ -86,7 +86,7 @@ else
                         <p style="font-weight: bold">Лет: <p>@(t.birthDate.HasValue ? BLL.Data.UserData.GetAge(t.birthDate.Value) : BLL.Data.UserData.GetAge(DateTime.Today))
                     </div>
                     <div class="col-md-4">
-                        <p style="font-weight: bold">Опыт: <p>@(!String.IsNullOrEmpty(t.qualification) ? t.education : "нет данных")
+                        <p style="font-weight: bold">Опыт: <p>@(!String.IsNullOrEmpty(t.qualification) ? t.qualification : "нет данных")
                     </div>
                     <div class="col-md-4">
                         <p style="font-weight: bold">Образование: <p>@(!String.IsNullOrEmpty(t.education) ? t.education : "нет данных")
@@ -105,17 +105,25 @@ else
 
 
                 <div class="row">
-                    <div class="col-md-6">
-                        <p class="lead">
-                            <a class="btn btn-primary btn-lg" href="#" role="button">Отправить заявку</a>
-                        </p>
+                    <div class="alert alert-success hidden" id="@("requestRes"+t.id)" role="alert">
+                        Ваша заявка успешно отправлена!
                     </div>
-
+                    <div class="col-md-12 requestTbx hidden">
+                        <label for="@("requestTxt"+t.id)">Сообщение для преподавателя:</label>
+                        <textarea class="form-control" id="@("requestTxt"+t.id)"></textarea>
+                    </div>
                     <div class="col-md-6">
                         <p class="lead">
                             <a class="btn btn-info btn-lg" href="#" role="button">Читать отзывы</a>
                         </p>
                     </div>
+                    <div class="col-md-6">
+                        <p class="lead">
+                            <a class="btn btn-primary btn-lg requestBtn hidden" onclick="@Html.Raw(String.Format("SendRequest({0})", t.id))" href="javascript:void(0);" id="@("requestBtn"+t.id)" data-tutor-id="@t.id">Отправить заявку</a>
+                        </p>
+                    </div>
+
+
 
                 </div>
             </div>

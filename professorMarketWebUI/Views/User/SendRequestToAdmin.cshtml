@@ -1,39 +1,72 @@
 ﻿@model professorMarketWebUI.Models.RequestForAdminModel
 
-@using (Html.BeginForm()) 
+<script>
+
+    function sendAdminRequestSubmit() {
+        
+        var res = $('#requestForAdminForm').serialize();
+        $.ajax({
+            type: 'POST',
+            url: '/User/SendRequestToAdmin',
+            data: res,
+            success: function (data) {
+                if (data.success) {                    
+                    $('#sendAdminRequestSuc').removeClass('hidden');
+                    setTimeout(function () { $('#sendAdminRequestSuc').addClass('hidden') }, 5000);
+                } else {
+                    $('#text').val('');
+                    $('#sendAdminRequestErr').removeClass('hidden');
+                    setTimeout(function () { $('#sendAdminRequestErr').addClass('hidden') }, 5000);
+                }
+            },
+            error: function (xhr, str) {
+                $('#sendAdminRequestErr').removeClass('hidden');
+                setTimeout(function () { $('#sendAdminRequestErr').addClass('hidden') }, 5000);
+            }
+        });
+
+    }
+</script>
+<div class="alert alert-success hidden" id="sendAdminRequestSuc" role="alert">
+    Ваше обращение зарегестрировано!
+</div>
+<div class="alert alert-danger hidden" id="sendAdminRequestErr" role="alert">
+    Произошла ошибка на сервере, попробуйте позднее!
+</div>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "requestForAdminForm" }))
 {
     @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <h4>Обращение к админу</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.userId)
+
+    <div class="form-horizontal">
+        <h4>Обращение к админу</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.userId)
 
 
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.typeId, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.typeId, (IEnumerable<SelectListItem>)ViewBag.Types, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.typeId, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.typeId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.typeId, (IEnumerable<SelectListItem>)ViewBag.Types, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.typeId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.text, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.text, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.text, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <a class="btn btn-default" id="sendAdminRequestBtn" onclick="sendAdminRequestSubmit();">Отправить</a>
+            </div>
         </div>
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.text, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.text, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.text, "", new { @class = "text-danger" })
-        </div>
-    </div>     
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Отправить" class="btn btn-default" />
-        </div>
-    </div>
-</div>
 }
 
 <div>

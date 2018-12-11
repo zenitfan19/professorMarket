@@ -81,40 +81,46 @@ namespace professorMarketWebUI.Controllers
 
         public ActionResult SendRequestToTutor()
         {
-            var model = new Models.RegistrationModel() { };
-
+            var model = new Models.RequestModel() { };            
             return View(model);
         }
 
-        [HttpPost]
-        public ActionResult SendRequestToTutor(Models.RegistrationModel model)
+        public ActionResult ShowMyTutors()
         {
-            if (!ModelState.IsValid)
-                return View(model);
+            var myTutors = BLL.Data.StudentData.displayTutorsByStudent(((CustomPrincipal)User).UserId);
+            foreach (var t in myTutors)
+            {
+                t.tutor = BLL.Data.TutorData.GetTutor(t.tutorId);
+            }
+            return View(myTutors);
+        }
+
+        [HttpPost]
+        public ActionResult SendRequestToTutor(Models.RequestModel model)
+        {
+            
+            var student = BLL.Data.StudentData.GetStudent(((CustomPrincipal)User).UserId);
             try
             {
-                var salt = BLL.Hash.CreateSalt(16);
-                var passhash = BLL.Hash.GenerateSaltedHash(model.password, salt);
-                var res = BLL.Data.UserData.CreateUpdateUser(new BLL.DTO.UserDTO
+                var res = BLL.Data.StudentData.SendRequest(new BLL.DTO.RequestDTO
                 {
-                    passwordSalt = Convert.ToBase64String(salt),
-                    passwordHash = Convert.ToBase64String(passhash),
-                    email = model.email,
-                    name = model.name,
-                    regDate = DateTime.Now,
-                    birthDate = model.birthDate,
-                    emailVerified = true,
-                    role = model.role
+                    studentId = student.id,
+                    lessonTypeId = model.lessonTypeId,
+                    info = model.info,
+                    status = "",
+                    subjectId = model.subjectId,
+                    date = DateTime.Now,
+                    tutorId = model.tutorId
+                    
                 });
-                if (res == -1)
-                    ModelState.AddModelError("email", "Email уже занят");
-                BLL.Data.UserData.ConnectRole(res);
+
             }
             catch (Exception ex)
             {
                 ViewBag.Message = ex.Message;
-            }            
-            return RedirectToAction("Index", "Home"); ;
+            }
+
+            return Json(new { success = true });
         }
 
 

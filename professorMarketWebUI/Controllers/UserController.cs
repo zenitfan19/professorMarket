@@ -217,7 +217,7 @@ namespace professorMarketWebUI.Controllers
         {
             ViewBag.Types = ShowRequestTypes();
             var model = new Models.RequestForAdminModel() { };
-
+            model.userId = ((CustomPrincipal)User).UserId;
             return View(model);
         }
         [Authorize]

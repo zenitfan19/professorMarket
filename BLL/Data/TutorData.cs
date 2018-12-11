@@ -352,32 +352,31 @@ namespace BLL.Data
 
         }
 
-        //public static List<TutorDTO> GetTutorsBySubject(long subjectId, List<long> previous=null)
-        //{
-        //    try
-        //    {
-        //        using (var ctx = new DAL.tutorDBEntities())
-        //        {
-        //            var dbTutorsBySubject = ctx.TutorSubjects.Where(s => s.subjectId == subjectId).Select(dbTBS => new TutorLessonTypeDTO
-        //            {
-        //                id = dbTBS.id,
-        //                tutorId = dbTBS.tutorId,
-        //                lessontypeId = dbTBS.lessonTypeId,
-        //                cost = dbTBS.cost
-        //            }).ToList();
-        //            if (dbTutorsBySubject != null)
-        //            {
-        //                return dbTutorsBySubject;
-        //            }
-        //            throw new Exception($"Нет данных");
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return null;
-        //    }
+        public static List<RequestDTO> displayStudentsByTutor(long tutorId)
+        {
+            try
+            {
+                using (var ctx = new DAL.tutorDBEntities())
+                {
+                    var dbMyRequests = ctx.Requests.Where(s => s.tutorId == tutorId).Select(mr => new RequestDTO
+                    {
+                        studentId = mr.studentId,
+                        subjectId = mr.subjectId,
+                        lessonTypeId = mr.lessonsTypeId,
+                        status = mr.status,
+                        info = mr.additionalInfo
+                    }).ToList();
 
-        //}
+                    return dbMyRequests;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+                //return -1;
+            }
+
+        }
 
         public static List<TutorDTO> GetTutors(int page = 0, long selectedType=0, int selectedCost = Int32.MaxValue, int selectedExperience = 0, long selectedSType = 0, long selectedSubject = 0)
         {

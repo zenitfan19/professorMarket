@@ -133,5 +133,31 @@ namespace BLL.Data
             }
 
         }
+
+
+        public static List<RequestDTO> displayTutorsByStudent(long studentId)
+        {
+            try
+            {
+                using (var ctx = new DAL.tutorDBEntities())
+                {
+                    var dbMyRequests = ctx.Requests.Where(s => s.studentId == studentId).Select(mr => new RequestDTO
+                    {
+                        tutorId = mr.tutorId,
+                        subjectId = mr.subjectId,
+                        lessonTypeId = mr.lessonsTypeId,
+                        status = mr.status
+                    }).ToList();
+
+                    return dbMyRequests;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+                //return -1;
+            }
+
+        }
     }
 }
