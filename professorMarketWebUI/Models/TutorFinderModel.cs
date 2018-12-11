@@ -16,10 +16,11 @@ namespace professorMarketWebUI.Models
         public List<BLL.DTO.SubjectsDTO> subjects;
         public List<BLL.DTO.SubjectTypesDTO> sTypes;
 
-        public int sectedExperience;
+        public int selectedExperience;
         public long selectedSType;        
         public long selectedSubject;        
         public long selectedType;
         public long selectedLevel;
+        public int selectedCost;
     }
 }

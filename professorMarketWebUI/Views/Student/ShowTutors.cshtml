@@ -3,60 +3,82 @@
 @Scripts.Render("~/bundles/jqueryval")
 
 <script>
-    function setFilter(group, id) {        
+    function setFilter(group, id, name) {        
         
             switch(group)
             {
-                case 'type': var res = {
-                    selectedType: id
-                };
-                    $('#selectedTypeTbx').val(id);                    
+                case 'type': 
+                    $('#selectedTypeTbx').val(id);     
+                    $('.select_type .label').html(name);
                     break;
-                case 'subjectType': var res = {
-                    selectedSType: id
-                };
+                case 'subjectType':
+                    $.each($('.select_subject .dropdown-item'), function () {                        
+                            $(this).removeClass('hidden');
+                    });
                     $('#selectedSTypeTbx').val(id);
+                    $('.select_sType .label').html(name);                     
+                    $.each($('.select_subject .dropdown-item'), function () {
+                        if ($(this).data('itemGroupId') != id && id != 0 && $(this).data('itemGroupId') != 0)
+                            $(this).addClass('hidden');
+                        });
+                    
                     break;                
-                case 'subject': var res = {
-                    selectedSubject: id
-                };
+                case 'subject': 
                     $('#selectedSubjectTbx').val(id);
+                    $('.select_subject .label').html(name);                  
+                    
+                    break;
+                case 'exp': 
+                    $('#selectedExperienceTbx').val(id);
+                    $('.select_experience .label').html(name);
                     break;
                 default: alert('nobody wins');
         
         }        
-        var str = JSON.stringify(res);       
+            
 
-        //$.ajax({
-        //    type: 'POST',
-        //    url: '/Student/ShowTutors',
-        //    contentType: 'application/json; charset=utf-8',
-        //    data: str,
-        //    success: function (data) {
-        //        alert('success');
-        //        var $newBody = $($.parseHTML(data));
-        //        $('body').prepend($('body', $newBody));               
-        //    },
-        //    error: function (xhr, str) {
-
-        //    }
-        //});
+        
     }
 
     $(document).ready(function () {        
         $(document).on('click', '.dropdown-item', function () {
             var filterOption = $(this);
-            setFilter(filterOption.data('groupName'), filterOption.data('itemId'));
+            setFilter(filterOption.data('groupName'), filterOption.data('itemId'), filterOption.data('itemName'));
         });
    
-});
+    });
+
+    function SendFilter() {
+
+        var res = {
+            selectedType: $('#selectedTypeTbx').val(),
+            selectedSType: $('#selectedSTypeTbx').val(),
+            selectedSubject: $('#selectedSubjectTbx').val(),
+            selectedExperience: $('#selectedExperienceTbx').val()
+
+        };
+        var str = JSON.stringify(res);
+        $.ajax({
+            type: 'POST',
+            url: '/Student/FindTutors',
+            contentType: 'application/json; charset=utf-8',
+            data: str,
+            success: function (data) {                
+                $('#tutorFindResult').html(data);
+            },
+            error: function (xhr, str) {
+
+            }
+        });
+    }
+    
     
 </script>
 
 
 
 <div class="col-md-2 search_params">
-    <h4>Условия поиска</h4>    
+    <h4>Условия поиска</h4>
     <hr />
 
     @using (Html.BeginForm("ShowTutors", "Student"))
@@ -65,48 +87,48 @@
         @Html.EditorFor(model => model.selectedType, new { htmlAttributes = new { @class = "hidden", @id = "selectedTypeTbx" } })
         @Html.EditorFor(model => model.selectedSType, new { htmlAttributes = new { @class = "hidden", @id = "selectedSTypeTbx" } })
         @Html.EditorFor(model => model.selectedSubject, new { htmlAttributes = new { @class = "hidden", @id = "selectedSubjectTbx" } })
-        @Html.EditorFor(model => model.selectedType, new { htmlAttributes = new { @class = "hidden", @id = "selectedTypeTbx" } })
+        @Html.EditorFor(model => model.selectedExperience, new { htmlAttributes = new { @class = "hidden", @id = "selectedExperienceTbx" } })
 
         <div class="btn-group select_type">
-            <div class="label label-info">@(Model.selectedType == 0 ? "Не важно" : Model.types.Where(st => st.id == Model.selectedType).First().name)</div>
+            <p class="label label-info">@(Model.selectedType == 0 ? "Не важно" : Model.types.Where(st => st.id == Model.selectedType).First().name)</p>
             <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Форма занятий <span class="glyphicon glyphicon-chevron-down"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="type" data-item-id="0">Не важно</a></li>
+                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="type" data-item-id="0" data-item-name="Не важно">Не важно</a></li>
                 @foreach (var type in Model.types)
                 {
-                    <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="type" data-item-id="@type.id">@type.name</a></li>
+                    <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="type" data-item-id="@type.id" data-item-name="@type.name">@type.name</a></li>
                 }
             </ul>
         </div>
 
 
         <div class="btn-group select_experience">
-            <div class="label label-info">@(Model.sectedExperience == 0 ? "Не важно" : Model.sectedExperience.ToString())</div>
+            <p class="label label-info">@(Model.selectedExperience == 0 ? "Не важно" : Model.selectedExperience.ToString())</p>
             <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Опыт <span class="glyphicon glyphicon-chevron-down"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="javascript:void(0);" class="dropdown-item">Не важно</a></li>
-                <li><a href="javascript:void(0);" class="dropdown-item">Начинающий специалист</a></li>
-                <li><a href="javascript:void(0);" class="dropdown-item">Небольшой опыт</a></li>
-                <li><a href="javascript:void(0);" class="dropdown-item">Опытный специалист</a></li>
-                <li><a href="javascript:void(0);" class="dropdown-item">Профессионал</a></li>
+                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="exp" data-item-id="0" data-item-name="Не важно">Не важно</a></li>
+                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="exp" data-item-id="1" data-item-name="Начинающий специалист">Начинающий</a></li>
+                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="exp" data-item-id="2" data-item-name="Небольшой опыт">Небольшой опыт</a></li>
+                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="exp" data-item-id="3" data-item-name="Опытный специалист">Опытный</a></li>
+                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="exp" data-item-id="4" data-item-name="Профессионал">Профессионал</a></li>
             </ul>
         </div>
 
 
         <div class="btn-group select_sType">
-            <div class="label label-info">@(Model.selectedSType == 0 ? "Не важно" : Model.sTypes.Where(st => st.id == Model.selectedSType).First().name)</div>
+            <p class="label label-info">@(Model.selectedSType == 0 ? "Не важно" : Model.sTypes.Where(st => st.id == Model.selectedSType).First().name)</p>
             <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Группа предметов <span class="glyphicon glyphicon-chevron-down"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="subjectType" data-item-id="0">Не важно</a></li>
+                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="subjectType" data-item-id="0" data-item-name="Не важно">Не важно</a></li>
                 @foreach (var type in Model.sTypes)
                 {
-                    <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="subjectType" data-item-id="@type.id">@type.name</a></li>
+                    <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="subjectType" data-item-id="@type.id" data-item-name="@type.name">@type.name</a></li>
 
                 }
             </ul>
@@ -114,22 +136,22 @@
 
 
         <div class="btn-group select_subject">
-            <div class="label label-info">@(Model.selectedSubject == 0 ? "Не важно" : Model.subjects.Where(s => s.id == Model.selectedSubject).First().name)</div>
+            <p class="label label-info">@(Model.selectedSubject == 0 ? "Не важно" : Model.subjects.Where(s => s.id == Model.selectedSubject).First().name)</p>
             <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Предмет <span class="glyphicon glyphicon-chevron-down"></span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="subject" data-item-id="0">Не важно</a></li>
+                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="subject" data-item-id="0" data-item-name="Не важно" data-item-group-id="0">Не важно</a></li>
                 @foreach (var s in Model.subjects)
                 {
-                    <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="subject" data-item-id="@s.id">@s.name</a></li>
+                    <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="subject" data-item-id="@s.id" data-item-name="@s.name" data-item-group-id="@s.subjectTypeId">@s.name</a></li>
 
                 }
             </ul>
-        </div>
+        </div>        
 
 
-        <button type="submit" class="btn btn-success" id="submit_btn">Применить</button>
+        <a class="btn btn-success" onclick="SendFilter();" id="submit_btn">Применить</a>
 
     }
 
@@ -141,11 +163,10 @@
 
 </div>
 
-<div class="col-md-9 col-md-offset-1">
+<div class="col-md-9 col-md-offset-1" id="tutorFindResult">
+    
+  @{ Html.RenderPartial("ShowTutor", Model.Tutors);
+  }
 
-    @foreach (var tutor in Model.Tutors)
-    {
-        Html.RenderPartial("ShowTutor", tutor);
-    }
 </div>
 

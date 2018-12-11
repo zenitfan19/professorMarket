@@ -379,10 +379,10 @@ namespace BLL.Data
 
         //}
 
-        public static List<TutorDTO> GetTutors(int page = 0)
+        public static List<TutorDTO> GetTutors(int page = 0, long selectedType=0, int selectedCost = Int32.MaxValue, int selectedExperience = 0, long selectedSType = 0, long selectedSubject = 0)
         {
             var take = 4;
-            var skip = take * page;
+            var skip = take * page;            
             var res = (List<TutorDTO>)null;
             try
             {
@@ -407,13 +407,14 @@ namespace BLL.Data
                                 isApproved = t.isApproved,
                                 rating = t.rating
                                 
-                        }).ToList();
+                        });
 
                     if (dbTutor != null)
                     {
                         var tutors = new List<TutorDTO>();
                         foreach (var t in dbTutor)
                         {
+
                             tutors.Add(new TutorDTO
                             {
                                 id = t.id,
@@ -434,8 +435,40 @@ namespace BLL.Data
                                 Types = BLL.Data.TutorData.GetTutorsLessonTypes(t.id)
                             });
                         };
+                        var qtutors = tutors.AsQueryable();
+                        if (selectedType != 0)
+                        {
+                            qtutors = qtutors.Where(st => st.Types.Any(t => t.lessontypeId == selectedType));
+                        }
+                        
+                        if (selectedCost != Int32.MaxValue)
+                        {
+                            qtutors = qtutors.Where(st => st.Types.Any(t => t.cost <= selectedCost));
+                        }
 
-                        res = tutors.OrderByDescending(x => x.regDate).Skip(skip).Take(take).ToList();
+                        if (selectedExperience != 0)
+                        {
+                            switch (selectedExperience)
+                            {
+                                case 1: qtutors = qtutors.Where(st => Convert.ToInt32(st.qualification)<=1); break;
+                                case 2: qtutors = qtutors.Where(st => Convert.ToInt32(st.qualification) <= 5 && Convert.ToInt32(st.qualification) >= 2); break;
+                                case 3: qtutors = qtutors.Where(st => Convert.ToInt32(st.qualification) <= 10 && Convert.ToInt32(st.qualification) >= 5); break;
+                                case 4: qtutors = qtutors.Where(st => Convert.ToInt32(st.qualification) >= 10); break;
+                                default: break;
+                            }
+                            
+                        }
+                        if (selectedSType != 0)
+                        {
+                            qtutors = qtutors.Where(st => st.Subjects.Any(t => t.subjectTypeId == selectedSType));
+                        }
+
+                        if (selectedSubject != 0)
+                        {
+                            qtutors = qtutors.Where(st => st.Subjects.Any(t => t.subjectId == selectedSubject));
+                        }
+
+                        res = qtutors.OrderByDescending(x => x.regDate).Skip(skip).Take(take).ToList();
                         return res;
                     }
 

@@ -29,6 +29,6 @@ namespace BLL.DTO
 
         public virtual List<TutorLessonLevelDTO> Levels { get; set; }
         public virtual List<TutorLessonTypeDTO> Types { get; set; }
-        public virtual List<TutorSubjectsDTO> Subjects { get; set; }    
+        public virtual List<TutorSubjectsDTO> Subjects { get; set; }
     }
 }

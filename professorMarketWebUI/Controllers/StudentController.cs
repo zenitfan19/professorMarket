@@ -122,106 +122,25 @@ namespace professorMarketWebUI.Controllers
         public ActionResult ShowTutors(int page = 0, long selectedSubject = 0)
         {
             var model = new Models.TutorFinderModel();
-            model.Tutors = BLL.Data.TutorData.GetTutors(page);
+            
             model.NextExist = false;
             model.types = BLL.Data.AdditionalData.GetLessonTypes();
             model.sTypes = BLL.Data.AdditionalData.GetSubjectTypes();
             model.subjects = BLL.Data.AdditionalData.GetAllSubjects();
             model.selectedSubject = selectedSubject;
+            model.Tutors = BLL.Data.TutorData.GetTutors(page, 0, Int32.MaxValue, 0, 0, selectedSubject);
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult ShowTutors(int page=0, long selectedType=0, int selectedExperience=0, long selectedSType=0, long selectedSubject=0)
+        public ActionResult FindTutors(int page = 0, long selectedType=0, int selectedCost = Int32.MaxValue, int selectedExperience = 0, long selectedSType = 0, long selectedSubject = 0)
         {
             var model = new Models.TutorFinderModel();
-            model.Tutors = BLL.Data.TutorData.GetTutors(page);
-            model.NextExist = false;
-            model.selectedType = selectedType;
-            model.sectedExperience = selectedExperience;
-            model.selectedSType = selectedSType;
-            model.selectedSubject = selectedSubject;
-            model.types = BLL.Data.AdditionalData.GetLessonTypes();
-            model.sTypes = BLL.Data.AdditionalData.GetSubjectTypes();
-            if (model.selectedSType == 0)
-                model.subjects = BLL.Data.AdditionalData.GetAllSubjects();
-            else model.subjects = BLL.Data.AdditionalData.GetTypedSubjects(model.selectedSType);            
-            return View(model);
+            model.Tutors = BLL.Data.TutorData.GetTutors(0, selectedType, selectedCost, selectedExperience, selectedSType, selectedSubject);
+            model.NextExist = false;                        
+            return View("ShowTutor", model.Tutors);
         }
 
-        //[HttpPost]
-        //public ActionResult ShowTutorsBySubjects(long subjectId)
-        //{
-
-        //    ViewBag.Levels = ShowLessonLevels();
-        //    var student = BLL.Data.StudentData.GetStudent(model.id);
-        //    if (AvatarImage != null)
-        //    {
-        //        student.avatarId = BLL.Data.AdditionalData.AddImage(model.id, new BLL.DTO.ImageWrapper(AvatarImage), false);
-        //    }
-        //    student.name = model.name;
-        //    student.email = model.email;
-        //    student.birthDate = model.birthDate;
-        //    student.Skype = model.Skype;
-        //    student.info = model.info;
-        //    student.adress = model.adress;
-        //    student.lessonsLevelId = model.lesonsLevel;
-        //    //student.regDate = model.regDate;
-
-        //    BLL.Data.StudentData.UpdateStudent(student);
-
-
-        //    return Redirect("/Student/Index");
-        //}
-
-        //[HttpPost]
-        //public ActionResult ShowTutorsByLessonLevels(long lessonLevelId)
-        //{
-
-        //    ViewBag.Levels = ShowLessonLevels();
-        //    var student = BLL.Data.StudentData.GetStudent(model.id);
-        //    if (AvatarImage != null)
-        //    {
-        //        student.avatarId = BLL.Data.AdditionalData.AddImage(model.id, new BLL.DTO.ImageWrapper(AvatarImage), false);
-        //    }
-        //    student.name = model.name;
-        //    student.email = model.email;
-        //    student.birthDate = model.birthDate;
-        //    student.Skype = model.Skype;
-        //    student.info = model.info;
-        //    student.adress = model.adress;
-        //    student.lessonsLevelId = model.lesonsLevel;
-        //    //student.regDate = model.regDate;
-
-        //    BLL.Data.StudentData.UpdateStudent(student);
-
-
-        //    return Redirect("/Student/Index");
-        //}
-
-        //[HttpPost]
-        //public ActionResult ShowTutorsByLessonTypes(long lessonTypeId)
-        //{
-
-        //    ViewBag.Levels = ShowLessonLevels();
-        //    var student = BLL.Data.StudentData.GetStudent(model.id);
-        //    if (AvatarImage != null)
-        //    {
-        //        student.avatarId = BLL.Data.AdditionalData.AddImage(model.id, new BLL.DTO.ImageWrapper(AvatarImage), false);
-        //    }
-        //    student.name = model.name;
-        //    student.email = model.email;
-        //    student.birthDate = model.birthDate;
-        //    student.Skype = model.Skype;
-        //    student.info = model.info;
-        //    student.adress = model.adress;
-        //    student.lessonsLevelId = model.lesonsLevel;
-        //    //student.regDate = model.regDate;
-
-        //    BLL.Data.StudentData.UpdateStudent(student);
-
-
-        //    return Redirect("/Student/Index");
-        //}
+               
     }
 }

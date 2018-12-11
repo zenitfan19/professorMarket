@@ -434,5 +434,58 @@ namespace BLL.Data
 
             return res;
         }
+
+        public static long SendRequestForAdmin(RequestForAdminDTO request)
+        {
+            try
+            {
+                using (var ctx = new DAL.tutorDBEntities())
+                {
+                    var dbRequest = ctx.RequestsForAdmins.FirstOrDefault(x => x.id == request.id) ?? ctx.RequestsForAdmins.Add(new DAL.RequestsForAdmins());
+
+                    dbRequest.userId = request.userId;
+                    dbRequest.date = request.date;
+                    dbRequest.text = request.text;
+                    dbRequest.status = request.status;
+                    dbRequest.typeId = request.typeId;
+                    dbRequest.adminId = request.adminId;
+
+                    ctx.SaveChanges();
+
+                    return dbRequest.id;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+                //return -1;
+            }
+
+        }
+
+        public static List<RequestForAdminTypeDTO> GetRequestTypes()
+        {
+            try
+            {
+                using (var ctx = new DAL.tutorDBEntities())
+                {
+                    var dbRequestType = ctx.RequestForAdminType.Select(dbST => new RequestForAdminTypeDTO
+                    {
+                        id = dbST.id,
+                        name = dbST.Name
+                    }).ToList();
+                    if (dbRequestType != null)
+                    {
+                        return dbRequestType;
+                    }
+                    throw new Exception($"Варианты обращений не обнаружены");
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
     }
 }

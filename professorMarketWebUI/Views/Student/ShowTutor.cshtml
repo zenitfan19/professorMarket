@@ -1,121 +1,126 @@
-﻿@model BLL.DTO.TutorDTO
+﻿@model List<BLL.DTO.TutorDTO>
+@{
+    Layout = null;
+}
+@if (Model.Count == 0)
+{
+    <div class="alert alert-danger"><h1>К сожалению по вашему запросу не найдено подходящих репетиторов</h1></div>
+}
+else
+{
+    foreach (var t in Model)
+    {
+    <div class="tutorDiv" data-tutor-id="@t.id">
 
-<script>
-    //$(document).ready(function () {
-    //    $('.collapse_btn').click(function () {            
-    //        $('.add_info').collapse('hide');
-    //    });
-    //});
-</script>
-<div class="tutorDiv" data-tutor-id="@Model.id">
+        <div class="row jumbotron">
+            <div class="col-md-3 Avatar">
+                <img class="control-label avatarImgDisplay" onerror="this.src='@Url.Content("~/Content/Images/avatarPlaceholder.png")'" src="@Url.Action("Avatar", "User", new { Id = t.avatarId })" title="avatarImage" />
 
-    <div class="row jumbotron">
-        <div class="col-md-3 Avatar">
-            <img class="control-label avatarImgDisplay" onerror="this.src='@Url.Content("~/Content/Images/avatarPlaceholder.png")'" src="@Url.Action("Avatar", "User", new {Id=Model.avatarId })" title="avatarImage" />
-
-            <button class="btn btn-info collapse_btn" id="@Model.id" type="button" data-toggle="collapse" data-target="@("#lessonLevels"+@Model.id)" aria-expanded="false" aria-controls="@("#lessonLevels"+@Model.id)">
-                Берет на занятия
-            </button>
-            <div class="collapse add_info" id="@("lessonLevels"+@Model.id)">
-                <div class="card card-block">
-                    @if (Enumerable.Any(Model.Levels))
-                    {
-                        foreach (var ll in Model.Levels)
+                <button class="btn btn-info collapse_btn" id="@t.id" type="button" data-toggle="collapse" data-target="@("#lessonLevels" + @t.id)" aria-expanded="false" aria-controls="@("#lessonLevels" + @t.id)">
+                    Берет на занятия
+                </button>
+                <div class="collapse add_info" id="@("lessonLevels" + t.id)">
+                    <div class="card card-block">
+                        @if (Enumerable.Any(t.Levels))
                         {
-                            <h5>@BLL.Data.AdditionalData.GetLessonLevel(ll.lessonlevelId).name</h5>
+                            foreach (var ll in t.Levels)
+                            {
+                                <h5>@BLL.Data.AdditionalData.GetLessonLevel(ll.lessonlevelId).name</h5>
+                            }
                         }
-                    }
-                    else
-                    {
-                        <h5>Пользователь ещё не указал эти данные</h5>
-                    }
-                </div>
-            </div>
-            <button class="btn btn-info collapse_btn" id="@Model.id" type="button" data-toggle="collapse" data-target="@("#lessonTypes"+@Model.id)" aria-expanded="false" aria-controls="@("#lessonTypes"+@Model.id)">
-                Формы занятий
-            </button>
-            <div class="collapse add_info" id="@("lessonTypes"+@Model.id)">
-                <div class="card card-block">
-                    @if (Enumerable.Any(Model.Types))
-                    {
-                        foreach (var lt in Model.Types)
+                        else
                         {
-                            <h5>@(BLL.Data.AdditionalData.GetLessonType(lt.lessontypeId).name+": "+lt.cost)</h5>                          
-
+                            <h5>Пользователь ещё не указал эти данные</h5>
                         }
-                    }
-                    else
-                    {
-                        <h5>Пользователь ещё не указал эти данные</h5>
-                    }
+                    </div>
                 </div>
-            </div>
-            <button class="btn btn-info collapse_btn" id="@Model.id" type="button" data-toggle="collapse" data-target="@("#subjects"+@Model.id)" aria-expanded="false" aria-controls="@("#subjects"+@Model.id)">
-                Предметы
-            </button>
-            <div class="collapse add_info" id="@("subjects"+@Model.id)">
-                <div class="card card-block">
-                    @if (Enumerable.Any(Model.Subjects))
-                    {
-                        foreach (var s in Model.Subjects)
+                <button class="btn btn-info collapse_btn" id="@t.id" type="button" data-toggle="collapse" data-target="@("#lessonTypes" + t.id)" aria-expanded="false" aria-controls="@("#lessonTypes" + t.id)">
+                    Формы занятий
+                </button>
+                <div class="collapse add_info" id="@("lessonTypes" + t.id)">
+                    <div class="card card-block">
+                        @if (Enumerable.Any(t.Types))
                         {
-                            <h5>@s.subjectName</h5>
+                            foreach (var lt in t.Types)
+                            {
+                                <h5>@(BLL.Data.AdditionalData.GetLessonType(lt.lessontypeId).name + ": " + lt.cost)</h5>
+
+                            }
                         }
-                    }
-                    else
-                    {
-                        <h5>Пользователь ещё не указал эти данные</h5>
-                    }
+                        else
+                        {
+                            <h5>Пользователь ещё не указал эти данные</h5>
+                        }
+                    </div>
+                </div>
+                <button class="btn btn-info collapse_btn" id="@t.id" type="button" data-toggle="collapse" data-target="@("#subjects" + t.id)" aria-expanded="false" aria-controls="@("#subjects" + t.id)">
+                    Предметы
+                </button>
+                <div class="collapse add_info" id="@("subjects" + t.id)">
+                    <div class="card card-block">
+                        @if (Enumerable.Any(t.Subjects))
+                        {
+                            foreach (var s in t.Subjects)
+                            {
+                                <h5>@s.subjectName</h5>
+                            }
+                        }
+                        else
+                        {
+                            <h5>Пользователь ещё не указал эти данные</h5>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-9">
-            <h2 class="display-3">@Model.name</h2>
-            <p class="lead">@Model.info</p>
-            <hr class="m-y-2">
-            <div class="row">
-            <div class="col-md-12 alert alert-info">
-                <p style="font-weight: bold">Адрес: <p>@Model.adress
-            </div>
+            <div class="col-md-9">
+                <h2 class="display-3">@t.name</h2>
+                <p class="lead">@t.info</p>
+                <hr class="m-y-2">
+                <div class="row">
+                    <div class="col-md-12 alert alert-info">
+                        <p style="font-weight: bold">Адрес: <p>@t.adress
+                    </div>
                 </div>
-            <div class="row alert alert-info">
-                <div class="col-md-4">
-                    <p style="font-weight: bold">Лет: <p>@(Model.birthDate.HasValue ? BLL.Data.UserData.GetAge(Model.birthDate.Value) : BLL.Data.UserData.GetAge(DateTime.Today))
+                <div class="row alert alert-info">
+                    <div class="col-md-4">
+                        <p style="font-weight: bold">Лет: <p>@(t.birthDate.HasValue ? BLL.Data.UserData.GetAge(t.birthDate.Value) : BLL.Data.UserData.GetAge(DateTime.Today))
+                    </div>
+                    <div class="col-md-4">
+                        <p style="font-weight: bold">Опыт: <p>@(!String.IsNullOrEmpty(t.qualification) ? t.education : "нет данных")
+                    </div>
+                    <div class="col-md-4">
+                        <p style="font-weight: bold">Образование: <p>@(!String.IsNullOrEmpty(t.education) ? t.education : "нет данных")
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <p style="font-weight: bold">Опыт: <p>@(!String.IsNullOrEmpty(Model.qualification) ? Model.education : "нет данных")
-</div>
-                <div class="col-md-4">
-                    <p style="font-weight: bold">Образование: <p>@(!String.IsNullOrEmpty(Model.education) ? Model.education : "нет данных")
-</div>
-            </div>
-            <div class="row alert alert-info">
-                <div class="col-md-6">
-                    <p style="font-weight: bold">Средняя оценка: <p>@(Model.rating.HasValue ? Model.rating.ToString() : "нет оценок")
-                </div>
-                <div class="col-md-6">
-                    <p style="font-weight: bold">Количество отзывов: <p>0
-                </div>                
-            </div>
-
-
-
-
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="lead">
-                        <a class="btn btn-primary btn-lg" href="#" role="button">Отправить заявку</a>
-                    </p>
+                <div class="row alert alert-info">
+                    <div class="col-md-6">
+                        <p style="font-weight: bold">Средняя оценка: <p>@(t.rating.HasValue ? t.rating.ToString() : "нет оценок")
+                    </div>
+                    <div class="col-md-6">
+                        <p style="font-weight: bold">Количество отзывов: <p>0
+                    </div>
                 </div>
 
-                <div class="col-md-6">
-                    <p class="lead">
-                        <a class="btn btn-info btn-lg" href="#" role="button">Читать отзывы</a>
-                    </p>
-                </div>
 
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="lead">
+                            <a class="btn btn-primary btn-lg" href="#" role="button">Отправить заявку</a>
+                        </p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <p class="lead">
+                            <a class="btn btn-info btn-lg" href="#" role="button">Читать отзывы</a>
+                        </p>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
-</div>
+    }
+}
 

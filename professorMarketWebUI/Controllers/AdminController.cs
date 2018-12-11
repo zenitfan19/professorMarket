@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace professorMarketWebUI.Controllers
 {
-    [Authorize(Roles = "student")]
+    [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         // GET: Admin

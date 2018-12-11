@@ -211,6 +211,55 @@ namespace professorMarketWebUI.Controllers
         {
             return View();
         }
+        [Authorize]
+        [HttpGet]
+        public ActionResult SendRequestToAdmin()
+        {
+            ViewBag.Types = ShowRequestTypes();
+            var model = new Models.RequestForAdminModel() { };
+
+            return View(model);
+        }
+        [Authorize]
+        [HttpPost]
+        public ActionResult SendRequestToAdmin(Models.RequestForAdminModel model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+            var user = BLL.Data.UserData.GetUser(((CustomPrincipal)User).UserId);
+            try
+                {
+                var res = BLL.Data.AdditionalData.SendRequestForAdmin(new BLL.DTO.RequestForAdminDTO
+                {
+                    userId = user.id,
+                    text = model.text,
+                    status = "новая",
+                    typeId = model.typeId,
+                    date = DateTime.Now,
+                    adminId = 9
+                });
+
+            }
+                catch (Exception ex)
+                {
+                    ViewBag.Message = ex.Message;
+                }
+
+            return Json(new { success = true });
+        }
+        private IEnumerable<SelectListItem> ShowRequestTypes()
+        {
+            var dbrequestTypes = BLL.Data.AdditionalData.GetRequestTypes();
+            var requestTypes = dbrequestTypes.Select(ll => new SelectListItem()
+            {
+                Value = ll.id.ToString(),
+                Text = ll.name
+            });
+
+
+
+            return requestTypes;
+        }
 
     }
 }

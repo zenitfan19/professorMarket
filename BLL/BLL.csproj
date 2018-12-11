@@ -56,7 +56,9 @@
     <Compile Include="DTO\ImageWrapper.cs" />
     <Compile Include="DTO\LessonLevelsDTO.cs" />
     <Compile Include="DTO\LessonTypesDTO.cs" />
+    <Compile Include="DTO\RequestForAdminTypeDTO.cs" />
     <Compile Include="DTO\RequestDTO.cs" />
+    <Compile Include="DTO\RequestForAdminDTO.cs" />
     <Compile Include="DTO\StudentDTO.cs" />
     <Compile Include="DTO\SubjectsDTO.cs" />
     <Compile Include="DTO\SubjectTypesDTO.cs" />

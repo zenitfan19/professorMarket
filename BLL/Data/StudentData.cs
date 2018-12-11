@@ -103,6 +103,35 @@ namespace BLL.Data
                 //return -1;
             }
 
-        }        
+        }
+
+        public static long SendRequest(RequestDTO request)
+        {
+            try
+            {
+                using (var ctx = new DAL.tutorDBEntities())
+                {
+                    var dbRequest = ctx.Requests.FirstOrDefault(x => x.id == request.id) ?? ctx.Requests.Add(new DAL.Requests());
+
+                    dbRequest.tutorId = request.tutorId;
+                    dbRequest.studentId = request.studentId;
+                    dbRequest.subjectId = request.subjectId;
+                    dbRequest.lessonsTypeId = request.lessonTypeId;
+                    dbRequest.additionalInfo = request.info;
+                    dbRequest.status = request.status;
+                    dbRequest.date = request.date;                    
+
+                    ctx.SaveChanges();
+
+                    return dbRequest.id;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+                //return -1;
+            }
+
+        }
     }
 }

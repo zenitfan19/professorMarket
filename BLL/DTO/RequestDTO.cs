@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BLL.DTO
 {
-    class RequestDTO
+    public partial class RequestDTO
     {
         public RequestDTO() { }
 
