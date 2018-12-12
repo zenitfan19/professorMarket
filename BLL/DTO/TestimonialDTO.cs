@@ -14,7 +14,7 @@ namespace BLL.DTO
         public long requestId { get; set; }        
         public int star { get; set; }
         public string text { get; set; }        
-        public System.DateTime date { get; set; }
+        public System.DateTime date { get; set; }        
 
         public virtual RequestDTO request { get; set; }        
     }

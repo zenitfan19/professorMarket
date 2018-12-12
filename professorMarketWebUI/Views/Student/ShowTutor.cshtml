@@ -97,7 +97,7 @@ else
                         <p style="font-weight: bold">Средняя оценка: <p>@(t.rating.HasValue ? t.rating.ToString() : "нет оценок")
                     </div>
                     <div class="col-md-6">
-                        <p style="font-weight: bold">Количество отзывов: <p>0
+                        <p style="font-weight: bold">Количество отзывов: <p>@BLL.Data.TutorData.displayTutorTestimonials(t.id).Count
                     </div>
                 </div>
 
@@ -114,7 +114,7 @@ else
                     </div>
                     <div class="col-md-6">
                         <p class="lead">
-                            <a class="btn btn-info btn-lg" href="#" role="button">Читать отзывы</a>
+                            <a class="btn btn-info btn-lg" onclick="@Html.Raw(String.Format("ShowTestimonials({0})", t.id))" href="javascript:void(0);">Читать отзывы</a>
                         </p>
                     </div>
                     <div class="col-md-6">

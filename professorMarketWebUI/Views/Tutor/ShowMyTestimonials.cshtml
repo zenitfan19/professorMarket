@@ -1,0 +1,23 @@
+﻿@model List<BLL.DTO.TestimonialDTO>
+@{
+    Layout = null;
+}
+@if (Model.Count > 0)
+{
+    foreach (var t in Model)
+    {
+        <div class="row">
+            <h3>От: @t.request.student.name</h3>
+            <p>Оставлен: @t.date.ToString("dd.MM.yyyy")</p>
+            <p>Оценка: @t.star</p>
+            <p>Текст: @t.text</p>
+        </div>
+    }
+}
+else
+{
+    <h3>Нет отзывов о преподавателе</h3>
+}
+
+
+

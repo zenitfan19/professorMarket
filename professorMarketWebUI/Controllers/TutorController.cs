@@ -74,6 +74,16 @@ namespace professorMarketWebUI.Controllers
 
             return Json(new { success = true });
         }
+        [AllowAnonymous]
+        public ActionResult ShowMyTestimonials(long tutorId)
+        {
+            var myTestimonial = BLL.Data.TutorData.displayTutorTestimonials(tutorId);
+            foreach (var s in myTestimonial)
+            {
+                s.request = BLL.Data.AdditionalData.GetRequest(s.requestId);
+            }
+            return View(myTestimonial);
+        }
 
         public ActionResult ShowMyStudents()
         {

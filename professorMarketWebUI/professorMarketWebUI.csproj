@@ -259,6 +259,7 @@
     <Content Include="Views\Tutor\ShowMyStudents.cshtml" />
     <Content Include="Views\Tutor\ShowMyStudent.cshtml" />
     <Content Include="Views\Tutor\ShowMyStudentAgreed.cshtml" />
+    <Content Include="Views\Tutor\ShowMyTestimonials.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

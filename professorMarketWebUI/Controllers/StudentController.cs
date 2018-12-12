@@ -145,7 +145,7 @@ namespace professorMarketWebUI.Controllers
             return Json(new { success = true });
         }
 
-
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult ShowTutors(int page = 0, long selectedSubject = 0)
         {

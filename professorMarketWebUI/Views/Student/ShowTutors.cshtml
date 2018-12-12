@@ -85,6 +85,24 @@
         });
     }
 
+    function ShowTestimonials(id) {
+        var res = {
+            tutorId: id
+        };        
+        $.ajax({
+            type: 'GET',
+            url: '/Tutor/ShowMyTestimonials',            
+            data: res,
+            success: function (data) {
+                $('.modal-body').html(data);
+                $('#myModal').modal('show');
+            },
+            error: function (xhr, str) {
+
+            }
+        });
+    }
+
     function SendRequest(id) {
         var res = {
             lessonTypeId: $('#selectedTypeTbx').val(),
@@ -113,7 +131,25 @@
     
 </script>
 
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Отзывы</h4>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <div class="col-md-2 search_params">
     <h4>Условия поиска</h4>

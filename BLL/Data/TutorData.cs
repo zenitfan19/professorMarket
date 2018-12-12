@@ -75,6 +75,38 @@ namespace BLL.Data
 
         }
 
+        public static double updateRating(long tutorId)
+        {
+            double rating;
+            double sum = 0;
+             var testimonials = BLL.Data.TutorData.displayTutorTestimonials(tutorId);
+            if (testimonials.Count != 0)
+            {
+                foreach (var t in testimonials)
+                {
+                    sum += t.star;
+                }
+                rating = sum / testimonials.Count;
+                try
+                {
+                    using (var ctx = new DAL.tutorDBEntities())
+                    {
+                        var dbTutor = ctx.Tutors.FirstOrDefault(x => x.userId == tutorId) ?? throw new Exception($"Заявки не существует");
+                        dbTutor.rating = rating;
+                        ctx.SaveChanges();
+                        return rating;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                    //return -1;
+                }
+            }
+            else return 0;
+
+        }
+
         public static long ChangeRequestStatus(long requestId, string status)
         {
             try
@@ -370,6 +402,49 @@ namespace BLL.Data
             catch (Exception ex)
             {
                 return false;
+            }
+
+        }
+
+        public static List<TestimonialDTO> displayTutorTestimonials(long tutorId)
+        {
+            try
+            {
+                using (var ctx = new DAL.tutorDBEntities())
+                {
+                    var dbMyTestimonials = ctx.Requests.Join(ctx.Testimonials,
+                        u => u.id,
+                        s => s.requestId,
+                        (u, s) => new
+                        {
+                            tutorId = u.tutorId,
+                            requestId = u.id,                            
+                            star = s.star,
+                            text = s.text,
+                            date = s.date,
+                            id = s.id
+
+                        }).Where(u => u.tutorId == tutorId).Select(dbTS => new TestimonialDTO
+                        {
+                            id = dbTS.id,
+                            requestId = dbTS.requestId,
+                            star = dbTS.star,
+                            text = dbTS.text,
+                            date = dbTS.date                            
+                        }).ToList();
+
+                    if (dbMyTestimonials != null)
+                    {
+                        return dbMyTestimonials;
+                    }
+                    throw new Exception($"Нет данных");
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+                //return -1;
             }
 
         }
