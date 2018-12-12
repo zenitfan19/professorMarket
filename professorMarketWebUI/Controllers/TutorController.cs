@@ -59,6 +59,32 @@ namespace professorMarketWebUI.Controllers
             return Redirect("/Tutor/Index");
         }
 
+        [HttpPost]
+        public ActionResult SetRequestStatus(long id, string status)
+        {
+            try
+                {
+                    var res = BLL.Data.TutorData.ChangeRequestStatus(id, status);                   
+                }
+                catch (Exception ex)
+                {
+                return Json(new { error = true });
+            }        
+
+
+            return Json(new { success = true });
+        }
+
+        public ActionResult ShowMyStudents()
+        {
+            var myStudents = BLL.Data.TutorData.displayStudentsByTutor(((CustomPrincipal)User).UserId);
+            foreach (var s in myStudents)
+            {
+                s.student = BLL.Data.StudentData.GetStudent(s.studentId);
+            }
+            return View(myStudents);
+        }
+
         [HttpGet]
         public ActionResult SetLessonLevels()
         {            

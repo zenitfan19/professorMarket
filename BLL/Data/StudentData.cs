@@ -134,6 +134,32 @@ namespace BLL.Data
 
         }
 
+        public static long SendTestimonial(TestimonialDTO testimonial)
+        {
+            try
+            {
+                using (var ctx = new DAL.tutorDBEntities())
+                {
+                    var dbTestimonial = ctx.Testimonials.FirstOrDefault(x => x.id == testimonial.id) ?? ctx.Testimonials.Add(new DAL.Testimonials());
+
+                    dbTestimonial.requestId = testimonial.requestId;
+                    dbTestimonial.text = testimonial.text;
+                    dbTestimonial.date = testimonial.date;
+                    dbTestimonial.star = testimonial.star;                    
+
+                    ctx.SaveChanges();
+
+                    return dbTestimonial.id;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+                //return -1;
+            }
+
+        }
+
 
         public static List<RequestDTO> displayTutorsByStudent(long studentId)
         {
@@ -143,6 +169,7 @@ namespace BLL.Data
                 {
                     var dbMyRequests = ctx.Requests.Where(s => s.studentId == studentId).Select(mr => new RequestDTO
                     {
+                        id = mr.id,
                         tutorId = mr.tutorId,
                         subjectId = mr.subjectId,
                         lessonTypeId = mr.lessonsTypeId,

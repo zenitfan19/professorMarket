@@ -73,6 +73,87 @@ namespace BLL.Data
 
         }
 
+        public static RequestDTO GetRequest(long requestId)
+        {
+            try
+            {
+                using (var ctx = new DAL.tutorDBEntities())
+                {
+                    var dbRequest = ctx.Requests.FirstOrDefault(x => x.id == requestId);
+                    if (dbRequest != null)
+                    {
+                        var request = new RequestDTO
+                        {
+                            tutor = BLL.Data.TutorData.GetTutor(dbRequest.tutorId),
+                            student = BLL.Data.StudentData.GetStudent(dbRequest.studentId)
+                        };
+
+                        return request;
+                    }
+                    throw new Exception($"Запрос не найден");
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
+
+        public static TestimonialDTO GetTestimonial(long requestId)
+        {
+            try
+            {
+                using (var ctx = new DAL.tutorDBEntities())
+                {
+                    var dbTestimonial = ctx.Testimonials.FirstOrDefault(x => x.requestId == requestId);
+                    if (dbTestimonial != null)
+                    {
+                        var testimonial = new TestimonialDTO
+                        {
+                            text = dbTestimonial.text,
+                            star = dbTestimonial.star,
+                            date = dbTestimonial.date
+                        };
+
+                        return testimonial;
+                    }
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
+
+        //public static List<TestimonialDTO> GetTutorTestimonials(long tutorId)
+        //{
+        //    try
+        //    {
+        //        using (var ctx = new DAL.tutorDBEntities())
+        //        {
+        //            var dbTestimonials = ctx.Testimonials.Where(t => t. == subjectTypeId).Select(dbST => new SubjectsDTO
+        //            {
+        //                id = dbST.id,
+        //                name = dbST.name,
+        //                subjectTypeId = dbST.subjectTypeId
+        //            }).ToList();
+        //            if (dbSubject != null)
+        //            {
+        //                return dbSubject;
+        //            }
+        //            throw new Exception($"Предметы не обнаружены");
+        //        }                    
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return null;
+        //    }
+
+        //}
+
         public static List<LessonLevelsDTO> GetLessonLevels()
         {            
            try

@@ -1,0 +1,78 @@
+﻿@model List<BLL.DTO.RequestDTO>
+<script>
+    function ChangeStatus(id, status) {
+        var statusName;
+        if (status) {
+            statusName = "одобрен";
+        } else
+        {
+            statusName = "отклонен";
+        }
+        var res = {
+            id: id,
+            status: statusName                
+            };
+            var str = JSON.stringify(res);
+            $.ajax({
+                type: 'POST',
+                url: '/Tutor/SetRequestStatus',
+                contentType: 'application/json; charset=utf-8',
+                data: str,
+                success: function (data) {
+                    $('#' + id).prependTo('#tab1');
+                    $('#secretInfoRow' + id).removeClass('hidden');
+                    $('#buttonRow' + id).addClass('hidden');
+
+                    
+                },
+                error: function (xhr, str) {
+
+                }
+            });
+        
+    }
+</script>
+
+<h2>Мои ученики</h2>
+<div class="tabbable">
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab1" data-toggle="tab">Мои ученики</a></li>
+        <li><a href="#tab2" data-toggle="tab">Новые заявки</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab1">
+            @if (Model.Any(r => r.status == "одобрен"))
+            {
+                foreach (var s in Model)
+                {
+                    if (s.status == "одобрен")
+                    {
+                        Html.RenderPartial("ShowMyStudentAgreed", s);
+                    }
+                }
+            }
+            else
+            {
+                <h1>В данный момент у Вас нет учеников</h1>
+            }
+        </div>
+        <div class="tab-pane" id="tab2">
+            @if (Model.Any(r => r.status == ""))
+            {
+                foreach (var s in Model)
+                {
+                    if (s.status == "")
+                    {
+                        Html.RenderPartial("ShowMyStudent", s);
+                    }
+                }
+            }
+            else
+            {
+                <h1>У вас нет новых заявок</h1>
+            }
+        </div>
+    </div>
+</div>
+

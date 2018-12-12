@@ -179,6 +179,7 @@
     <Compile Include="Models\StudentProfileModel.cs" />
     <Compile Include="Models\SubjectModel.cs" />
     <Compile Include="Models\SubjectTypesModel.cs" />
+    <Compile Include="Models\TestimonialModel.cs" />
     <Compile Include="Models\TutorFinderModel.cs" />
     <Compile Include="Models\TutorProfileModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -255,6 +256,9 @@
     <Content Include="Views\Student\ShowMyTutors.cshtml" />
     <Content Include="Views\Student\ShowMyTutorAgreed.cshtml" />
     <Content Include="Views\Student\ShowMyTutor.cshtml" />
+    <Content Include="Views\Tutor\ShowMyStudents.cshtml" />
+    <Content Include="Views\Tutor\ShowMyStudent.cshtml" />
+    <Content Include="Views\Tutor\ShowMyStudentAgreed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

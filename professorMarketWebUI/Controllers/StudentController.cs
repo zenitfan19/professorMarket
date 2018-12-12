@@ -123,6 +123,28 @@ namespace professorMarketWebUI.Controllers
             return Json(new { success = true });
         }
 
+        [HttpPost]
+        public ActionResult SendTestimonialToTutor(Models.TestimonialModel model)
+        {            
+            try
+            {
+                var res = BLL.Data.StudentData.SendTestimonial(new BLL.DTO.TestimonialDTO
+                {
+                    requestId = model.requestId,
+                    text = model.text,
+                    star = model.star,                    
+                    date = DateTime.Now
+                });
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = ex.Message;
+            }
+
+            return Json(new { success = true });
+        }
+
 
         [HttpGet]
         public ActionResult ShowTutors(int page = 0, long selectedSubject = 0)

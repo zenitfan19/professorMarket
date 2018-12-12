@@ -18,6 +18,7 @@ namespace DAL
         public long requestId { get; set; }
         public string text { get; set; }
         public System.DateTime date { get; set; }
+        public int star { get; set; }
     
         public virtual Requests Requests { get; set; }
     }

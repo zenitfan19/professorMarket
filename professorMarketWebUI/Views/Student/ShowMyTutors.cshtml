@@ -1,4 +1,39 @@
 ﻿@model List<BLL.DTO.RequestDTO>
+<script>
+    function SendTestimonial(id) {
+        var starId = '#star' + id;
+        var isChecked = false;
+        $.each($('input[name=rating]:checked', starId), function () {
+            isChecked = true;
+        });
+        if (isChecked) {            
+            var res = {
+                requestId: id,
+                text: $('#testimonialTxt' + id).val(),
+                star: $('input[name=rating]:checked', starId).val()
+            };
+            var str = JSON.stringify(res);
+            $.ajax({
+                type: 'POST',
+                url: '/Student/SendTestimonialToTutor',
+                contentType: 'application/json; charset=utf-8',
+                data: str,
+                success: function (data) {
+                    $('#testimonialTxt' + id).val('');
+                    $('#testimonialTxt' + id).parent().addClass('hidden');
+                    $('#star' + id).parent().addClass('hidden');
+                    $('#testimonialBtn' + id).addClass('hidden');
+                    $('#testimonialErr' + id).addClass('hidden');
+                    $('#testimonialRes' + id).removeClass('hidden');
+                },
+                error: function (xhr, str) {
+
+                }
+            });
+        } else $('#testimonialErr' + id).removeClass('hidden');
+    }
+</script>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <h2>Мои преподаватели</h2>
 <div class="tabbable">
 

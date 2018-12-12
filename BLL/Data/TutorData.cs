@@ -75,6 +75,28 @@ namespace BLL.Data
 
         }
 
+        public static long ChangeRequestStatus(long requestId, string status)
+        {
+            try
+            {
+                using (var ctx = new DAL.tutorDBEntities())
+                {
+                    var dbRequest = ctx.Requests.FirstOrDefault(x => x.id == requestId) ?? throw new Exception($"Заявки не существует");
+                    dbRequest.status = status;              
+
+                    ctx.SaveChanges();
+
+                    return dbRequest.id;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+                //return -1;
+            }
+
+        }
+
         public static long UpdateTutor(TutorDTO tutor)
         {
             try
@@ -108,7 +130,7 @@ namespace BLL.Data
                 //return -1;
             }
 
-        }
+        }        
 
         public static List<TutorLessonTypeDTO> GetTutorsLessonTypes(long tutorId)
         {
@@ -360,6 +382,7 @@ namespace BLL.Data
                 {
                     var dbMyRequests = ctx.Requests.Where(s => s.tutorId == tutorId).Select(mr => new RequestDTO
                     {
+                        id = mr.id,
                         studentId = mr.studentId,
                         subjectId = mr.subjectId,
                         lessonTypeId = mr.lessonsTypeId,

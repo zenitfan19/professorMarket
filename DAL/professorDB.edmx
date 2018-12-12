@@ -96,6 +96,7 @@
           <Property Name="requestId" Type="bigint" Nullable="false" />
           <Property Name="text" Type="nvarchar(max)" Nullable="false" />
           <Property Name="date" Type="date" Nullable="false" />
+          <Property Name="star" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TutorLessonLevel">
           <Key>
@@ -609,6 +610,7 @@
           <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="Requests" Relationship="Self.FK_Testimonials_Requests" FromRole="Testimonials" ToRole="Requests" />
+          <Property Name="star" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="TutorLessonLevel">
           <Key>
@@ -1138,6 +1140,7 @@
           <EntitySetMapping Name="Testimonials">
             <EntityTypeMapping TypeName="tutorDBModel.Testimonials">
               <MappingFragment StoreEntitySet="Testimonials">
+                <ScalarProperty Name="star" ColumnName="star" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="requestId" ColumnName="requestId" />
                 <ScalarProperty Name="text" ColumnName="text" />

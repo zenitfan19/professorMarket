@@ -1,4 +1,5 @@
-﻿@model BLL.DTO.RequestDTO    
+﻿@model BLL.DTO.RequestDTO
+
 <div class="tutorDiv" data-request-id="@Model.id">
 
     <div class="row jumbotron">
@@ -6,7 +7,7 @@
             <img class="control-label avatarImgDisplay" onerror="this.src='@Url.Content("~/Content/Images/avatarPlaceholder.png")'" src="@Url.Action("Avatar", "User", new { Id = Model.tutor.avatarId })" title="avatarImage" />
         </div>
         <div class="col-md-9">
-            <h2 class="display-3">@Model.tutor.name</h2>            
+            <h2 class="display-3">@Model.tutor.name</h2>
             <hr class="m-y-2">
             <div class="row">
                 <div class="col-md-12 alert alert-info">
@@ -35,25 +36,48 @@
 
 
 
-
-            @*<div class="row">
-                <div class="alert alert-success hidden" id="@("requestRes"+t.id)" role="alert">
+            @if (BLL.Data.AdditionalData.GetTestimonial(Model.id) == null)
+            {
+            <div class="row">
+                <div class="alert alert-success hidden" id="@("testimonialRes" + Model.id)" role="alert">
                     Ваш отзыв успешно отправлен!
                 </div>
-                <div class="col-md-12 testimonialTbx hidden">
-                    <label for="@("requestTxt"+t.id)">Отзыв:</label>
-                    <textarea class="form-control" id="@("requestTxt"+t.id)"></textarea>
+                <div class="alert alert-danger hidden" id="@("testimonialErr" + Model.id)" role="alert">
+                    Пожалуйста, выберите оценку.
                 </div>
-                
+                <div class="star-rating">
+                    <p style="font-size: 14px; font-weight: bold;">Оценка</p>
+                    <div class="star-rating__wrap" id="@("star" + Model.id)">
+                        <input class="star-rating__input" id="star-rating-5" type="radio" name="rating" value="5">
+                        <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-5" title="5 out of 5 stars"></label>
+                        <input class="star-rating__input" id="star-rating-4" type="radio" name="rating" value="4">
+                        <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-4" title="4 out of 5 stars"></label>
+                        <input class="star-rating__input" id="star-rating-3" type="radio" name="rating" value="3">
+                        <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-3" title="3 out of 5 stars"></label>
+                        <input class="star-rating__input" id="star-rating-2" type="radio" name="rating" value="2">
+                        <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-2" title="2 out of 5 stars"></label>
+                        <input class="star-rating__input" id="star-rating-1" type="radio" name="rating" value="1">
+                        <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-1" title="1 out of 5 stars"></label>
+                    </div>
+                </div>
+                <div class="col-md-12 testimonialTbx">
+                    <label for="@("testimonialTxt" + Model.id)">Отзыв:</label>
+                    <textarea class="form-control" id="@("testimonialTxt" + Model.id)"></textarea>
+                </div>
+
                 <div class="col-md-6">
                     <p class="lead">
-                        <a class="btn btn-primary btn-lg testimonialBtn hidden" onclick="@Html.Raw(String.Format("SendRequest({0})", t.id))" href="javascript:void(0);" id="@("requestBtn"+t.id)" data-tutor-id="@t.id">Оставить отзыв</a>
+                        <a class="btn btn-primary btn-lg testimonialBtn" onclick="@Html.Raw(String.Format("SendTestimonial({0})", Model.id))" href="javascript:void(0);" id="@("testimonialBtn" + Model.id)" data-request-id="@Model.id">Оставить отзыв</a>
                     </p>
                 </div>
+            </div>
+            }
+            else
+            {
+                <p style="font-weight: bold">Ваша оценка: @(BLL.Data.AdditionalData.GetTestimonial(Model.id).star)</p>
+                <p style="font-weight: bold">Ваш отзыв:</p><br><p>@(BLL.Data.AdditionalData.GetTestimonial(Model.id).text)</p>
 
-
-
-            </div>*@
+            }
         </div>
     </div>
 </div>

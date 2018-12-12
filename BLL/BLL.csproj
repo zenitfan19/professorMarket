@@ -62,6 +62,7 @@
     <Compile Include="DTO\StudentDTO.cs" />
     <Compile Include="DTO\SubjectsDTO.cs" />
     <Compile Include="DTO\SubjectTypesDTO.cs" />
+    <Compile Include="DTO\TestimonialDTO.cs" />
     <Compile Include="DTO\TutorDTO.cs" />
     <Compile Include="DTO\TutorLessonLevelDTO.cs" />
     <Compile Include="DTO\TutorLessonTypeDTO.cs" />
