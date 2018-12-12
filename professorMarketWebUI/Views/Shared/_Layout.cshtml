@@ -24,14 +24,14 @@
                     @if (User.IsInRole("student"))
                     {
                         <li>@Html.ActionLink("Профиль", "Index", "Student")</li>
-                        <li>@Html.ActionLink("Мои преподаватели", "ShowTutors", "Student")</li>
+                        <li>@Html.ActionLink("Мои преподаватели", "ShowMyTutors", "Student")</li>
                         <li>@Html.ActionLink("Поиск преподавателя", "ShowTutors", "Student")</li>
                         <li>@Html.ActionLink("Запрос админу", "SendRequestToAdmin", "User")</li>
                     }
                     @if (User.IsInRole("tutor"))
                     {
                         <li>@Html.ActionLink("Профиль", "Index", "Tutor")</li>
-                        <li>@Html.ActionLink("Ученики", "Index", "Tutor")</li>
+                        <li>@Html.ActionLink("Ученики", "ShowMyStudents", "Tutor")</li>
                         <li>@Html.ActionLink("Запрос админу", "SendRequestToAdmin", "User")</li>                        
                     }
                     <li>@Html.ActionLink("Главная", "Index", "Home")</li>
