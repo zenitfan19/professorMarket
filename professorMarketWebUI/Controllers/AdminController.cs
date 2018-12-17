@@ -1,4 +1,5 @@
-﻿using System;
+﻿using professorMarketWebUI.CustomAuth;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,6 +16,22 @@ namespace professorMarketWebUI.Controllers
             ViewBag.Types = ShowSubjectTypes();
             return View();
         }
+
+        public ActionResult ShowMyRequests()
+        {
+            var myRequests = BLL.Data.AdminData.displayRequestsForAdmin(((CustomPrincipal)User).UserId);
+            foreach (var s in myRequests)
+            {
+                s.user = BLL.Data.UserData.GetUser(s.userId);
+            }
+            return View(myRequests);
+        }
+
+        public ActionResult SetSiteParameters()
+        {
+            return View("SetSiteParameters");
+        }
+
 
         private IEnumerable<SelectListItem> ShowSubjectTypes()
         {

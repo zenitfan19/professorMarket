@@ -29,9 +29,11 @@
 
     }
 </script>
+
+
 <table class="table table-inverse" id="stTable">
     <thead>
-        <tr>           
+        <tr>
             <th>Название</th>
         </tr>
     </thead>
@@ -39,7 +41,7 @@
         @foreach (var st in BLL.Data.AdditionalData.GetSubjectTypes())
         {
             <tr>
-                <td scope="row">@st.name</td>                
+                <td scope="row">@st.name</td>
             </tr>
         }
     </tbody>
@@ -48,29 +50,29 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>Добавить</h4>
-    <hr />
-    <div class="alert alert-success hidden" id="stSuc" role="alert">
-        Все обновления произведены!
-    </div>
-    <div class="alert alert-danger hidden" id="stErr" role="alert">
-        Произошла ошибка!
-    </div>
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <h4>Добавить</h4>
+        <hr />
+        <div class="alert alert-success hidden" id="stSuc" role="alert">
+            Все обновления произведены!
         </div>
-    </div>
+        <div class="alert alert-danger hidden" id="stErr" role="alert">
+            Произошла ошибка!
+        </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <a href="javascript:void(0);" id="stBtn" onclick="stSubmit();" class="btn btn-default">Сохранить</a>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <a href="javascript:void(0);" id="stBtn" onclick="stSubmit();" class="btn btn-default">Сохранить</a>
+            </div>
         </div>
     </div>
-</div>
 }
 

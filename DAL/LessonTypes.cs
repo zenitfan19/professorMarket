@@ -18,6 +18,7 @@ namespace DAL
         public LessonTypes()
         {
             this.TutorLessonType = new HashSet<TutorLessonType>();
+            this.Requests = new HashSet<Requests>();
         }
     
         public long id { get; set; }
@@ -25,5 +26,7 @@ namespace DAL
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TutorLessonType> TutorLessonType { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Requests> Requests { get; set; }
     }
 }

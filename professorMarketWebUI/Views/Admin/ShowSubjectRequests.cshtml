@@ -1,0 +1,29 @@
+﻿@model BLL.DTO.RequestForAdminDTO
+
+<div class="adminDiv" data-request-id="@Model.id">
+
+    <div class="row jumbotron">        
+        <div class="col-md-12">
+            <h2 class="display-3">@Model.user.name</h2>
+            <h2 class="display-3">@Model.date.ToString("dd.MM.yyyy")</h2>
+            <hr class="m-y-2">
+            <div class="row">
+                <div class="col-md-12 alert alert-info">
+                    <p style="font-weight: bold">Название предмета: <p>@Model.text
+                </div>
+            </div>
+            <div class="row" id="@("buttonRow" + Model.id)">
+                <div class="col-md-6">
+                    <p class="lead">
+                        <a class="btn btn-success btn-lg" onclick="@Html.Raw(String.Format("ChangeStatus({0}, true)", Model.id))" href="javascript:void(0);" id="@("changeStatusBtn" + Model.id)" data-request-id="@Model.id">Добавить</a>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <p class="lead">
+                        <a class="btn btn-danger btn-lg" onclick="@Html.Raw(String.Format("ChangeStatus({0}, false)", Model.id))" href="javascript:void(0);" id="@("changeStatusBtn" + Model.id)" data-request-id="@Model.id">Отклонить</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

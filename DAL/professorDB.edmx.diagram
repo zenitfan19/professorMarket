@@ -21,7 +21,6 @@
         <EntityTypeShape EntityType="tutorDBModel.Students" Width="1.5" PointX="8.25" PointY="12.5" IsExpanded="true" />
         <EntityTypeShape EntityType="tutorDBModel.Tutors" Width="1.5" PointX="5.25" PointY="8.25" IsExpanded="true" />
         <AssociationConnector Association="tutorDBModel.FK_Images_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="tutorDBModel.FK_RequestsForAdmins_Images" ManuallyRouted="false" />
         <AssociationConnector Association="tutorDBModel.FK_Students_Images" ManuallyRouted="false" />
         <AssociationConnector Association="tutorDBModel.FK_Tutors_Images" ManuallyRouted="false" />
         <AssociationConnector Association="tutorDBModel.FK_TutorLessonLevel_LessonLevels" ManuallyRouted="false" />
@@ -41,6 +40,7 @@
         <AssociationConnector Association="tutorDBModel.FK_TutorSubjects_Users" ManuallyRouted="false" />
         <AssociationConnector Association="tutorDBModel.FK_Students_Users" ManuallyRouted="false" />
         <AssociationConnector Association="tutorDBModel.FK_Tutors_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="tutorDBModel.FK_Requests_LessonTypes" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -16,14 +16,12 @@ namespace DAL
     {
         public long id { get; set; }
         public string text { get; set; }
-        public Nullable<long> photoId { get; set; }
         public System.DateTime date { get; set; }
         public string status { get; set; }
         public long adminId { get; set; }
         public long userId { get; set; }
         public long typeId { get; set; }
     
-        public virtual Images Images { get; set; }
         public virtual RequestForAdminType RequestForAdminType { get; set; }
         public virtual Users Users { get; set; }
         public virtual Users Admins { get; set; }

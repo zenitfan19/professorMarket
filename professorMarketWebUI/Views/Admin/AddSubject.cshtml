@@ -59,36 +59,36 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>Добавить</h4>
-    <hr />
-    <div class="alert alert-success hidden" id="sSuc" role="alert">
-        Успех!
-    </div>
-    <div class="alert alert-danger hidden" id="sErr" role="alert">
-        Произошла ошибка!
-    </div>
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.subjectTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.subjectTypeId, (IEnumerable<SelectListItem>)ViewBag.Types, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.subjectTypeId, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <h4>Добавить</h4>
+        <hr />
+        <div class="alert alert-success hidden" id="sSuc" role="alert">
+            Успех!
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+        <div class="alert alert-danger hidden" id="sErr" role="alert">
+            Произошла ошибка!
         </div>
-    </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.subjectTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.subjectTypeId, (IEnumerable<SelectListItem>)ViewBag.Types, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.subjectTypeId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <a href="javascript:void(0);" id="sBtn" onclick="sSubmit();" class="btn btn-default">Сохранить</a>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <a href="javascript:void(0);" id="sBtn" onclick="sSubmit();" class="btn btn-default">Сохранить</a>
+            </div>
         </div>
     </div>
-</div>
 }
 

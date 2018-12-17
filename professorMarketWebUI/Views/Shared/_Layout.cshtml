@@ -32,7 +32,12 @@
                     {
                         <li>@Html.ActionLink("Профиль", "Index", "Tutor")</li>
                         <li>@Html.ActionLink("Ученики", "ShowMyStudents", "Tutor")</li>
-                        <li>@Html.ActionLink("Запрос админу", "SendRequestToAdmin", "User")</li>                        
+                        <li>@Html.ActionLink("Запрос админу", "SendRequestToAdmin", "User")</li>
+                    }
+                    @if (User.IsInRole("admin"))
+                    {
+                        <li>@Html.ActionLink("Заявки", "ShowMyRequests", "Admin")</li>
+                        <li>@Html.ActionLink("Настройка параметров сайта", "Index", "Admin")</li>                        
                     }
                     <li>@Html.ActionLink("Главная", "Index", "Home")</li>
                 </ul>

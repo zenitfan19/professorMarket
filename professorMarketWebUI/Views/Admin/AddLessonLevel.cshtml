@@ -18,7 +18,7 @@
                     $('#llForm .form-control').val('');
                     $('#llSuc').removeClass('hidden');
                     setTimeout(function () { $('#llSuc').addClass('hidden') }, 5000);
-                    $('#llTable tr:last').after('<tr><td scope="row">'+data.llName+'</td></tr>');
+                    $('#llTable tr:last').after('<tr><td scope="row">' + data.llName + '</td></tr>');
                 }
             },
             error: function (xhr, str) {
@@ -32,18 +32,19 @@
 
 @{ Layout = null; }
 
+
 <table class="table table-inverse" id="llTable">
     <thead>
         <tr>
-            <th>Название</th>           
+            <th>Название</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var ll in BLL.Data.AdditionalData.GetLessonLevels())
         {
-        <tr>
-            <td scope="row">@ll.name</td>                                   
-        </tr>   
+            <tr>
+                <td scope="row">@ll.name</td>
+            </tr>
         }
     </tbody>
 </table>
@@ -52,31 +53,31 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>Добавить</h4>
-    <hr />
-    <div class="alert alert-success hidden" id="llSuc" role="alert">
-        Все обновления произведены!
-    </div>
-    <div class="alert alert-danger hidden" id="llErr" role="alert">
-        Произошла ошибка!
-    </div>
-    <h5>@ViewBag.Message</h5>
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <h4>Добавить</h4>
+        <hr />
+        <div class="alert alert-success hidden" id="llSuc" role="alert">
+            Все обновления произведены!
         </div>
-    </div>
+        <div class="alert alert-danger hidden" id="llErr" role="alert">
+            Произошла ошибка!
+        </div>
+        <h5>@ViewBag.Message</h5>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <a href="javascript:void(0);" id="llBtn" onclick="llSubmit();" class="btn btn-default">Сохранить</a>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <a href="javascript:void(0);" id="llBtn" onclick="llSubmit();" class="btn btn-default">Сохранить</a>
+            </div>
         </div>
     </div>
-</div>
 }
 
 

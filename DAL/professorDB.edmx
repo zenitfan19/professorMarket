@@ -55,7 +55,6 @@
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="text" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="photoId" Type="bigint" />
           <Property Name="date" Type="date" Nullable="false" />
           <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="adminId" Type="bigint" Nullable="false" />
@@ -164,6 +163,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Requests_LessonTypes">
+          <End Role="LessonTypes" Type="Self.LessonTypes" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LessonTypes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="lessonsTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Requests_Subjects">
           <End Role="Subjects" Type="Self.Subjects" Multiplicity="1" />
           <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
@@ -173,18 +184,6 @@
             </Principal>
             <Dependent Role="Requests">
               <PropertyRef Name="subjectId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Requests_TutorLessonType">
-          <End Role="TutorLessonType" Type="Self.TutorLessonType" Multiplicity="1" />
-          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TutorLessonType">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Requests">
-              <PropertyRef Name="lessonsTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -209,18 +208,6 @@
             </Principal>
             <Dependent Role="Requests">
               <PropertyRef Name="studentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RequestsForAdmins_Images">
-          <End Role="Images" Type="Self.Images" Multiplicity="0..1" />
-          <End Role="RequestsForAdmins" Type="Self.RequestsForAdmins" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Images">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="RequestsForAdmins">
-              <PropertyRef Name="photoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -424,12 +411,12 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Images" EntitySet="Images" />
           </AssociationSet>
-          <AssociationSet Name="FK_Requests_Subjects" Association="Self.FK_Requests_Subjects">
-            <End Role="Subjects" EntitySet="Subjects" />
+          <AssociationSet Name="FK_Requests_LessonTypes" Association="Self.FK_Requests_LessonTypes">
+            <End Role="LessonTypes" EntitySet="LessonTypes" />
             <End Role="Requests" EntitySet="Requests" />
           </AssociationSet>
-          <AssociationSet Name="FK_Requests_TutorLessonType" Association="Self.FK_Requests_TutorLessonType">
-            <End Role="TutorLessonType" EntitySet="TutorLessonType" />
+          <AssociationSet Name="FK_Requests_Subjects" Association="Self.FK_Requests_Subjects">
+            <End Role="Subjects" EntitySet="Subjects" />
             <End Role="Requests" EntitySet="Requests" />
           </AssociationSet>
           <AssociationSet Name="FK_Requests_Users" Association="Self.FK_Requests_Users">
@@ -439,10 +426,6 @@
           <AssociationSet Name="FK_Requests_Users1" Association="Self.FK_Requests_Users1">
             <End Role="Users" EntitySet="Users" />
             <End Role="Requests" EntitySet="Requests" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RequestsForAdmins_Images" Association="Self.FK_RequestsForAdmins_Images">
-            <End Role="Images" EntitySet="Images" />
-            <End Role="RequestsForAdmins" EntitySet="RequestsForAdmins" />
           </AssociationSet>
           <AssociationSet Name="FK_RequestsForAdmins_RequestForAdminType" Association="Self.FK_RequestsForAdmins_RequestForAdminType">
             <End Role="RequestForAdminType" EntitySet="RequestForAdminType" />
@@ -519,7 +502,6 @@
           <Property Name="isDocument" Type="Boolean" Nullable="false" />
           <Property Name="userId" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Images_Users" FromRole="Images" ToRole="Users" />
-          <NavigationProperty Name="RequestsForAdmins" Relationship="Self.FK_RequestsForAdmins_Images" FromRole="Images" ToRole="RequestsForAdmins" />
           <NavigationProperty Name="Students" Relationship="Self.FK_Students_Images" FromRole="Images" ToRole="Students" />
           <NavigationProperty Name="Tutors" Relationship="Self.FK_Tutors_Images" FromRole="Images" ToRole="Tutors" />
         </EntityType>
@@ -538,6 +520,7 @@
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="TutorLessonType" Relationship="Self.FK_TutorLessonType_LessonTypes" FromRole="LessonTypes" ToRole="TutorLessonType" />
+          <NavigationProperty Name="Requests" Relationship="tutorDBModel.FK_Requests_LessonTypes" FromRole="LessonTypes" ToRole="Requests" />
         </EntityType>
         <EntityType Name="RequestForAdminType">
           <Key>
@@ -564,6 +547,7 @@
           <NavigationProperty Name="Tutors" Relationship="Self.FK_Requests_Users" FromRole="Requests" ToRole="Users" />
           <NavigationProperty Name="Students" Relationship="Self.FK_Requests_Users1" FromRole="Requests" ToRole="Users" />
           <NavigationProperty Name="Testimonials" Relationship="Self.FK_Testimonials_Requests" FromRole="Requests" ToRole="Testimonials" />
+          <NavigationProperty Name="LessonTypes" Relationship="tutorDBModel.FK_Requests_LessonTypes" FromRole="Requests" ToRole="LessonTypes" />
         </EntityType>
         <EntityType Name="RequestsForAdmins">
           <Key>
@@ -571,13 +555,11 @@
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="photoId" Type="Int64" />
           <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="adminId" Type="Int64" Nullable="false" />
           <Property Name="userId" Type="Int64" Nullable="false" />
           <Property Name="typeId" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Images" Relationship="Self.FK_RequestsForAdmins_Images" FromRole="RequestsForAdmins" ToRole="Images" />
           <NavigationProperty Name="RequestForAdminType" Relationship="Self.FK_RequestsForAdmins_RequestForAdminType" FromRole="RequestsForAdmins" ToRole="RequestForAdminType" />
           <NavigationProperty Name="Users" Relationship="Self.FK_RequestsForAdmins_Users" FromRole="RequestsForAdmins" ToRole="Users" />
           <NavigationProperty Name="Admins" Relationship="Self.FK_RequestsForAdmins_Users1" FromRole="RequestsForAdmins" ToRole="Users" />
@@ -707,18 +689,6 @@
             </Principal>
             <Dependent Role="Images">
               <PropertyRef Name="userId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RequestsForAdmins_Images">
-          <End Role="Images" Type="Self.Images" Multiplicity="0..1" />
-          <End Role="RequestsForAdmins" Type="Self.RequestsForAdmins" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Images">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="RequestsForAdmins">
-              <PropertyRef Name="photoId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -970,10 +940,6 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Images" EntitySet="Images" />
           </AssociationSet>
-          <AssociationSet Name="FK_RequestsForAdmins_Images" Association="Self.FK_RequestsForAdmins_Images">
-            <End Role="Images" EntitySet="Images" />
-            <End Role="RequestsForAdmins" EntitySet="RequestsForAdmins" />
-          </AssociationSet>
           <AssociationSet Name="FK_Students_Images" Association="Self.FK_Students_Images">
             <End Role="Images" EntitySet="Images" />
             <End Role="Students" EntitySet="Students" />
@@ -1050,7 +1016,23 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Tutors" EntitySet="Tutors" />
           </AssociationSet>
+          <AssociationSet Name="FK_Requests_LessonTypes" Association="tutorDBModel.FK_Requests_LessonTypes">
+            <End Role="LessonTypes" EntitySet="LessonTypes" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Requests_LessonTypes">
+          <End Type="tutorDBModel.LessonTypes" Role="LessonTypes" Multiplicity="1" />
+          <End Type="tutorDBModel.Requests" Role="Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LessonTypes">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="lessonsTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1111,7 +1093,6 @@
               <MappingFragment StoreEntitySet="RequestsForAdmins">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="text" ColumnName="text" />
-                <ScalarProperty Name="photoId" ColumnName="photoId" />
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="adminId" ColumnName="adminId" />

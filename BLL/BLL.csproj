@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\AdditionalData.cs" />
+    <Compile Include="Data\AdminData.cs" />
     <Compile Include="Data\StudentData.cs" />
     <Compile Include="Data\TutorData.cs" />
     <Compile Include="Data\UserData.cs" />

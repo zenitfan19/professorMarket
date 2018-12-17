@@ -1,0 +1,96 @@
+﻿@model List<BLL.DTO.RequestForAdminDTO>
+<script>
+    //function ChangeStatus(id, status) {
+    //    var statusName;
+    //    if (status) {
+    //        statusName = "одобрен";
+    //    } else
+    //    {
+    //        statusName = "отклонен";
+    //    }
+    //    var res = {
+    //        id: id,
+    //        status: statusName
+    //        };
+    //        var str = JSON.stringify(res);
+    //        $.ajax({
+    //            type: 'POST',
+    //            url: '/Tutor/SetRequestStatus',
+    //            contentType: 'application/json; charset=utf-8',
+    //            data: str,
+    //            success: function (data) {
+    //                $('#' + id).prependTo('#tab1');
+    //                $('#secretInfoRow' + id).removeClass('hidden');
+    //                $('#buttonRow' + id).addClass('hidden');
+
+
+    //            },
+    //            error: function (xhr, str) {
+
+    //            }
+    //        });
+
+    //}
+</script>
+
+<h2>Мои заявки</h2>
+<div class="tabbable">
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab1" data-toggle="tab">Заявки на добавление предметов</a></li>
+        <li><a href="#tab2" data-toggle="tab">Заявки на подтверждение профиля преподавателя</a></li>
+        @*<li><a href="#tab3" data-toggle="tab">Жалобы</a></li>*@
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab1">
+            @if (Model.Any(r => r.typeId == 1))
+            {
+                foreach (var s in Model)
+                {
+                    if (s.typeId == 1)
+                    {
+                        Html.RenderPartial("ShowSubjectRequests", s);
+                    }
+                }
+            }
+            else
+            {
+                <h1>Нет заявок на добавление предметов</h1>
+            }
+        </div>
+        <div class="tab-pane" id="tab2">
+            @if (Model.Any(r => r.typeId == 4))
+            {
+                foreach (var s in Model)
+                {
+                    if (s.typeId == 4)
+                    {
+                        Html.RenderPartial("ShowProfileRequests", s);
+                    }
+                }
+            }
+            else
+            {
+                <h1>Нет заявок на подтверждение профиля преподавателя</h1>
+            }
+        </div>
+        @*<div class="tab-pane" id="tab3">
+            @if (Model.Any(r => r.typeId == 2 || r.typeId == 3))
+            {
+                foreach (var s in Model)
+                {
+                    if (s.typeId == 2 || s.typeId == 3)
+                    {
+                        Html.RenderPartial("ShowComplaintRequests", s);
+                    }
+                }
+            }
+            else
+            {
+                <h1>Нет жалоб</h1>
+            }
+        </div>*@
+    </div>
+</div>
+
+
