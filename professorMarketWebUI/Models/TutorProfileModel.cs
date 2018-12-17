@@ -22,6 +22,8 @@ namespace professorMarketWebUI.Models
             name = dbTutor.name;
             Skype = dbTutor.Skype;
             info = dbTutor.info;
+            education = dbTutor.education;
+            qualification = dbTutor.qualification;
             adress = dbTutor.adress;            
             regDate = dbTutor.regDate;
             if (dbTutor.birthDate.HasValue)
@@ -50,5 +52,9 @@ namespace professorMarketWebUI.Models
         public string adress { get; set; }        
         [Display(Name = "Дата регистрации")]
         public System.DateTime regDate { get; set; }
+        [Display(Name = "Образование")]
+        public string education { get; set; }
+        [Display(Name = "Опыт")]
+        public string qualification { get; set; }
     }
 }

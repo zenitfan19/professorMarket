@@ -41,7 +41,7 @@ namespace professorMarketWebUI.Controllers
                     emailVerified = true,
                     role = model.role
                 });
-                if(res == -1)
+                if (res == -1)
                     ModelState.AddModelError("email", "Email уже занят");
                 BLL.Data.UserData.ConnectRole(res);
             }
@@ -95,7 +95,7 @@ namespace professorMarketWebUI.Controllers
 
         public ActionResult Avatar(long Id)
         {
-               var avatar = BLL.Data.AdditionalData.GetAvatar(Id);            
+            var avatar = BLL.Data.AdditionalData.GetAvatar(Id);
 
             if (avatar.Content == null)
                 return HttpNotFound();
@@ -186,13 +186,13 @@ namespace professorMarketWebUI.Controllers
                         string enTicket = FormsAuthentication.Encrypt(authTicket);
                         HttpCookie faCookie = new HttpCookie("TicketCookie", enTicket);
                         Response.Cookies.Add(faCookie);
-                    }                  
-                   
-                        return true;
-                    
+                    }
+
+                    return true;
+
                 }
             }
-            
+
             return false;
 
         }
@@ -213,20 +213,29 @@ namespace professorMarketWebUI.Controllers
         }
         [Authorize]
         [HttpGet]
-        public ActionResult SendRequestToAdmin()
+        public ActionResult SendRequestToAdmin(long typeId = 1)
         {
             ViewBag.Types = ShowRequestTypes();
             var model = new Models.RequestForAdminModel() { };
             model.userId = ((CustomPrincipal)User).UserId;
+            model.typeId = typeId;
             return View(model);
         }
         [Authorize]
         [HttpPost]
-        public ActionResult SendRequestToAdmin(Models.RequestForAdminModel model)
+        public ActionResult SendRequestToAdmin(Models.RequestForAdminModel model, IEnumerable<HttpPostedFileBase> documents)
         {
             if (!ModelState.IsValid)
                 return View(model);
+            
             var user = BLL.Data.UserData.GetUser(((CustomPrincipal)User).UserId);
+            if (documents.Any())
+            {
+                foreach (var d in documents)
+                {
+                    BLL.Data.AdditionalData.AddImage(user.id, new BLL.DTO.ImageWrapper(d), true);
+                }
+            }
             try
                 {
                 var res = BLL.Data.AdditionalData.SendRequestForAdmin(new BLL.DTO.RequestForAdminDTO

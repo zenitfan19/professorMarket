@@ -23,6 +23,10 @@ namespace professorMarketWebUI.Controllers
             foreach (var s in myRequests)
             {
                 s.user = BLL.Data.UserData.GetUser(s.userId);
+                if (s.typeId == 4)
+                {
+                    s.documents = BLL.Data.AdditionalData.GetDocuments(s.userId);                    
+                }
             }
             return View(myRequests);
         }
@@ -30,6 +34,15 @@ namespace professorMarketWebUI.Controllers
         public ActionResult SetSiteParameters()
         {
             return View("SetSiteParameters");
+        }
+
+        public ActionResult Document(long Id)
+        {
+            var avatar = BLL.Data.AdditionalData.GetAvatar(Id);
+
+            if (avatar.Content == null)
+                return HttpNotFound();
+            return File(avatar.Content, avatar.Mime);
         }
 
 

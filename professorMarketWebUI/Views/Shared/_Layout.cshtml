@@ -21,25 +21,25 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Главная", "Index", "Home")</li>
                     @if (User.IsInRole("student"))
                     {
                         <li>@Html.ActionLink("Профиль", "Index", "Student")</li>
                         <li>@Html.ActionLink("Мои преподаватели", "ShowMyTutors", "Student")</li>
                         <li>@Html.ActionLink("Поиск преподавателя", "ShowTutors", "Student")</li>
-                        <li>@Html.ActionLink("Запрос админу", "SendRequestToAdmin", "User")</li>
+                        <li>@Html.ActionLink("Запрос администратору", "SendRequestToAdmin", "User")</li>
                     }
                     @if (User.IsInRole("tutor"))
                     {
                         <li>@Html.ActionLink("Профиль", "Index", "Tutor")</li>
-                        <li>@Html.ActionLink("Ученики", "ShowMyStudents", "Tutor")</li>
-                        <li>@Html.ActionLink("Запрос админу", "SendRequestToAdmin", "User")</li>
+                        <li>@Html.ActionLink("Мои ученики", "ShowMyStudents", "Tutor")</li>
+                        <li>@Html.ActionLink("Запрос администратору", "SendRequestToAdmin", "User")</li>
                     }
                     @if (User.IsInRole("admin"))
                     {
                         <li>@Html.ActionLink("Заявки", "ShowMyRequests", "Admin")</li>
-                        <li>@Html.ActionLink("Настройка параметров сайта", "Index", "Admin")</li>                        
+                        <li>@Html.ActionLink("Настройка параметров сайта", "Index", "Admin")</li>
                     }
-                    <li>@Html.ActionLink("Главная", "Index", "Home")</li>
                 </ul>
                 @if (Request.IsAuthenticated)
                 {

@@ -128,31 +128,7 @@ namespace BLL.Data
 
         }
 
-        //public static List<TestimonialDTO> GetTutorTestimonials(long tutorId)
-        //{
-        //    try
-        //    {
-        //        using (var ctx = new DAL.tutorDBEntities())
-        //        {
-        //            var dbTestimonials = ctx.Testimonials.Where(t => t. == subjectTypeId).Select(dbST => new SubjectsDTO
-        //            {
-        //                id = dbST.id,
-        //                name = dbST.name,
-        //                subjectTypeId = dbST.subjectTypeId
-        //            }).ToList();
-        //            if (dbSubject != null)
-        //            {
-        //                return dbSubject;
-        //            }
-        //            throw new Exception($"Предметы не обнаружены");
-        //        }                    
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return null;
-        //    }
-
-        //}
+   
 
         public static List<LessonLevelsDTO> GetLessonLevels()
         {            
@@ -515,6 +491,23 @@ namespace BLL.Data
 
             return res;
         }
+
+        public static List<long> GetDocuments(long UserId)
+        {
+            List<long> res = new List<long>();
+            using (var ctx = new DAL.tutorDBEntities())
+            {
+                var dbDocuments = ctx.Images.Where(x => x.userId == UserId).ToList();
+                if (dbDocuments == null)
+                    throw new Exception("Документ не найден");
+                foreach (var d in dbDocuments)
+                {
+                    res.Add(d.id);                    
+                }
+            }
+
+            return res;
+        }        
 
         public static long SendRequestForAdmin(RequestForAdminDTO request)
         {

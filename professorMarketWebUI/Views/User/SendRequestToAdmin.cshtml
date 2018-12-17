@@ -1,6 +1,32 @@
 ﻿@model professorMarketWebUI.Models.RequestForAdminModel
 
 <script>
+    function setDocuments(evt) {
+        var files = evt.target.files;
+        for (var i = 0, f; f = files[i]; i++) {
+            if (!f.type.match('image.*')) {
+                continue;
+            }
+
+            var reader = new FileReader();
+
+            reader.onload = (function () {
+
+                return function (e) {
+                    var img = "<img src='" + e.target.result + "' />";
+                    $("#documentContainer").append(img);
+                };
+            })(f);
+            reader.readAsDataURL(f);
+        }
+    }
+
+    window.onload = function () {
+        var el = document.getElementById('documents');
+        if (el) {
+            el.addEventListener('change', setDocuments, false);
+        }        
+    }
 
     function sendAdminRequestSubmit() {
         
@@ -33,40 +59,59 @@
 <div class="alert alert-danger hidden" id="sendAdminRequestErr" role="alert">
     Произошла ошибка на сервере, попробуйте позднее!
 </div>
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "requestForAdminForm" }))
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "requestForAdminForm", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Обращение к админу</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.userId)
+<div class="form-horizontal">
+    <h4>Заявка администратору</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.userId)
 
 
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.typeId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.typeId, (IEnumerable<SelectListItem>)ViewBag.Types, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.typeId, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.typeId, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.typeId, (IEnumerable<SelectListItem>)ViewBag.Types, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.typeId, "", new { @class = "text-danger" })
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.text, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.text, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.text, "", new { @class = "text-danger" })
-            </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.text, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.text, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.text, "", new { @class = "text-danger" })
         </div>
-
+    </div>
+    @if (Model.typeId != 4)
+    {
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <a class="btn btn-default" id="sendAdminRequestBtn" onclick="sendAdminRequestSubmit();">Отправить</a>
             </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <div class="form-group" id="documentContainer">
+            
+        </div>
+        <hr />
+        <div class="form-group">
+            @Html.Label("documents", "Документы", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" multiple name="documents" id="documents" class="form-control" accept=".jpg,.png,.gif" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button class="btn btn-default" type="submit" id="sendAdminRequestBtnWithFiles">Отправить</button>
+            </div>
+        </div>
+    }
+</div>
 }
 
 <div>

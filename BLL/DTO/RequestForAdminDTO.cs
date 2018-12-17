@@ -20,6 +20,7 @@ namespace BLL.DTO
 
         public RequestForAdminTypeDTO type { get; set; }
         public virtual UserDTO user { get; set; }
+        public virtual List<long> documents { get; set; }
 
     }
 }
