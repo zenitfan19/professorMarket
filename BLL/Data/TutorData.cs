@@ -197,7 +197,7 @@ namespace BLL.Data
             {
                 using (var ctx = new DAL.tutorDBEntities())
                 {
-                    var dbTutorLessonType = ctx.TutorLessonType.FirstOrDefault(x => x.lessonTypeId == type.lessontypeId) ?? ctx.TutorLessonType.Add(new DAL.TutorLessonType());
+                    var dbTutorLessonType = ctx.TutorLessonType.FirstOrDefault(x => x.lessonTypeId == type.lessontypeId && x.tutorId == type.tutorId) ?? ctx.TutorLessonType.Add(new DAL.TutorLessonType());
 
 
                     dbTutorLessonType.tutorId = type.tutorId;
@@ -273,7 +273,7 @@ namespace BLL.Data
             {
                 using (var ctx = new DAL.tutorDBEntities())
                 {
-                    var dbTutorLessonLevel = ctx.TutorLessonLevel.FirstOrDefault(x => x.lessonLevelId == level.lessonlevelId) ?? ctx.TutorLessonLevel.Add(new DAL.TutorLessonLevel());
+                    var dbTutorLessonLevel = ctx.TutorLessonLevel.FirstOrDefault(x => x.lessonLevelId == level.lessonlevelId && x.tutorId==level.tutorId) ?? ctx.TutorLessonLevel.Add(new DAL.TutorLessonLevel());
 
 
                     dbTutorLessonLevel.tutorId = level.tutorId;
@@ -363,7 +363,7 @@ namespace BLL.Data
             {
                 using (var ctx = new DAL.tutorDBEntities())
                 {
-                    var dbTutorSubject = ctx.TutorSubjects.FirstOrDefault(x => x.subjectId == subject.subjectId) ?? ctx.TutorSubjects.Add(new DAL.TutorSubjects());
+                    var dbTutorSubject = ctx.TutorSubjects.FirstOrDefault(x => x.subjectId == subject.subjectId && x.tutorId == subject.tutorId) ?? ctx.TutorSubjects.Add(new DAL.TutorSubjects());
 
 
                     dbTutorSubject.tutorId = subject.tutorId;
@@ -478,7 +478,7 @@ namespace BLL.Data
 
         public static List<TutorDTO> GetTutors(int page = 0, long selectedType=0, int selectedCost = Int32.MaxValue, int selectedExperience = 0, long selectedSType = 0, long selectedSubject = 0)
         {
-            var take = 4;
+            var take = 10;
             var skip = take * page;            
             var res = (List<TutorDTO>)null;
             try

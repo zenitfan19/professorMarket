@@ -7,7 +7,10 @@
             url: '/Tutor/ShowLessonLevelsIds',            
             success: function (data) {
                 if (data.error) {
-                    
+                    $('tbody tr').each(function (parElement) {
+                        field = $(this);
+                        field.children().children('.btn-danger').addClass('hidden');
+                    });
                 } else {
                     $('tbody tr').each(function (element) {   
                         
