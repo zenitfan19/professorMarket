@@ -13,7 +13,7 @@
             reader.onload = (function () {
 
                 return function (e) {
-                    var img = "<img src='" + e.target.result + "' />";
+                    var img = "<img style='max-width: 500px; height:autoж' src='" + e.target.result + "' />";
                     $("#documentContainer").append(img);
                 };
             })(f);

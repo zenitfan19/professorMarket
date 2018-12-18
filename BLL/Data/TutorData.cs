@@ -504,7 +504,7 @@ namespace BLL.Data
 
         public static List<TutorDTO> GetTutors(int page = 0, long selectedType=0, int selectedCost = Int32.MaxValue, int selectedExperience = 0, long selectedSType = 0, long selectedSubject = 0)
         {
-            var take = 10;
+            var take = 3;
             var skip = take * page;            
             var res = (List<TutorDTO>)null;
             try

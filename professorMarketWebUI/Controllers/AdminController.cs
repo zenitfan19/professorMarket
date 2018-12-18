@@ -220,6 +220,36 @@ namespace professorMarketWebUI.Controllers
             return Json(new { success = true, stName = model.name, stTypeName = BLL.Data.AdditionalData.GetSubjectType(model.subjectTypeId).name });
         }
 
+        [HttpPost]
+        public ActionResult AddSubjectFromRequest(string name,  bool status, long requestId, long subjectTypeId = 0)
+        {
+            if (status)
+            {
+                try
+                {
+                    var res = BLL.Data.AdditionalData.CreateUpdateSubjects(new BLL.DTO.SubjectsDTO
+                    {
+                        name = name,
+                        subjectTypeId = subjectTypeId
+                    });
+                }
+                catch (Exception ex)
+                {
+                    return Json(new { error = true, errorMsg = "Произошла ошибка" });
+                }
+
+
+                return Json(new { success = true, sName = name });
+            }
+            else
+            {
+                BLL.Data.AdminData.processRequest(requestId);
+                return Json(new { success = true });
+            }
+            
+            return Json(new { error = true, errorMsg = "Произошла ошибка" });
+        }
+
 
 
 
