@@ -29,27 +29,33 @@
     }
 
     function sendAdminRequestSubmit() {
-        
-        var res = $('#requestForAdminForm').serialize();
-        $.ajax({
-            type: 'POST',
-            url: '/User/SendRequestToAdmin',
-            data: res,
-            success: function (data) {
-                if (data.success) {                    
-                    $('#sendAdminRequestSuc').removeClass('hidden');
-                    setTimeout(function () { $('#sendAdminRequestSuc').addClass('hidden') }, 5000);
-                } else {
-                    $('#text').val('');
+        if ($('#requestTbx').val() != "") {
+            var res = $('#requestForAdminForm').serialize();
+            $.ajax({
+                type: 'POST',
+                url: '/User/SendRequestToAdmin',
+                data: res,
+                success: function (data) {
+                    if (data.success) {
+                        $('#requestTbx').val('');
+                        $('#sendAdminRequestSuc').removeClass('hidden');
+                        setTimeout(function () { $('#sendAdminRequestSuc').addClass('hidden') }, 5000);                        
+                    } else {
+                        $('#text').val('');
+                        $('#sendAdminRequestErr').removeClass('hidden');
+                        setTimeout(function () { $('#sendAdminRequestErr').addClass('hidden') }, 5000);
+                    }
+                },
+                error: function (xhr, str) {
                     $('#sendAdminRequestErr').removeClass('hidden');
                     setTimeout(function () { $('#sendAdminRequestErr').addClass('hidden') }, 5000);
                 }
-            },
-            error: function (xhr, str) {
-                $('#sendAdminRequestErr').removeClass('hidden');
-                setTimeout(function () { $('#sendAdminRequestErr').addClass('hidden') }, 5000);
-            }
-        });
+            });
+        } else
+        {
+            $('#sendAdminRequestErr').removeClass('hidden');
+            setTimeout(function () { $('#sendAdminRequestErr').addClass('hidden') }, 5000);
+        }
 
     }
 </script>
@@ -57,36 +63,39 @@
     Ваше обращение зарегестрировано!
 </div>
 <div class="alert alert-danger hidden" id="sendAdminRequestErr" role="alert">
-    Произошла ошибка на сервере, попробуйте позднее!
+    Пожалуйста, напишите название предмета!
 </div>
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "requestForAdminForm", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-    <h4>Заявка администратору</h4>
+    @if (Model.typeId == 1)
+    {
+        <h4>Добавить предмет</h4>
+    }
+    else
+    {
+        <h4>Подтвердить опыт и образование</h4>
+    }
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.userId)
+    @Html.HiddenFor(model => model.typeId)
 
 
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.typeId, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.typeId, (IEnumerable<SelectListItem>)ViewBag.Types, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.typeId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.text, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.text, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.text, "", new { @class = "text-danger" })
-        </div>
-    </div>
+
+
     @if (Model.typeId != 4)
     {
+        <div class="form-group">
+            @Html.LabelFor(model => model.text, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.text, new { htmlAttributes = new { @class = "form-control", @id = "requestTbx" } })
+                @Html.ValidationMessageFor(model => model.text, "", new { @class = "text-danger" })
+            </div>
+        </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <a class="btn btn-default" id="sendAdminRequestBtn" onclick="sendAdminRequestSubmit();">Отправить</a>
@@ -95,8 +104,23 @@
     }
     else
     {
+        if (BLL.Data.TutorData.isRequestExist(Model.userId) == 1)
+        {
+            <div class="alert alert-warning">
+                Ваша заявка на подтверждение опыта и образования обрабатывается, пожалуйста подождите.
+            </div>
+        }
+        else
+        {
+        <div class="form-group">
+            @Html.LabelFor(model => model.text, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.text, new { htmlAttributes = new { @class = "form-control", @id = "requestTbx" } })
+                @Html.ValidationMessageFor(model => model.text, "", new { @class = "text-danger" })
+            </div>
+        </div>
         <div class="form-group" id="documentContainer">
-            
+
         </div>
         <hr />
         <div class="form-group">
@@ -110,6 +134,7 @@
                 <button class="btn btn-default" type="submit" id="sendAdminRequestBtnWithFiles">Отправить</button>
             </div>
         </div>
+        }
     }
 </div>
 }

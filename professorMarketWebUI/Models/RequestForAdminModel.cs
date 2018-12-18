@@ -12,7 +12,6 @@ namespace professorMarketWebUI.Models
         public long? adminId { get; set; }
         [Display(Name = "Вид обращения")]
         public long typeId { get; set; }
-        [Required]
         [Display(Name = "Текст")]
         public string text { get; set; }
         public string status { get; set; }

@@ -26,14 +26,19 @@
                     {
                         <li>@Html.ActionLink("Профиль", "Index", "Student")</li>
                         <li>@Html.ActionLink("Мои преподаватели", "ShowMyTutors", "Student")</li>
-                        <li>@Html.ActionLink("Поиск преподавателя", "ShowTutors", "Student")</li>
-                        <li>@Html.ActionLink("Запрос администратору", "SendRequestToAdmin", "User")</li>
+                        <li>@Html.ActionLink("Поиск преподавателя", "ShowTutors", "Student")</li>                        
                     }
                     @if (User.IsInRole("tutor"))
                     {
                         <li>@Html.ActionLink("Профиль", "Index", "Tutor")</li>
                         <li>@Html.ActionLink("Мои ученики", "ShowMyStudents", "Tutor")</li>
-                        <li>@Html.ActionLink("Запрос администратору", "SendRequestToAdmin", "User")</li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Заявка администратору</a>
+                            <div class="dropdown-menu">
+                                @Html.ActionLink("Предложить предмет", "SendRequestToAdmin", "User", new { typeId = 1 }, new { @class = "dropdown-item btn" })
+                                @Html.ActionLink("Подтвердить опыт", "SendRequestToAdmin", "User", new { typeId = 4 }, new { @class = "dropdown-item btn" })
+                            </div>
+                        </li>
                     }
                     @if (User.IsInRole("admin"))
                     {

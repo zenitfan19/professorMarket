@@ -20,6 +20,7 @@
                 data: str,
                 success: function (data) {
                     $('#' + id).prependTo('#tab1');
+                    $('#tab1 h1').html('');
                     $('#secretInfoRow' + id).removeClass('hidden');
                     $('#buttonRow' + id).addClass('hidden');
 

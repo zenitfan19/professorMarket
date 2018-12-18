@@ -229,7 +229,7 @@ namespace professorMarketWebUI.Controllers
                 return View(model);
             
             var user = BLL.Data.UserData.GetUser(((CustomPrincipal)User).UserId);
-            if (documents.Any())
+            if (documents != null)
             {
                 foreach (var d in documents)
                 {
@@ -240,10 +240,10 @@ namespace professorMarketWebUI.Controllers
                 {
                 var res = BLL.Data.AdditionalData.SendRequestForAdmin(new BLL.DTO.RequestForAdminDTO
                 {
-                    userId = user.id,
-                    text = model.text,
+                    userId = user.id,                    
                     status = "новая",
                     typeId = model.typeId,
+                    text = (model.typeId==4)&&(model.text==null) ? "" : model.text,
                     date = DateTime.Now,
                     adminId = 9
                 });
@@ -253,7 +253,9 @@ namespace professorMarketWebUI.Controllers
                 {
                     ViewBag.Message = ex.Message;
                 }
-
+            if (documents != null) {
+                return RedirectToRoute(new { controller = "Tutor", action = "Index" });
+            }
             return Json(new { success = true });
         }
         private IEnumerable<SelectListItem> ShowRequestTypes()
