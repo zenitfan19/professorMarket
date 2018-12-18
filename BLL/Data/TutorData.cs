@@ -59,7 +59,7 @@ namespace BLL.Data
                             birthDate = dbTutor.birthDate,
                             regDate = dbTutor.regDate
 
-                        };
+                        };                        
 
                         return tutor;
                     }
@@ -72,6 +72,25 @@ namespace BLL.Data
                 //throw;
                 return null;
             }
+
+        }
+
+        public static int culcMinCost(long tutorId)
+        {
+            int minCost = Int32.MaxValue;
+            var tutor = BLL.Data.TutorData.GetTutor(tutorId);
+            if (tutor != null)
+            {
+                if (tutor.Types.Count != 0)
+                {
+                    foreach (var t in tutor.Types)
+                    {
+                        if (t.cost < minCost)
+                            minCost = t.cost;
+                    }                    
+                }                
+            }
+            return minCost;
 
         }
 
@@ -502,9 +521,10 @@ namespace BLL.Data
 
         }
 
+
         public static List<TutorDTO> GetTutors(int page = 0, long selectedType=0, int selectedCost = Int32.MaxValue, int selectedExperience = 0, long selectedSType = 0, long selectedSubject = 0)
         {
-            var take = 3;
+            var take = 50;
             var skip = take * page;            
             var res = (List<TutorDTO>)null;
             try
@@ -537,7 +557,7 @@ namespace BLL.Data
                         var tutors = new List<TutorDTO>();
                         foreach (var t in dbTutor)
                         {
-
+                            updateRating(t.id);
                             tutors.Add(new TutorDTO
                             {
                                 id = t.id,
