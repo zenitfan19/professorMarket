@@ -15,7 +15,7 @@ namespace BLL.Data
             {
                 using (var ctx = new DAL.tutorDBEntities())
                 {
-                    var dbMyRequests = ctx.RequestsForAdmins.Where(s => s.adminId == adminId).Select(mr => new RequestForAdminDTO
+                    var dbMyRequests = ctx.RequestsForAdmins.Where(s => (s.adminId == adminId)&&(s.status=="новая")).Select(mr => new RequestForAdminDTO
                     {
                         id = mr.id,
                         userId = mr.userId,
@@ -26,6 +26,26 @@ namespace BLL.Data
                     }).ToList();
 
                     return dbMyRequests;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+                //return -1;
+            }
+
+        }
+
+        public static string processRequest(long requestId)
+        {
+            try
+            {
+                using (var ctx = new DAL.tutorDBEntities())
+                {
+                    var dbAdminRequest = ctx.RequestsForAdmins.FirstOrDefault(x => x.id == requestId) ?? throw new Exception($"Заявки не существует");
+                    dbAdminRequest.status = "выполнена";
+                    ctx.SaveChanges();
+                    return dbAdminRequest.status;
                 }
             }
             catch (Exception ex)

@@ -26,42 +26,50 @@
 <p style="font-weight: bold">Адрес: <p>
     @Model.Tutor.adress<br>
 
-@if (!(Model.Tutor.qualification == null && Model.Tutor.education == null))
-{
-<p style="font-weight: bold">Образование: @Model.Tutor.education</p>
-<p style="font-weight: bold">Опыт:    @Model.Tutor.qualification</p>
-    } else {
-<div class="alert alert-danger">
-    Для того, чтобы указать Ваш опыт и образование, необходимо отправить администратору сайта подтверждающие документы
-    @Html.ActionLink("Отправить", "SendRequestToAdmin", "User", new { typeId = 4 }, new { @class = "btn btn-default" })
-</div>
-    }
-
-
-
-<p style="font-weight: bold">
-    Преподает уровням образования:
-    <br>
-    @if (Enumerable.Any(ViewBag.LessonLevels))
+    @if (!(Model.Tutor.qualification == null && Model.Tutor.education == null))
     {
-        foreach (var ll in ViewBag.LessonLevels)
-        {
-        <p>@BLL.Data.AdditionalData.GetLessonLevel(ll.lessonlevelId).name</p>
-    }
+
+    <p style="font-weight: bold">Образование: @Model.Tutor.education</p>
+    <p style="font-weight: bold">Опыт:    @Model.Tutor.qualification</p>
+
 }
 else
 {
-    <p>Пользователь ещё не указал эти данные</p>
+    if (BLL.Data.TutorData.isRequestExist(Model.Tutor.id) == 3)
+    {
+        <div class="alert alert-danger">
+            Для того, чтобы указать Ваш опыт и образование, необходимо отправить администратору сайта подтверждающие документы
+            @Html.ActionLink("Отправить", "SendRequestToAdmin", "User", new { typeId = 4 }, new { @class = "btn btn-default" })
+        </div>
+    }
+    else
+    {
+        if (BLL.Data.TutorData.isRequestExist(Model.Tutor.id) == 1)
+        {
+            <div class="alert alert-warning">
+                Ваша заявка на подтверждение опыта и образования обрабатывается, пожалуйста подождите.
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger">
+                Ваша заявка была отклонена, попробуйте отправить более разборчивые фотографии документов
+                @Html.ActionLink("Отправить", "SendRequestToAdmin", "User", new { typeId = 4 }, new { @class = "btn btn-default" })
+            </div>
+        }
+    }
 }
 
+
+
     <p style="font-weight: bold">
-        Возможные варианты проведения занятий:
+        Преподает уровням образования:
         <br>
-        @if (Enumerable.Any(ViewBag.LessonTypes))
+        @if (Enumerable.Any(ViewBag.LessonLevels))
         {
-            foreach (var lt in ViewBag.LessonTypes)
+            foreach (var ll in ViewBag.LessonLevels)
             {
-            <p>@BLL.Data.AdditionalData.GetLessonType(lt.lessontypeId).name</p>
+            <p>@BLL.Data.AdditionalData.GetLessonLevel(ll.lessonlevelId).name</p>
         }
     }
     else
@@ -70,13 +78,13 @@ else
     }
 
         <p style="font-weight: bold">
-            Преподает предметы:
+            Возможные варианты проведения занятий:
             <br>
-            @if (Enumerable.Any(ViewBag.Subjects))
+            @if (Enumerable.Any(ViewBag.LessonTypes))
             {
-                foreach (var s in ViewBag.Subjects)
+                foreach (var lt in ViewBag.LessonTypes)
                 {
-                <p>@s.subjectName</p>
+                <p>@BLL.Data.AdditionalData.GetLessonType(lt.lessontypeId).name</p>
             }
         }
         else
@@ -84,8 +92,23 @@ else
             <p>Пользователь ещё не указал эти данные</p>
         }
 
+            <p style="font-weight: bold">
+                Преподает предметы:
+                <br>
+                @if (Enumerable.Any(ViewBag.Subjects))
+                {
+                    foreach (var s in ViewBag.Subjects)
+                    {
+                    <p>@s.subjectName</p>
+                }
+            }
+            else
+            {
+                <p>Пользователь ещё не указал эти данные</p>
+            }
 
 
 
-            @Html.ActionLink("Изменить", "Update", null, new { @class = "btn btn-default" })
+
+                @Html.ActionLink("Изменить", "Update", null, new { @class = "btn btn-default" })
 

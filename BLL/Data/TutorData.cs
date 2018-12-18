@@ -150,7 +150,9 @@ namespace BLL.Data
                     dbTutor.info = tutor.info;
                     dbTutor.adress = tutor.adress;
                     dbTutor.avatarId = tutor.avatarId;
-
+                    dbTutor.education = tutor.education;
+                    dbTutor.qualification = tutor.qualification;
+                    dbTutor.isApproved = tutor.isApproved;
                     ctx.SaveChanges();
 
                     return dbUser.id;
@@ -187,6 +189,30 @@ namespace BLL.Data
             catch (Exception ex)
             {
                 return null;
+            }
+
+        }
+
+        public static int isRequestExist(long tutorId)
+        {
+            try
+            {
+                using (var ctx = new DAL.tutorDBEntities())
+                {
+                    var dbTutorRequest = ctx.RequestsForAdmins.Where(s => (s.userId == tutorId) && (s.typeId==4)).OrderByDescending(d => d.date).FirstOrDefault();
+                    if (dbTutorRequest != null)
+                    {
+                        if (dbTutorRequest.status == "новая")
+                            return 1;
+                        else return 2;
+                    }
+                    else return 3;
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                return 3;
             }
 
         }

@@ -1,11 +1,13 @@
 ﻿@model BLL.DTO.RequestForAdminDTO
 
-<div class="adminDiv" data-request-id="@Model.id">
-
+<div class="profileRequestDiv" id="@("profileRequestDiv"+Model.id)" data-request-id="@Model.id">
+    <div class="alert alert-success hidden" id="@("alert"+Model.id)" role="alert">
+        @("Заявка №"+Model.id+" успешно обработана!")
+    </div>
     <div class="row jumbotron">
         <div class="col-md-12">
             <h2 class="display-3">@Model.user.name</h2>
-            <h2 class="display-3">@Model.date.ToString("dd.MM.yyyy")</h2>
+            <h2 class="display-3">@("От: " + Model.date.ToString("dd.MM.yyyy"))</h2>
             <hr class="m-y-2">
             <div class="row">
                 <div class="col-md-12 alert alert-info">
@@ -15,18 +17,27 @@
             <div class="documentDiv">
                 @foreach (var d in Model.documents)
                 {
-                    <img class="control-label" style="max-width: 300px; height: auto" onerror="this.src='@Url.Content("~/Content/Images/avatarPlaceholder.png")'" src="@Url.Action("Avatar", "User", new {Id=d })" title="document" id="document" />
+                    <img class="control-label" style="max-width: 500px; height: auto" onerror="this.src='@Url.Content("~/Content/Images/avatarPlaceholder.png")'" src="@Url.Action("Avatar", "User", new {Id=d })" title="document" id="document" />
                 }
             </div>
-            <div class="row" id="@("buttonRow" + Model.id)">
+
+            <div class="form-group">
+                <label for="@("educationTbx"+Model.id)">Образование</label>
+                <input type="text" class="form-control" id="@("educationTbx"+Model.id)" required placeholder="Образование преподавателя">
+            </div>
+            <div class="form-group">
+                <label for="@("qualificationTbx"+Model.id)">Опыт</label>
+                <input type="text" class="form-control" id="@("qualificationTbx"+Model.id)" required placeholder="Опыт преподавателя">
+            </div>
+            <div class="row" id="@("profileRequestButtonRow" + Model.id)">
                 <div class="col-md-6">
                     <p class="lead">
-                        <a class="btn btn-success btn-lg" onclick="@Html.Raw(String.Format("ChangeStatus({0}, true)", Model.id))" href="javascript:void(0);" id="@("changeStatusBtn" + Model.id)" data-request-id="@Model.id">Добавить</a>
+                        <a class="btn btn-success btn-lg" onclick="@Html.Raw(String.Format("ChangeProfile({0}, {1}, true)", Model.userId, Model.id))" href="javascript:void(0);" id="@("changeProfileBtn" + Model.id)" data-request-id="@Model.id">Сохранить</a>
                     </p>
                 </div>
                 <div class="col-md-6">
                     <p class="lead">
-                        <a class="btn btn-danger btn-lg" onclick="@Html.Raw(String.Format("ChangeStatus({0}, false)", Model.id))" href="javascript:void(0);" id="@("changeStatusBtn" + Model.id)" data-request-id="@Model.id">Отклонить</a>
+                        <a class="btn btn-danger btn-lg" onclick="@Html.Raw(String.Format("ChangeProfile({0}, {1}, false)", Model.userId, Model.id))" href="javascript:void(0);" id="@("changeProfileBtn" + Model.id)" data-request-id="@Model.id">Отклонить</a>
                     </p>
                 </div>
             </div>

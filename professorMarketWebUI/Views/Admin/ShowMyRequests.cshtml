@@ -1,36 +1,77 @@
 ﻿@model List<BLL.DTO.RequestForAdminDTO>
 <script>
-    //function ChangeStatus(id, status) {
-    //    var statusName;
-    //    if (status) {
-    //        statusName = "одобрен";
-    //    } else
-    //    {
-    //        statusName = "отклонен";
-    //    }
-    //    var res = {
-    //        id: id,
-    //        status: statusName
-    //        };
-    //        var str = JSON.stringify(res);
-    //        $.ajax({
-    //            type: 'POST',
-    //            url: '/Tutor/SetRequestStatus',
-    //            contentType: 'application/json; charset=utf-8',
-    //            data: str,
-    //            success: function (data) {
-    //                $('#' + id).prependTo('#tab1');
-    //                $('#secretInfoRow' + id).removeClass('hidden');
-    //                $('#buttonRow' + id).addClass('hidden');
+    function addSubject() {
+        var res = $('#changePassForm').serialize();
+        $.ajax({
+            type: 'POST',
+            url: '/User/ChangePassword',
+            data: res,
+            success: function (data) {
+                if (data.error) {
+                    $('#changePassErr').append(data.errorMsg);
+                    $('#changePassErr').removeClass('hidden');
+                    setTimeout(function () { $('#changePassErr').addClass('hidden') }, 5000);
+                } else {
+                    $('#changePassForm').remove();
+                    $('#changePassSuc').removeClass('hidden');
+                    setTimeout(function () { $('#changePassSuc').addClass('hidden') }, 5000);
+                }
+            },
+            error: function (xhr, str) {
+                $('#changePassErr').removeClass('hidden');
+                setTimeout(function () { $('#changePassErr').addClass('hidden') }, 5000);
+            }
+        });
 
+    }
+    function ChangeProfile(tutorId, requestId, status) {
+        if (status) {
+            var education = $('#educationTbx' + requestId).val();
+            var qualification = $('#qualificationTbx' + requestId).val();
+            var res = {
+                tutorId: tutorId,
+                education: education,
+                qualification: qualification,
+                requestId: requestId
+            };
+            var str = JSON.stringify(res);
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/ConfirmTutor',
+                contentType: 'application/json; charset=utf-8',
+                data: str,
+                success: function (data) {
+                    $('#alert' + requestId).removeClass('hidden');
+                    $('#profileRequestDiv' + requestId).addClass('hidden');
+                },
+                error: function (xhr, str) {
 
-    //            },
-    //            error: function (xhr, str) {
+                }
+            });
+        } else {
+            var res = {
+                tutorId: tutorId,
+                requestId: requestId
+            };
+            var str = JSON.stringify(res);
+            $.ajax({
+                type: 'POST',
+                url: '/Admin/RejectTutor',
+                contentType: 'application/json; charset=utf-8',
+                data: str,
+                success: function (data) {
+                    $('#alert' + requestId).removeClass('hidden');
+                    $('#profileRequestDiv' + requestId).addClass('hidden');
+                },
+                error: function (xhr, str) {
 
-    //            }
-    //        });
+                }
+            });
+        }
+        
+            
 
-    //}
+    }
 </script>
 
 <h2>Мои заявки</h2>

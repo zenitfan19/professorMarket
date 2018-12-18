@@ -30,6 +30,46 @@ namespace professorMarketWebUI.Controllers
             }
             return View(myRequests);
         }
+        [HttpPost]
+        public ActionResult ConfirmTutor(string education, string qualification, long tutorId, long requestId)
+        {
+            var tutor = BLL.Data.TutorData.GetTutor(tutorId);
+
+            try
+            {
+                tutor.education = education;
+                tutor.qualification = qualification;
+                tutor.isApproved = true;
+                BLL.Data.TutorData.UpdateTutor(tutor);
+                BLL.Data.AdminData.processRequest(requestId);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = true, errorMsg = "Произошла ошибка" });
+            }
+
+
+            return Json(new { success = true });
+        }
+        [HttpPost]
+        public ActionResult RejectTutor(long tutorId, long requestId)
+        {
+            var tutor = BLL.Data.TutorData.GetTutor(tutorId);
+
+            try
+            {
+                tutor.isApproved = false;
+                BLL.Data.TutorData.UpdateTutor(tutor);
+                BLL.Data.AdminData.processRequest(requestId);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = true, errorMsg = "Произошла ошибка" });
+            }
+
+
+            return Json(new { success = true });
+        }
 
         public ActionResult SetSiteParameters()
         {
