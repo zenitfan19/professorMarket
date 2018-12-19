@@ -51,6 +51,22 @@
         }
     }
 
+    function setSorting() {
+        
+    }
+
+    $(document).ready(function () {
+        $(document).on('click', '.sorting', function () {            
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+            } else {
+                $(this).addClass('active');
+            }
+            SendFilter();
+        });
+
+    });
+
 
 
    
@@ -63,8 +79,23 @@
    
     });
 
-    function SendFilter() {        
+    function SendFilter() { 
+        var costFilter;
+        var ratingFilter;
+        if ($('#costSortBtn').hasClass('active')) {
+            costFilter = true;
+        } else {
+            costFilter = false;
+        } 
+        if ($('#ratingSortBtn').hasClass('active')) {
+            ratingFilter = true;
+        } else {
+            ratingFilter = false;
+        } 
+        
         var res = {
+            sortCost: costFilter,
+            sortRating: ratingFilter,
             selectedType: $('#selectedTypeTbx').val(),
             selectedSType: $('#selectedSTypeTbx').val(),
             selectedSubject: $('#selectedSubjectTbx').val(),
@@ -166,41 +197,6 @@
         @Html.EditorFor(model => model.selectedSubject, new { htmlAttributes = new { @class = "hidden", @id = "selectedSubjectTbx" } })
         @Html.EditorFor(model => model.selectedExperience, new { htmlAttributes = new { @class = "hidden", @id = "selectedExperienceTbx" } })
 
-        <div class="btn-group select_type">
-            <p class="label label-info">@(Model.selectedType == 0 ? "Не важно" : Model.types.Where(st => st.id == Model.selectedType).First().name)</p>
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Форма занятий <span class="glyphicon glyphicon-chevron-down"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="type" data-item-id="0" data-item-name="Не важно">Не важно</a></li>
-                @foreach (var type in Model.types)
-                {
-                    <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="type" data-item-id="@type.id" data-item-name="@type.name">@type.name</a></li>
-                }
-            </ul>
-        </div>
-
-        <div class="btn-group">
-            <p class="label label-info">Цена до:</p>
-            <input type="text" class="form-control" id="@("costTbx")" required placeholder="Максимальная цена">
-        </div>
-
-
-        <div class="btn-group select_experience">
-            <p class="label label-info">@(Model.selectedExperience == 0 ? "Не важно" : Model.selectedExperience.ToString())</p>
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Опыт <span class="glyphicon glyphicon-chevron-down"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="exp" data-item-id="0" data-item-name="Не важно">Не важно</a></li>
-                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="exp" data-item-id="1" data-item-name="Начинающий специалист">Начинающий</a></li>
-                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="exp" data-item-id="2" data-item-name="Небольшой опыт">Небольшой опыт</a></li>
-                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="exp" data-item-id="3" data-item-name="Опытный специалист">Опытный</a></li>
-                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="exp" data-item-id="4" data-item-name="Профессионал">Профессионал</a></li>
-            </ul>
-        </div>
-
-
         <div class="btn-group select_sType">
             <p class="label label-info">@(Model.selectedSType == 0 ? "Не важно" : Model.sTypes.Where(st => st.id == Model.selectedSType).First().name)</p>
             <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -232,6 +228,40 @@
             </ul>
         </div>
 
+        <div class="btn-group">
+            <p class="label label-info">Цена до:</p>
+            <input type="text" class="form-control" id="@("costTbx")" required placeholder="Максимальная цена">
+        </div>
+
+        <div class="btn-group select_type">
+            <p class="label label-info">@(Model.selectedType == 0 ? "Не важно" : Model.types.Where(st => st.id == Model.selectedType).First().name)</p>
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Форма занятий <span class="glyphicon glyphicon-chevron-down"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="type" data-item-id="0" data-item-name="Не важно">Не важно</a></li>
+                @foreach (var type in Model.types)
+                {
+                    <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="type" data-item-id="@type.id" data-item-name="@type.name">@type.name</a></li>
+                }
+            </ul>
+        </div>
+
+
+        <div class="btn-group select_experience">
+            <p class="label label-info">@(Model.selectedExperience == 0 ? "Не важно" : Model.selectedExperience.ToString())</p>
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Опыт <span class="glyphicon glyphicon-chevron-down"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="exp" data-item-id="0" data-item-name="Не важно">Не важно</a></li>
+                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="exp" data-item-id="1" data-item-name="Начинающий специалист">Начинающий</a></li>
+                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="exp" data-item-id="2" data-item-name="Небольшой опыт">Небольшой опыт</a></li>
+                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="exp" data-item-id="3" data-item-name="Опытный специалист">Опытный</a></li>
+                <li><a href="javascript:void(0);" class="dropdown-item" data-group-name="exp" data-item-id="4" data-item-name="Профессионал">Профессионал</a></li>
+            </ul>
+        </div>
+
 
         <a class="btn btn-success" onclick="SendFilter();" id="submit_btn">Применить</a>
 
@@ -249,8 +279,8 @@
 
 <div class="col-md-9 col-md-offset-1" style="margin-top: 30px;">
     <div class="btn-group btn-group-justified">
-        <a href="#" id="costSortBtn" class="btn btn-primary">Цена   <span class="glyphicon glyphicon-arrow-up hidden" aria-hidden="true"></span><span class="glyphicon glyphicon-arrow-down hidden" aria-hidden="true"></span></a>
-        <a href="#" id="ratingSortBtn" class="btn btn-primary">Рейтинг  <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></a>
+        <a href="#" id="costSortBtn" class="btn btn-primary sorting">Цена   <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span><span class="glyphicon glyphicon-arrow-down hidden" aria-hidden="true"></span></a>
+        <a href="#" id="ratingSortBtn" class="btn btn-primary sorting">Рейтинг  <span class="glyphicon glyphicon-arrow-up hidden" aria-hidden="true"></span><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></a>
     </div>
     <div class="alert alert-info" id="warningAlert" role="alert">
         Чтобы отправить заявку преподавателю, Вам необходимо выбрать предмет и форму проведения занятия!

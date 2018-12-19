@@ -27,6 +27,8 @@ namespace BLL.DTO
         public Nullable<System.DateTime> birthDate { get; set; }
         public System.DateTime regDate { get; set; }
 
+        public Nullable<int> minCost { get; set; }
+
         public virtual List<TutorLessonLevelDTO> Levels { get; set; }
         public virtual List<TutorLessonTypeDTO> Types { get; set; }
         public virtual List<TutorSubjectsDTO> Subjects { get; set; }

@@ -79,7 +79,8 @@ namespace BLL.Data
         {
             int minCost = Int32.MaxValue;
             var tutor = BLL.Data.TutorData.GetTutor(tutorId);
-            if (tutor != null)
+            tutor.Types = BLL.Data.TutorData.GetTutorsLessonTypes(tutorId);
+            if (tutor.Types != null)
             {
                 if (tutor.Types.Count != 0)
                 {
@@ -522,7 +523,7 @@ namespace BLL.Data
         }
 
 
-        public static List<TutorDTO> GetTutors(int page = 0, long selectedType=0, int selectedCost = Int32.MaxValue, int selectedExperience = 0, long selectedSType = 0, long selectedSubject = 0)
+        public static List<TutorDTO> GetTutors(bool sortCost = false, bool sortRating = false, int page = 0, long selectedType=0, int selectedCost = Int32.MaxValue, int selectedExperience = 0, long selectedSType = 0, long selectedSubject = 0)
         {
             var take = 50;
             var skip = take * page;            
@@ -572,10 +573,11 @@ namespace BLL.Data
                                 isApproved = t.isApproved,
                                 rating = t.rating,
                                 regDate = t.regDate,
-                                birthDate = t.birthDate,                                
+                                birthDate = t.birthDate,
                                 Subjects = BLL.Data.TutorData.GetTutorsSubjects(t.id),
                                 Levels = BLL.Data.TutorData.GetTutorsLessonLevels(t.id),
-                                Types = BLL.Data.TutorData.GetTutorsLessonTypes(t.id)
+                                Types = BLL.Data.TutorData.GetTutorsLessonTypes(t.id),
+                                minCost = BLL.Data.TutorData.culcMinCost(t.id)
                             });
                         };
                         var qtutors = tutors.AsQueryable();
@@ -610,8 +612,22 @@ namespace BLL.Data
                         {
                             qtutors = qtutors.Where(st => st.Subjects.Any(t => t.subjectId == selectedSubject));
                         }
-
-                        res = qtutors.OrderByDescending(x => x.regDate).Skip(skip).Take(take).ToList();
+                        if (sortCost && sortRating)
+                        {
+                            res = qtutors.OrderBy(x => x.minCost).ThenByDescending(x => x.rating).Skip(skip).Take(take).ToList();
+                        } else
+                        if (sortCost)
+                        {
+                            res = qtutors.OrderBy(x => x.minCost).Skip(skip).Take(take).ToList();
+                        } else
+                        if (sortRating)
+                        {
+                            res = qtutors.OrderByDescending(x => x.rating).Skip(skip).Take(take).ToList();
+                        }
+                        else
+                        {
+                            res = qtutors.OrderByDescending(x => x.regDate).Skip(skip).Take(take).ToList();
+                        }
                         return res;
                     }
 

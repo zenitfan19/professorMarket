@@ -156,15 +156,15 @@ namespace professorMarketWebUI.Controllers
             model.sTypes = BLL.Data.AdditionalData.GetSubjectTypes();
             model.subjects = BLL.Data.AdditionalData.GetAllSubjects();
             model.selectedSubject = selectedSubject;
-            model.Tutors = BLL.Data.TutorData.GetTutors(page, 0, Int32.MaxValue, 0, 0, selectedSubject);
+            model.Tutors = BLL.Data.TutorData.GetTutors(false, false, page, 0, Int32.MaxValue, 0, 0, selectedSubject);
             return View(model);
         }
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult FindTutors(int page = 0, long selectedType=0, int selectedCost = Int32.MaxValue, int selectedExperience = 0, long selectedSType = 0, long selectedSubject = 0)
+        public ActionResult FindTutors(bool sortCost = false, bool sortRating =false, int page = 0, long selectedType=0, int selectedCost = Int32.MaxValue, int selectedExperience = 0, long selectedSType = 0, long selectedSubject = 0)
         {
             var model = new Models.TutorFinderModel();
-            model.Tutors = BLL.Data.TutorData.GetTutors(0, selectedType, selectedCost, selectedExperience, selectedSType, selectedSubject);
+            model.Tutors = BLL.Data.TutorData.GetTutors(sortCost, sortRating, 0, selectedType, selectedCost, selectedExperience, selectedSType, selectedSubject);            
             model.NextExist = false;
             ViewBag.Role = User.IsInRole("student");
             return View("ShowTutor", model.Tutors);
