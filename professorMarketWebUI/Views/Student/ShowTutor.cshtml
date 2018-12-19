@@ -12,7 +12,7 @@ else
     {
     <div class="tutorDiv" data-tutor-id="@t.id">
 
-        <div class="row jumbotron">
+        <div class="row jumbotron">            
             <div class="col-md-3 Avatar">
                 <img class="control-label avatarImgDisplay" onerror="this.src='@Url.Content("~/Content/Images/avatarPlaceholder.png")'" src="@Url.Action("Avatar", "User", new { Id = t.avatarId })" title="avatarImage" />
 
@@ -78,7 +78,7 @@ else
                 <hr class="m-y-2">
                 <div class="row">
                     <div class="col-md-12 alert alert-info">
-                        <p style="font-weight: bold">Адрес: <p>@t.adress
+                        <p style="font-weight: bold">Адрес: <p>@(!String.IsNullOrEmpty(t.adress) ? t.adress : "нет данных")
                     </div>
                 </div>
                 <div class="row alert alert-info">
@@ -103,29 +103,41 @@ else
 
 
 
+                @if (ViewBag.Role != null)
+                {
+                    if (ViewBag.Role)
+                    {
+                        <div class="row">
+                            <div class="alert alert-success hidden" id="@("requestRes"+t.id)" role="alert">
+                                Ваша заявка успешно отправлена!
+                            </div>
+                            <div class="col-md-12 requestTbx hidden">
+                                <label for="@("requestTxt"+t.id)">Сообщение для преподавателя:</label>
+                                <textarea class="form-control" id="@("requestTxt"+t.id)"></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="lead">
+                                    <a class="btn btn-info btn-lg" onclick="@Html.Raw(String.Format("ShowTestimonials({0})", t.id))" href="javascript:void(0);">Читать отзывы</a>
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="lead">
+                                    <a class="btn btn-primary btn-lg requestBtn hidden" onclick="@Html.Raw(String.Format("SendRequest({0})", t.id))" href="javascript:void(0);" id="@("requestBtn"+t.id)" data-tutor-id="@t.id">Отправить заявку</a>
+                                </p>
+                            </div>
 
-                <div class="row">
-                    <div class="alert alert-success hidden" id="@("requestRes"+t.id)" role="alert">
-                        Ваша заявка успешно отправлена!
-                    </div>
-                    <div class="col-md-12 requestTbx hidden">
-                        <label for="@("requestTxt"+t.id)">Сообщение для преподавателя:</label>
-                        <textarea class="form-control" id="@("requestTxt"+t.id)"></textarea>
-                    </div>
-                    <div class="col-md-6">
-                        <p class="lead">
-                            <a class="btn btn-info btn-lg" onclick="@Html.Raw(String.Format("ShowTestimonials({0})", t.id))" href="javascript:void(0);">Читать отзывы</a>
-                        </p>
-                    </div>
-                    <div class="col-md-6">
-                        <p class="lead">
-                            <a class="btn btn-primary btn-lg requestBtn hidden" onclick="@Html.Raw(String.Format("SendRequest({0})", t.id))" href="javascript:void(0);" id="@("requestBtn"+t.id)" data-tutor-id="@t.id">Отправить заявку</a>
-                        </p>
-                    </div>
 
 
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning" role="alert">
+                            Только зарегистрированный студент может оставить заявку преподавателю
+                        </div>                        
+                    }
+                }
 
-                </div>
             </div>
         </div>
     </div>

@@ -41,9 +41,11 @@
 
     function setRequestOptions() {
         if ($('#selectedTypeTbx').val() != '0' && $('#selectedSubjectTbx').val() != '0') {
+            $('#warningAlert').addClass('hidden');
             $('.requestTbx').removeClass('hidden');
             $('.requestBtn').removeClass('hidden');
         } else {
+            $('#warningAlert').removeClass('hidden');
             $('.requestTbx').addClass('hidden');
             $('.requestBtn').addClass('hidden');
         }
@@ -66,7 +68,8 @@
             selectedType: $('#selectedTypeTbx').val(),
             selectedSType: $('#selectedSTypeTbx').val(),
             selectedSubject: $('#selectedSubjectTbx').val(),
-            selectedExperience: $('#selectedExperienceTbx').val()
+            selectedExperience: $('#selectedExperienceTbx').val(),
+            selectedCost: $('#costTbx').val()     
 
         };
         var str = JSON.stringify(res);
@@ -244,16 +247,18 @@
 
 
 
-<div class="col-md-9 col-md-offset-1" id="tutorFindResult" style="margin-top: 30px;">
+<div class="col-md-9 col-md-offset-1" style="margin-top: 30px;">
     <div class="btn-group btn-group-justified">
-        <a href="#" class="btn btn-primary active">Цена   <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></a>
-        <a href="#" class="btn btn-primary">Рейтинг</a>        
+        <a href="#" id="costSortBtn" class="btn btn-primary">Цена   <span class="glyphicon glyphicon-arrow-up hidden" aria-hidden="true"></span><span class="glyphicon glyphicon-arrow-down hidden" aria-hidden="true"></span></a>
+        <a href="#" id="ratingSortBtn" class="btn btn-primary">Рейтинг  <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></a>
     </div>
-    <div class="alert alert-info" role="alert">
+    <div class="alert alert-info" id="warningAlert" role="alert">
         Чтобы отправить заявку преподавателю, Вам необходимо выбрать предмет и форму проведения занятия!
     </div>
-    @{ Html.RenderPartial("ShowTutor", Model.Tutors);
-    }
+    <div id="tutorFindResult">
+        @{ Html.RenderPartial("ShowTutor", Model.Tutors);
+        }
+    </div>
 
 </div>
 

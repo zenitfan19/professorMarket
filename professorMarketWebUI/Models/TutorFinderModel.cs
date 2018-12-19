@@ -21,6 +21,6 @@ namespace professorMarketWebUI.Models
         public long selectedSubject;        
         public long selectedType;
         public long selectedLevel;
-        public int selectedCost;
+        public int selectedCost;        
     }
 }
