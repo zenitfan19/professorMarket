@@ -29,6 +29,11 @@
                     <p style="font-weight: bold">Предмет: <p>@(BLL.Data.AdditionalData.GetSubject(Model.subjectId).name)
                 </div>
             </div>
+            <div class="row alert alert-info">
+                <div class="col-md-12">
+                    <p style="font-weight: bold">Сообщение ученика: <p>@(Model.info)
+                </div>                
+            </div>
             <div class="row" id="@("buttonRow" + Model.id)">
                 <div class="col-md-6">
                     <p class="lead">

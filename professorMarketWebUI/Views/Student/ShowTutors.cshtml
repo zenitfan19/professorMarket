@@ -138,28 +138,34 @@
     }
 
     function SendRequest(id) {
-        var res = {
-            lessonTypeId: $('#selectedTypeTbx').val(),
-            subjectId: $('#selectedSubjectTbx').val(),
-            tutorId: id,
-            info: $('#requestTxt' + id).val()
-        };
-        var str = JSON.stringify(res);
-        $.ajax({
-            type: 'POST',
-            url: '/Student/SendRequestToTutor',
-            contentType: 'application/json; charset=utf-8',
-            data: str,
-            success: function (data) {
-                $('#requestTxt' + id).val('');
-                $('#requestTxt' + id).parent().addClass('hidden');
-                $('#requestBtn' + id).addClass('hidden');
-                $('#requestRes' + id).removeClass('hidden');
-            },
-            error: function (xhr, str) {
+        if ($('#requestTxt' + id).val() != '') {
+            var res = {
+                lessonTypeId: $('#selectedTypeTbx').val(),
+                subjectId: $('#selectedSubjectTbx').val(),
+                tutorId: id,
+                info: $('#requestTxt' + id).val()
+            };
+            var str = JSON.stringify(res);
+            $.ajax({
+                type: 'POST',
+                url: '/Student/SendRequestToTutor',
+                contentType: 'application/json; charset=utf-8',
+                data: str,
+                success: function (data) {
+                    $('#requestTxt' + id).val('');
+                    $('#requestTxt' + id).parent().addClass('hidden');
+                    $('#requestBtn' + id).addClass('hidden');
+                    $('#requestRes' + id).removeClass('hidden');
+                },
+                error: function (xhr, str) {
 
-            }
-        });
+                }
+            });
+        } else
+        {
+            $('#requestResErr' + id).removeClass('hidden');
+            setTimeout(function () { $("#requestResErr" + id).addClass("hidden") }, 5000);
+        }
     }
     
     

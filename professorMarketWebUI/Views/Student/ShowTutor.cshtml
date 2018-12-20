@@ -81,6 +81,26 @@ else
                         <p style="font-weight: bold">Адрес: <p>@(!String.IsNullOrEmpty(t.adress) ? t.adress : "нет данных")
                     </div>
                 </div>
+
+                <div class="row alert alert-info">
+                    <h3 style="font-weight: bold;">Цены преподавателя</h3>
+                    @if (Enumerable.Any(t.Types))
+                    {
+                        foreach (var lt in t.Types)
+                        {
+                            <div class="col-md-3">
+                            <h5>@(BLL.Data.AdditionalData.GetLessonType(lt.lessontypeId).name + ":")</h5>
+                                <h4>@lt.cost</h4>
+                            </div>
+
+                        }
+                    }
+                    else
+                    {
+                        <h5>Пользователь ещё не указал эти данные</h5>
+                    }
+                </div>
+
                 <div class="row alert alert-info">
                     <div class="col-md-4">
                         <p style="font-weight: bold">Лет: <p>@(t.birthDate.HasValue ? BLL.Data.UserData.GetAge(t.birthDate.Value) : BLL.Data.UserData.GetAge(DateTime.Today))
@@ -107,34 +127,37 @@ else
                 {
                     if (ViewBag.Role)
                     {
-                        <div class="row">
-                            <div class="alert alert-success hidden" id="@("requestRes"+t.id)" role="alert">
-                                Ваша заявка успешно отправлена!
-                            </div>
-                            <div class="col-md-12 requestTbx hidden">
-                                <label for="@("requestTxt"+t.id)">Сообщение для преподавателя:</label>
-                                <textarea class="form-control" id="@("requestTxt"+t.id)"></textarea>
-                            </div>
-                            <div class="col-md-6">
-                                <p class="lead">
-                                    <a class="btn btn-info btn-lg" onclick="@Html.Raw(String.Format("ShowTestimonials({0})", t.id))" href="javascript:void(0);">Читать отзывы</a>
-                                </p>
-                            </div>
-                            <div class="col-md-6">
-                                <p class="lead">
-                                    <a class="btn btn-primary btn-lg requestBtn hidden" onclick="@Html.Raw(String.Format("SendRequest({0})", t.id))" href="javascript:void(0);" id="@("requestBtn"+t.id)" data-tutor-id="@t.id">Отправить заявку</a>
-                                </p>
-                            </div>
+                <div class="row">
+                    <div class="alert alert-success hidden" id="@("requestRes"+t.id)" role="alert">
+                        Ваша заявка успешно отправлена!
+                    </div>
+                    <div class="alert alert-danger hidden" id="@("requestResErr"+t.id)" role="alert">
+                        Пожалуйста, отправьте сообщение преподавателю!
+                    </div>
+                    <div class="col-md-12 requestTbx hidden">
+                        <label for="@("requestTxt"+t.id)">Сообщение для преподавателя:</label>
+                        <textarea class="form-control" id="@("requestTxt"+t.id)"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="lead">
+                            <a class="btn btn-info btn-lg" onclick="@Html.Raw(String.Format("ShowTestimonials({0})", t.id))" href="javascript:void(0);">Читать отзывы</a>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="lead">
+                            <a class="btn btn-primary btn-lg requestBtn hidden" onclick="@Html.Raw(String.Format("SendRequest({0})", t.id))" href="javascript:void(0);" id="@("requestBtn"+t.id)" data-tutor-id="@t.id">Отправить заявку</a>
+                        </p>
+                    </div>
 
 
 
-                        </div>
+                </div>
                     }
                     else
                     {
                         <div class="alert alert-warning" role="alert">
                             Только зарегистрированный студент может оставить заявку преподавателю
-                        </div>                        
+                        </div>
                     }
                 }
 
